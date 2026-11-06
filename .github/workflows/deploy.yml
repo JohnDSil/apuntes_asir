@@ -1,0 +1,30 @@
+name: Publicar web en GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs-material
+
+      - name: Compilar y desplegar en GitHub Pages
+        run: mkdocs gh-deploy --force

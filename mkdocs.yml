@@ -1,0 +1,71 @@
+site_name: Apuntes ASIR
+site_description: Repositorio central de apuntes, prácticas y comandos de ASIR
+site_author: Daniel Silva
+repo_name: apuntes-asir
+edit_uri: ""
+
+theme:
+  name: material
+  language: es
+  palette:
+    # Esquema modo claro
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo oscuro
+    # Esquema modo oscuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Cambiar a modo claro
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Inicio: index.md
+  - 1º Curso:
+      - 'Implantación de SO (ISO)': 1-curso/iso.md
+      - 'Redes (PAR)': 1-curso/redes.md
+      - 'Bases de Datos (GBD)': 1-curso/bbdd.md
+      - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
+      - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
+      - 'FOL / IPE I': 1-curso/fol.md
+  - 2º Curso:
+      - 'Administración de SO (ASO)': 2-curso/aso.md
+      - 'Servicios de Red (SRI)': 2-curso/sri.md
+      - 'Aplicaciones Web (IAW)': 2-curso/iaw.md
+      - 'Seguridad y Alta Disp. (SAD)': 2-curso/sad.md
+      - 'BBDD y PL/SQL': 2-curso/bbdd-avanzada.md
+      - 'EIE / IPE II': 2-curso/eie.md
