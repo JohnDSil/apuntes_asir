@@ -16,7 +16,6 @@ Esta página web está generada con **Material for MkDocs** y desplegada automá
 | **GBD** | Gestión de Bases de Datos | Modelado E/R, SQL (DDL, DML), normalización y MariaDB/MySQL |
 | **FH** | Fundamentos de Hardware | Arquitectura interna, periféricos, montaje, UEFI/BIOS |
 | **LMSGI** | Lenguajes de Marcas | HTML5, CSS3, XML, DTD, XML Schema, XPath y XSLT |
-| **FOL / IPE I** | Formación y Orientación Laboral | Legislación laboral, nóminas, contratos, prevención de riesgos |
 
 ---
 
@@ -27,8 +26,9 @@ Esta página web está generada con **Material for MkDocs** y desplegada automá
 | **SRI** | Servicios de Red e Internet | DNS (Bind9), DHCP (Kea), Servidores Web (Apache/Nginx), FTP, SSH |
 | **IAW** | Implantación de Aplicaciones Web | Docker, CMS (WordPress, Nextcloud), PHP, servidores LAMP/LEMP |
 | **SAD** | Seguridad y Alta Disponibilidad | Firewall (UFW/iptables), VPNs (OpenVPN/WireGuard), copias y RAID |
-| **BBDD / PL-SQL** | BBDD Avanzada | Procedimientos almacenados, funciones, triggers y cursores |
-| **EIE / IPE II** | Empresa e Iniciativa Emprendedora | Planes de negocio, modelos Canvas, formas jurídicas y fiscalidad |
+| **ASGBD** | Adm. de Sistemas Gestores de BBDD | Procedimientos, funciones, triggers, copias de seguridad y ajuste |
+| **ING** | Inglés Profesional | Vocabulario técnico IT, documentación, ticketing y correos |
+| **DEVOPS** | Herramientas y Técnicas DevOps | CI/CD, Docker/Kubernetes, Ansible/Terraform, GitHub Actions |
 
 ---
 

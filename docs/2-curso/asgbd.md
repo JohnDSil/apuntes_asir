@@ -1,6 +1,6 @@
-# Administración de Bases de Datos y PL/SQL
+# Administración de Sistemas Gestores de Bases de Datos (ASGBD)
 
-Programación de lógica de negocio en servidor con Oracle PL/SQL: procedimientos, funciones, cursores y disparadores (triggers).
+Apuntes, administración avanzada y programación de lógica de negocio en servidor (Oracle PL/SQL, MariaDB/MySQL, PostgreSQL): procedimientos, funciones, cursores y disparadores (triggers).
 
 ---
 

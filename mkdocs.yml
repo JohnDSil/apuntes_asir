@@ -61,11 +61,11 @@ nav:
       - 'Bases de Datos (GBD)': 1-curso/bbdd.md
       - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
       - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
-      - 'FOL / IPE I': 1-curso/fol.md
   - 2º Curso:
       - 'Administración de SO (ASO)': 2-curso/aso.md
       - 'Servicios de Red (SRI)': 2-curso/sri.md
       - 'Aplicaciones Web (IAW)': 2-curso/iaw.md
       - 'Seguridad y Alta Disp. (SAD)': 2-curso/sad.md
-      - 'BBDD y PL/SQL': 2-curso/bbdd-avanzada.md
-      - 'EIE / IPE II': 2-curso/eie.md
+      - 'Adm. Sistemas Gestores BBDD (ASGBD)': 2-curso/asgbd.md
+      - 'Inglés Profesional': 2-curso/ingles.md
+      - 'Herramientas DevOps': 2-curso/devops.md
