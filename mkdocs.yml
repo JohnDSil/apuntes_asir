@@ -74,7 +74,13 @@ nav:
           - '2. Protocolo HTTP y Formularios': 2-curso/iaw/02-protocolo-http-formularios.md
           - '3. Programación Backend con PHP': 2-curso/iaw/03-programacion-servidor-php.md
           - '4. Despliegue Web y Docker': 2-curso/iaw/04-despliegue-servidores-web-docker.md
-      - 'Seguridad y Alta Disp. (SAD)': 2-curso/sad.md
+      - 'Seguridad y Alta Disp. (SAD)':
+          - 'Visión General': 2-curso/sad/index.md
+          - 'UT1: Fundamentos de Seguridad': 2-curso/sad/01-fundamentos-seguridad.md
+          - 'UT2: Seguridad Física, SAI y Backups': 2-curso/sad/02-seguridad-fisica-sai-backup.md
+          - 'UT3: Control de Acceso y Criptografía': 2-curso/sad/03-control-acceso-criptografia.md
+          - 'UT4: Amenazas, Vulnerabilidades y Forense': 2-curso/sad/04-amenazas-vulnerabilidades-forense.md
+          - 'UT5: Marco Legal — RGPD y AEPD': 2-curso/sad/05-marco-legal-rgpd-aepd.md
       - 'Adm. Sistemas Gestores BBDD (ASGBD)':
           - 'Visión General': 2-curso/asgbd/index.md
           - '1. Docker y Contenedores': 2-curso/asgbd/01-docker-sgbd.md
