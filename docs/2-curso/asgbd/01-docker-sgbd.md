@@ -43,6 +43,35 @@ flowchart TD
 - **Docker CLI (`docker`):** Herramienta de línea de comandos para interactuar con la API del demonio.
 - **Docker Hub:** Registro público oficial en la nube donde desarrolladores y empresas alojan imágenes oficiales (ej. `mariadb`, `postgres`, `phpmyadmin`).
 
+### 📦 Instalación Oficial de Docker Engine en Ubuntu
+Instalación del repositorio oficial firmado con clave GPG:
+
+```bash
+# 1. Actualizar repositorios e instalar utilidades base
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+
+# 2. Configurar el directorio de llaveros seguros de APT
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# 3. Añadir el repositorio oficial estable de Docker
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# 4. Instalar Docker Engine, CLI, Containerd y plugins de Compose y Buildx
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# 5. Verificación de instalación
+sudo docker run hello-world
+docker -v
+docker compose version
+```
+
 ---
 
 ## 2. Ciclo de Vida y Gestión de Contenedores
@@ -73,6 +102,42 @@ docker run -d \
   -e MYSQL_PASSWORD=adminpass \
   mariadb:11.2
 ```
+
+### 🔴 Laboratorio: Despliegue de Oracle Database Express (XE) y SQL Developer
+
+Para trabajar con Oracle Database en ASGBD sin necesidad de instalaciones pesadas en el sistema anfitrión:
+
+#### 1. Instalar Java JDK y Oracle SQL Developer en Ubuntu
+```bash
+# 1. Instalar Java OpenJDK 17
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y openjdk-17-jdk
+java -version
+
+# 2. Descargar SQL Developer (versión 'Other platforms - no-jre.zip') y descomprimir
+cd ~/Downloads
+unzip sqldeveloper-*-no-jre.zip
+sudo mv sqldeveloper /opt/
+sudo chmod +x /opt/sqldeveloper/sqldeveloper.sh
+
+# 3. Para iniciar la interfaz gráfica de SQL Developer:
+/opt/sqldeveloper/sqldeveloper.sh
+```
+
+#### 2. Levantar el Contenedor de Oracle XE con Persistencia
+```bash
+docker run -d \
+  --name oracle-xe \
+  -p 1521:1521 \
+  -e ORACLE_PASSWORD=system \
+  -v oracle-volume:/opt/oracle/oradata \
+  gvenzl/oracle-xe
+```
+
+- **Puerto:** `1521` (puerto estándar del listener TNS).
+- **Contraseña de `SYSTEM`:** `system`.
+- **Servicio Pluggable (PDB):** `xepdb1`.
+- **Volumen Persistente:** `oracle-volume` evita que se pierdan las tablas y datos creados si el contenedor se recrea.
 
 ### Comandos de gestión rutinaria:
 

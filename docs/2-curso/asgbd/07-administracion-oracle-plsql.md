@@ -70,8 +70,89 @@ END;
 |---|---|---|
 | **Propósito** | Ejecutar una acción o conjunto de operaciones. | Calcular y retornar un valor específico. |
 | **Sentencia `RETURN`** | Opcional (solo para terminar la ejecución antes). | **Obligatoria** en la cabecera y en el cuerpo. |
-| **Llamada en SQL** | Desde bloques PL/SQL o con `EXECUTE`. | **Directamente en sentencias `SELECT` o `WHERE`**. |
-| **Parámetros** | Admite `IN`, `OUT` e `IN OUT`. | Típicamente solo `IN`. |
+| **Llamada en SQL** | Desde bloques PL/SQL o con `EXECUTE` / `EXEC`. | **Directamente en sentencias `SELECT` o `WHERE`**. |
+| **Parámetros** | Admite `IN` (entrada), `OUT` (salida) e `IN OUT` (entrada/salida). | Típicamente solo `IN`. |
+
+---
+
+## 4. Tipos de Parámetros en PL/SQL: Prácticas de Conversión de Cadenas
+
+Para ilustrar las diferencias entre parámetros de entrada (`IN`), entrada/salida (`IN OUT`) y funciones, analizamos el caso práctico de **recibir una cadena en mayúsculas y transformarla a minúsculas**:
+
+### 1. Procedimiento con Parámetro `IN`
+El parámetro de entrada es de solo lectura. El procedimiento procesa el dato e imprime el resultado por consola:
+
+```sql
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE PROCEDURE minu (v_cad IN VARCHAR2)
+AS
+    v_cad_minu VARCHAR2(50);
+BEGIN
+    v_cad_minu := LOWER(v_cad);
+    DBMS_OUTPUT.PUT_LINE(v_cad_minu);
+END;
+/
+
+-- Formas de invocar el procedimiento:
+-- A) Mediante el comando EXECUTE de SQL*Plus:
+EXEC minu('HOLA MUNDO');
+
+-- B) Dentro del cuerpo de un bloque anónimo:
+BEGIN
+    minu('HOLA MUNDO');
+END;
+/
+```
+
+### 2. Procedimiento con Parámetro `IN OUT`
+El parámetro se pasa por referencia: entra con un valor inicial y el procedimiento lo sobrescribe directamente con el resultado transformado:
+
+```sql
+CREATE OR REPLACE PROCEDURE minu (v_cad IN OUT VARCHAR2)
+AS
+BEGIN
+    v_cad := LOWER(v_cad);
+END;
+/
+
+-- Llamada dentro de un bloque anónimo pasando una variable:
+DECLARE
+    v_cadena VARCHAR2(50);
+BEGIN
+    v_cadena := 'HOLA MUNDO DE NUEVO';
+    minu(v_cadena); -- Modifica v_cadena directamente
+    DBMS_OUTPUT.PUT_LINE(v_cadena);
+END;
+/
+```
+
+### 3. Función Almacenada (`FUNCTION`)
+Retorna el valor transformado mediante la cláusula `RETURN`, permitiendo incrustarlo en cualquier expresión:
+
+```sql
+CREATE OR REPLACE FUNCTION f_minu (v_cad VARCHAR2)
+RETURN VARCHAR2
+AS
+BEGIN
+    RETURN LOWER(v_cad);
+END;
+/
+
+-- Invocación dentro de un bloque anónimo:
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(f_minu('HOLA MARTE'));
+END;
+/
+
+-- O invocación directa desde una consulta SQL:
+SELECT ename, f_minu(ename) AS "Nombre en Minúsculas"
+FROM emp;
+```
+
+---
+
+## 5. Procedimientos y Funciones sobre Tablas de Negocio
 
 ### Ejemplo: Procedimiento Almacenado
 ```sql

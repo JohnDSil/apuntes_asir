@@ -69,11 +69,12 @@ nav:
       - 'Adm. Sistemas Gestores BBDD (ASGBD)':
           - 'Visión General': 2-curso/asgbd/index.md
           - '1. Docker y Contenedores': 2-curso/asgbd/01-docker-sgbd.md
-          - '2. Consultas Multitabla (JOINs)': 2-curso/asgbd/02-consultas-avanzadas-joins.md
-          - '3. Agrupamiento y Funciones Grupo': 2-curso/asgbd/03-agrupamiento-funciones-grupo.md
-          - '4. Subconsultas en SQL': 2-curso/asgbd/04-subconsultas.md
-          - '5. DML y Transacciones ACID': 2-curso/asgbd/05-dml-transacciones.md
-          - '6. Administración Oracle y PL/SQL': 2-curso/asgbd/06-administracion-oracle-plsql.md
+          - '2. DDL y Restricciones (Oracle)': 2-curso/asgbd/02-diseno-fisico-ddl-oracle.md
+          - '3. Consultas Multitabla (JOINs)': 2-curso/asgbd/03-consultas-avanzadas-joins.md
+          - '4. Agrupamiento y Funciones Grupo': 2-curso/asgbd/04-agrupamiento-funciones-grupo.md
+          - '5. Subconsultas en SQL': 2-curso/asgbd/05-subconsultas.md
+          - '6. DML y Transacciones ACID': 2-curso/asgbd/06-dml-transacciones.md
+          - '7. Administración Oracle y PL/SQL': 2-curso/asgbd/07-administracion-oracle-plsql.md
       - 'Inglés Profesional': 2-curso/ingles.md
       - 'Herramientas DevOps':
           - 'Visión General': 2-curso/devops/index.md
