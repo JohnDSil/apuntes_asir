@@ -62,7 +62,11 @@ nav:
       - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
       - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
   - 2º Curso:
-      - 'Administración de SO (ASO)': 2-curso/aso.md
+      - 'Administración de SO (ASO)':
+          - 'Visión General': 2-curso/aso/index.md
+          - '1. Scripting en Bash y CLI': 2-curso/aso/01-scripting-bash.md
+          - '2. Scripting Gráfico con Zenity': 2-curso/aso/02-zenity-gui-scripting.md
+          - '3. Programación de Tareas (cron/systemd)': 2-curso/aso/03-programacion-tareas-cron-systemd.md
       - 'Servicios de Red (SRI)': 2-curso/sri.md
       - 'Aplicaciones Web (IAW)': 2-curso/iaw.md
       - 'Seguridad y Alta Disp. (SAD)': 2-curso/sad.md
