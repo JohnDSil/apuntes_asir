@@ -68,7 +68,12 @@ nav:
           - '2. Scripting Gráfico con Zenity': 2-curso/aso/02-zenity-gui-scripting.md
           - '3. Programación de Tareas (cron/systemd)': 2-curso/aso/03-programacion-tareas-cron-systemd.md
       - 'Servicios de Red (SRI)': 2-curso/sri.md
-      - 'Aplicaciones Web (IAW)': 2-curso/iaw.md
+      - 'Aplicaciones Web (IAW)':
+          - 'Visión General': 2-curso/iaw/index.md
+          - '1. Fundamentos Web y Cliente-Servidor': 2-curso/iaw/01-fundamentos-web-arquitectura-cliente-servidor.md
+          - '2. Protocolo HTTP y Formularios': 2-curso/iaw/02-protocolo-http-formularios.md
+          - '3. Programación Backend con PHP': 2-curso/iaw/03-programacion-servidor-php.md
+          - '4. Despliegue Web y Docker': 2-curso/iaw/04-despliegue-servidores-web-docker.md
       - 'Seguridad y Alta Disp. (SAD)': 2-curso/sad.md
       - 'Adm. Sistemas Gestores BBDD (ASGBD)':
           - 'Visión General': 2-curso/asgbd/index.md
