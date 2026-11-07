@@ -541,3 +541,61 @@ BEGIN
 END;
 /
 ```
+
+---
+
+## 8. Script Administrativo: Limpieza Integral del Esquema (*Drop All Objects*)
+
+En laboratorios prácticos de ASGBD y entornos de desarrollo, a menudo es necesario **reiniciar por completo el esquema de trabajo** eliminando todas las tablas, vistas, secuencias, procedimientos, funciones, paquetes y sinónimos creados, sin necesidad de destruir el usuario ni requerir privilegios de `SYSDBA`:
+
+```sql
+BEGIN
+    -- 1. Bucle cursor sobre todos los objetos del esquema actual
+    FOR cur_rec IN (
+        SELECT object_name, object_type
+        FROM user_objects
+        WHERE object_type IN (
+            'TABLE',
+            'VIEW',
+            'MATERIALIZED VIEW',
+            'PACKAGE',
+            'PROCEDURE',
+            'FUNCTION',
+            'SEQUENCE',
+            'SYNONYM',
+            'PACKAGE BODY'
+        )
+    )
+    LOOP
+        BEGIN
+            -- Si es una tabla, se eliminan forzadamente sus restricciones de integridad (FK)
+            IF cur_rec.object_type = 'TABLE' THEN
+                EXECUTE IMMEDIATE 'DROP ' || cur_rec.object_type || ' "' || cur_rec.object_name || '" CASCADE CONSTRAINTS';
+            ELSE
+                EXECUTE IMMEDIATE 'DROP ' || cur_rec.object_type || ' "' || cur_rec.object_name || '"';
+            END IF;
+        EXCEPTION
+            WHEN OTHERS THEN
+                DBMS_OUTPUT.PUT_LINE('FAILED: DROP ' || cur_rec.object_type || ' "' || cur_rec.object_name || '"');
+        END;
+    END LOOP;
+
+    -- 2. Limpieza de sinónimos públicos creados por el usuario conectado
+    FOR cur_rec IN (
+        SELECT *
+        FROM all_synonyms
+        WHERE table_owner IN (SELECT USER FROM dual)
+    )
+    LOOP
+        BEGIN
+            EXECUTE IMMEDIATE 'DROP PUBLIC SYNONYM ' || cur_rec.synonym_name;
+        END;
+    END LOOP;
+END;
+/
+```
+
+> [!TIP] **Ventajas del script con SQL dinámico (`EXECUTE IMMEDIATE`)**
+> - **Independencia del orden de dependencia:** Al incluir `CASCADE CONSTRAINTS`, no importa en qué orden aparezcan las tablas maestras e hijas en el catálogo.
+> - **Tolerancia a fallos:** El subbloque interno `BEGIN ... EXCEPTION WHEN OTHERS` garantiza que si un objeto falla al borrarse, la ejecución no se aborta y continúa limpiando los objetos restantes.
+

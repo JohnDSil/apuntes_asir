@@ -138,19 +138,70 @@ flowchart TD
 | **`WHERE`** | **Antes** de agrupar las filas. | ❌ **PROHIBIDO** (`ORA-00934`) | Excluir registros que no deben intervenir en el cálculo. |
 | **`HAVING`** | **Después** de formar los grupos y calcular agregados. | ✅ **SÍ** | Excluir grupos enteros según el resultado de su función agregada. |
 
-```sql
--- ❌ ERROR: ORA-00934: group function is not allowed here
-SELECT deptno, AVG(sal)
-FROM emp
-WHERE AVG(sal) > 2000
-GROUP BY deptno;
+> [!TIP] **¿Cuándo poner la condición en WHERE o en HAVING?**
+> - Si la condición recae sobre un **atributo de un registro individual**, se debe colocar obligatoriamente en el **`WHERE`**.
+> - Si la condición recae sobre un **atributo del grupo de registros o una función agregada**, se debe colocar en el **`HAVING`**.
 
--- ✅ CORRECTO:
+### Orden Oficial de Evaluación del Motor SQL
+En tiempo de ejecución, el motor relacional procesa las cláusulas en el siguiente orden estricto:
+
+```mermaid
+flowchart LR
+    P1["1. WHERE\n(Selecciona filas individuales)"] --> P2["2. GROUP BY\n(Agrupa filas en tabla temporal)"]
+    P2 --> P3["3. HAVING\n(Selecciona grupos de la temporal)"]
+    P3 --> P4["4. ORDER BY\n(Ordena los grupos resultantes)"]
+```
+
+---
+
+### Consultas Avanzadas con Subconsultas en `HAVING`
+
+1. **Departamentos cuyo salario medio supera la media de toda la empresa:**
+```sql
 SELECT deptno, AVG(sal)
 FROM emp
 GROUP BY deptno
-HAVING AVG(sal) > 2000;
+HAVING AVG(sal) >= (SELECT AVG(sal) FROM emp);
 ```
+
+2. **Departamentos con mayor número de empleados (agregación sobre subconsulta):**
+```sql
+SELECT d.deptno, d.dname, COUNT(e.empno) AS total_empleados
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+GROUP BY d.deptno, d.dname
+HAVING COUNT(e.empno) = (
+    SELECT MAX(COUNT(*))
+    FROM emp
+    GROUP BY deptno
+);
+```
+
+3. **Departamentos que tienen más de 4 analistas:**
+```sql
+SELECT d.dname, COUNT(e.empno) AS total_analistas
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+  AND e.job = 'ANALYST'
+GROUP BY d.dname
+HAVING COUNT(e.empno) > 4;
+```
+
+---
+
+### Formateo Numérico Avanzado en Agrupaciones
+En Oracle Database, se utiliza `TO_CHAR` con máscaras numéricas para presentar resúmenes ejecutivos con formato monetario y separadores de millares:
+
+```sql
+SELECT deptno,
+       TO_CHAR(SUM(sal), '99G999D99') AS "Suma Salarial",
+       TO_CHAR(MAX(sal), '99G999D99') AS "Salario Máximo",
+       TO_CHAR(MIN(sal), '99G999D99') AS "Salario Mínimo"
+FROM emp
+GROUP BY deptno;
+```
+
+---
 
 ### Consulta Completa de Síntesis:
 ```sql

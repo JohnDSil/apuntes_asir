@@ -39,6 +39,13 @@ flowchart LR
 > [!CAUTION] **Riesgo en bases de datos de producción**
 > Si se omite la condición de join entre una tabla de 10.000 clientes y una de 100.000 pedidos, la base de datos intentará generar un conjunto de $1.000.000.000$ (mil millones) de filas temporales, colapsando la memoria RAM y bloqueando el servidor.
 
+> [!IMPORTANT] **Regla nemotécnica del número de condiciones de JOIN**
+> Para combinar $N$ tablas sin generar productos cartesianos parciales, se necesitan como mínimo **$N - 1$ condiciones de combinación**:
+>
+> $$\text{Nº mínimo de condiciones de join} = N - 1$$
+>
+> Por ejemplo, si una consulta lista 4 tablas en su cláusula `FROM`, requerirá al menos 3 condiciones de enlace independientes en el `WHERE` o en las cláusulas `ON`.
+
 ---
 
 ## 2. Nombres Ambiguos y Alias de Tabla
@@ -171,6 +178,20 @@ flowchart TD
     RIGHT JOIN dept d ON e.deptno = d.deptno;
     ```
 
+> [!WARNING] **La trampa clásica de recuento en combinaciones externas: `COUNT(*)` vs `COUNT(columna)`**
+> Supongamos que queremos mostrar todos los departamentos junto al número de empleados que trabajan en ellos, asegurándonos de que aparezcan los departamentos vacíos (como el departamento 40 `OPERATIONS`):
+> 
+> ```sql
+> -- ✅ CONSULTA CORRECTA:
+> SELECT d.deptno, d.dname, COUNT(e.empno) AS num_empleados
+> FROM emp e, dept d
+> WHERE e.deptno(+) = d.deptno
+> GROUP BY d.deptno, d.dname;
+> ```
+> * Para el departamento 40, `COUNT(e.empno)` devolverá **`0`**, ya que las funciones agregadas sobre una columna específica ignoran los valores nulos generados.
+> * Si erróneamente se utilizase **`COUNT(*)`**, devolvería **`1`**, porque el *outer join* sintetiza una fila en memoria con valores en blanco para el departamento sin empleados, y `COUNT(*)` contabiliza filas físicas independientemente de si sus campos son nulos.
+> * Si además en el `SELECT` se proyectase `e.deptno` en vez de `d.deptno`, el código de departamento para `OPERATIONS` aparecería como **`NULL`**.
+
 ---
 
 ### 4. Self Join (Combinación de una Tabla Consigo Misma)
@@ -207,3 +228,75 @@ FROM t1
 LEFT JOIN (t2 JOIN t3 ON t2.b = t3.b)
   ON t1.a = t2.a;
 ```
+
+---
+
+## 5. Operadores de Conjuntos en SQL (Set Operators)
+
+Los operadores de conjuntos combinan el conjunto de resultados de dos o más sentencias `SELECT` independientes en una única salida unificada.
+
+```mermaid
+graph TD
+    SetOp["Operadores de Conjuntos"]
+    SetOp --> Union["UNION (Unión sin duplicados)"]
+    SetOp --> UnionAll["UNION ALL (Unión rápida con duplicados)"]
+    SetOp --> Intersect["INTERSECT (Intersección: elementos comunes)"]
+    SetOp --> Minus["MINUS / EXCEPT (Diferencia: en A pero no en B)"]
+```
+
+### 1. `UNION` y `UNION ALL`
+- **`UNION`:** Combina los resultados de ambas consultas y **elimina las filas duplicadas** (aplica una ordenación interna para desduplicar).
+- **`UNION ALL`:** Concatena los resultados manteniendo todas las filas, **incluyendo duplicados**. Es mucho más eficiente al no requerir ordenación previa.
+
+```sql
+-- Listar todos los nombres de alumnos y nuevos alumnos sin duplicados:
+SELECT nombre FROM alum
+UNION
+SELECT nombre FROM nuevos;
+
+-- Concatenación completa conservando duplicados:
+SELECT nombre FROM alum
+UNION ALL
+SELECT nombre FROM nuevos;
+```
+
+---
+
+### 2. `INTERSECT` (Intersección)
+Devuelve únicamente aquellas filas que existen **simultáneamente en ambas consultas**:
+
+```sql
+SELECT nombre FROM alum
+INTERSECT
+SELECT nombre FROM antiguos;
+
+-- Es equivalente funcionalmente a una subconsulta con IN:
+SELECT nombre FROM alum
+WHERE nombre IN (SELECT nombre FROM antiguos);
+```
+
+---
+
+### 3. `MINUS` (Diferencia de Conjuntos)
+*(En motores como MySQL 8.0.31+ o PostgreSQL se denomina `EXCEPT`)*  
+Devuelve las filas que están presentes en la **primera consulta pero NO figuran en la segunda**:
+
+```sql
+-- Alumnos matriculados que no son antiguos alumnos:
+SELECT nombre, localidad FROM alum
+MINUS
+SELECT nombre, localidad FROM antiguos;
+
+-- Es equivalente funcionalmente a una subconsulta con NOT IN:
+SELECT nombre, localidad FROM alum
+WHERE (nombre, localidad) NOT IN (SELECT nombre, localidad FROM antiguos);
+```
+
+---
+
+### 📋 Reglas Estrictas para el Uso de Operadores de Conjuntos:
+1. **Mismo número de columnas:** Ambas consultas `SELECT` deben proyectar exactamente la misma cantidad de columnas.
+2. **Tipos de datos compatibles:** Las columnas emparejadas de izquierda a derecha deben pertenecer al mismo grupo de tipos de datos (la longitud o precisión puede variar).
+3. **Nombres de columna en el resultado:** Los nombres y alias de las cabeceras resultantes los determina exclusivamente la **primera consulta `SELECT`**.
+4. **Cláusula `ORDER BY` única:** Solo puede figurar una cláusula `ORDER BY` en toda la sentencia y debe colocarse obligatoriamente al final de la última consulta.
+

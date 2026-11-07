@@ -155,23 +155,86 @@ CREATE TABLE alumnos (
 
 Las restricciones son reglas lógicas aplicadas a las columnas que garantizan la **integridad de los datos** y la **integridad referencial** de forma automática en el motor.
 
-> [!IMPORTANT] **Convenciones de nombres para restricciones**
-> Siempre se debe asignar un nombre explícito a cada restricción para poder gestionarla, activarla o desactivarla en el futuro. No pueden existir dos restricciones con el mismo nombre en un mismo esquema:
-> - `pk_nombretabla` para Claves Primarias.
-> - `fk_tabla_origen_destino` para Claves Ajenas.
-> - `ck_nombretabla_columna` para Verificaciones Check.
-> - `uq_nombretabla_columna` para Restricciones Unique.
+> [!IMPORTANT] **Convenciones de nombres para restricciones (Recomendación Oracle)**
+> Para mantener la trazabilidad en bases de datos empresariales, Oracle recomienda la siguiente regla de nomenclatura estandarizada:
+>
+> $$\text{[3 letras de la tabla]} \_\, \text{[3 letras de la columna]} \_\, \text{[2 letras del tipo de restricción]}$$
+>
+> | Sufijo | Tipo de Restricción | Ejemplo en tabla `PERSONAS` |
+> |---|---|---|
+> | **`PK`** | *Primary Key* (Clave Primaria) | `PER_IDU_PK` |
+> | **`FK`** | *Foreign Key* (Clave Foránea) | `PER_DEP_FK` |
+> | **`NN`** | *Not Null* (No Nulo) | `PER_NOM_NN` |
+> | **`UK`** | *Unique* (Unicidad) | `PER_DNI_UK` |
+> | **`CK`** | *Check* (Validación) | `PER_EDA_CK` |
 
-### Tipos de Restricciones en Oracle:
+### Tipos de Restricciones en Oracle y SQL Estándar:
 
 | Código | Restricción | Definición y Comportamiento |
 |---|---|---|
-| **`P`** | **`PRIMARY KEY`** | Identifica unívocamente cada fila. Es **única y no nula**. Crea automáticamente un índice B-Tree único. Solo puede existir una por tabla. |
-| **`R`** | **`FOREIGN KEY`** | Clave ajena. Obliga a que el valor exista previamente en la clave primaria de la tabla referenciada (`REFERENCES`). Admite `ON DELETE CASCADE`. |
-| **`C`** | **`CHECK`** | Valida que los datos cumplan una condición lógica (`CHECK (edad >= 18)`). No puede contener subconsultas ni pseudocolumnas dinámicas (`SYSDATE`, `USER`). |
-| **-** | **`NOT NULL`** | Obliga a que la columna tenga un valor informado en cada inserción. Se define a nivel de columna (internamente Oracle lo cataloga como tipo `C`). |
-| **`U`** | **`UNIQUE`** | Impide valores duplicados en la columna. Crea un índice automático, pero **admite valores `NULL`**. |
-| **-** | **`DEFAULT`** | Asigna un valor predeterminado si el `INSERT` no lo especifica (`DEFAULT SYSDATE`). No lleva nombre porque no puede violarse. |
+| **`P`** | **`PRIMARY KEY`** | Identifica unívocamente cada fila. Es **única y no nula**. Crea automáticamente un índice B-Tree único. Solo puede existir una por tabla (simple o compuesta). |
+| **`R`** | **`FOREIGN KEY` / `REFERENCES`** | Clave ajena o secundaria. Obliga a que el valor exista previamente en la clave primaria (o candidata) de la tabla referenciada. |
+| **`C`** | **`CHECK`** | Valida que los datos cumplan una condición lógica (`CHECK (edad >= 18)` o `CHECK (edad BETWEEN 18 AND 65)`). No puede contener subconsultas ni pseudocolumnas dinámicas (`SYSDATE`). |
+| **-** | **`NOT NULL`** | Obliga a que la columna tenga un valor en cada inserción (prohíbe nulos). Internamente se cataloga como restricción `CHECK (col IS NOT NULL)`. |
+| **`U`** | **`UNIQUE`** | Impide valores repetidos en una o varias columnas. Crea un índice automático y **admite valores `NULL`**. |
+| **-** | **`DEFAULT`** | Asigna un valor predeterminado si el `INSERT` no lo especifica (`DEFAULT SYSDATE`, `DEFAULT 0`). |
+
+---
+
+### Opciones de Integridad Referencial en `FOREIGN KEY`
+
+Al definir una clave foránea, se puede especificar qué ocurre en las filas hijas si se elimina o modifica una fila en la tabla padre referenciada:
+
+| Opción de Integridad | Comportamiento al borrar o modificar en la tabla padre |
+|---|---|
+| **`RESTRICT`** | **Impide** eliminar o modificar la fila padre si existen filas hijas asociadas a esa clave. Es la protección más estricta. |
+| **`CASCADE`** | Propaga la acción: al borrar o modificar una clave en el padre, **se borran o actualizan automáticamente todas las filas hijas vinculadas**. |
+| **`SET NULL`** | Al borrar o modificar en el padre, **asigna el valor `NULL`** a las columnas de clave foránea en las filas hijas correspondientes. |
+| **`NO ACTION`** | Comportamiento por defecto: las claves foráneas no se modifican ni se eliminan filas hijas (equivale a `RESTRICT` diferido). |
+
+```sql
+CREATE TABLE personas (
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(40),
+    fecha  DATE
+);
+
+CREATE TABLE telefonos (
+    numero CHAR(12) PRIMARY KEY,
+    perso  INT NULL,
+    CONSTRAINT TEL_PER_FK FOREIGN KEY (perso) 
+        REFERENCES personas(id) 
+        ON DELETE RESTRICT 
+        ON UPDATE CASCADE
+);
+```
+
+> [!WARNING] **Reglas de orden de creación y borrado de tablas**
+> - **Al crear tablas:** Se deben crear en primer lugar las **tablas maestras o principales** (aquellas que no tienen claves ajenas), y después las tablas que dependen de ellas.
+> - **Al borrar tablas:** Se deben borrar primero las **tablas secundarias o hijas** (las que contienen claves ajenas) para no violar la integridad referencial, o utilizar la cláusula `DROP TABLE ... CASCADE CONSTRAINTS`.
+
+---
+
+## 6. Motores de Almacenamiento en MySQL y MariaDB (`ENGINE`)
+
+A diferencia de Oracle Database (que posee un único motor unificado de almacenamiento relacional), MySQL y MariaDB permiten definir el motor de almacenamiento (**`ENGINE`**, antiguamente llamado `TYPE` en MySQL 5) tabla a tabla mediante la sintaxis:
+
+```sql
+CREATE TABLE nombre_tabla (
+    ...
+) ENGINE = InnoDB;
+```
+
+### Comparativa de los 6 Motores Principales:
+
+| Motor de Almacenamiento | Soporte Transaccional (ACID) | Claves Foráneas (FK) | Nivel de Bloqueo | Uso Principal |
+|---|---|---|---|---|
+| **`InnoDB`** | ✅ **Sí** (ACID completo) | ✅ **Sí** (Obligatorio para FK) | **Fila (*Row-level*)** | **Motor por defecto y recomendado** para aplicaciones transaccionales y de negocio. |
+| **`MyISAM`** | ❌ No | ❌ No | **Tabla completa (*Table-level*)** | Búsquedas de texto completas muy rápidas y lecturas masivas sin concurrencia de escritura. Formato binario portable. |
+| **`MEMORY` (`HEAP`)** | ❌ No | ❌ No | Tabla | Tablas temporales hiperrápidas almacenadas en memoria RAM. Se destruyen al reiniciar el servicio. |
+| **`BDB` (`BerkeleyDB`)** | ✅ Sí | ❌ No | **Página (*Page-level*)** | Motor transaccional histórico seguro con bloqueo por páginas de disco. |
+| **`MERGE` (`MRG_MyISAM`)** | ❌ No | ❌ No | Tabla | Agrupación lógica de varias tablas `MyISAM` idénticas tratadas como una única tabla unificada. |
+| **`ISAM`** | ❌ No | ❌ No | Tabla | Motor original e histórico de MySQL (reemplazado por `MyISAM`). |
 
 ---
 
@@ -223,7 +286,7 @@ WHERE table_name = 'EMPLEADOS';
 
 ---
 
-## 6. Modificación de Tablas (`ALTER TABLE`)
+## 7. Modificación de Tablas (`ALTER TABLE`)
 
 Permite alterar la estructura de una tabla existente sin destruir sus datos.
 
@@ -268,7 +331,7 @@ ALTER TABLE empleados ENABLE CONSTRAINT fk_emp_prov;
 
 ---
 
-## 7. Borrado de Tablas: `DROP TABLE` vs. `TRUNCATE TABLE`
+## 8. Borrado de Tablas: `DROP TABLE` vs. `TRUNCATE TABLE`
 
 | Característica | `DROP TABLE` | `TRUNCATE TABLE` | `DELETE FROM` |
 |---|---|---|---|
@@ -289,7 +352,7 @@ TRUNCATE TABLE registros_logs DROP STORAGE;
 
 ---
 
-## 8. Creación y Uso de Sinónimos (`SYNONYM`)
+## 9. Creación y Uso de Sinónimos (`SYNONYM`)
 
 Un **sinónimo** es un alias permanente asignado a un objeto de la base de datos (tabla, vista, procedimiento) que simplifica su acceso y oculta su ubicación física o propietario real:
 
