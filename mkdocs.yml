@@ -68,4 +68,8 @@ nav:
       - 'Seguridad y Alta Disp. (SAD)': 2-curso/sad.md
       - 'Adm. Sistemas Gestores BBDD (ASGBD)': 2-curso/asgbd.md
       - 'Inglés Profesional': 2-curso/ingles.md
-      - 'Herramientas DevOps': 2-curso/devops.md
+      - 'Herramientas DevOps':
+          - 'Visión General': 2-curso/devops/index.md
+          - 'UD1: Introducción a DevOps': 2-curso/devops/ud1-introduccion.md
+          - 'UD2: Git, Markdown y GitHub': 2-curso/devops/ud2-git-markdown.md
+          - 'UD3: Monitorización de Sistemas': 2-curso/devops/ud3-monitorizacion.md
