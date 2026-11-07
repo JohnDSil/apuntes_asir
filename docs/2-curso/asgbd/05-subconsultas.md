@@ -148,3 +148,170 @@ SELECT nombre,
        salario - (SELECT AVG(salario) FROM empleados) AS "Diferencia con la Media"
 FROM empleados;
 ```
+
+---
+
+## 2. Ejercicios Prácticos de Aula: Catálogo Fabricante-Producto
+
+Basado en el esquema de prácticas de aula (`fabricante` y `producto`):
+
+```sql
+CREATE TABLE fabricante (
+    id_fabricante INT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE producto (
+    id INT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    precio NUMBER NOT NULL,
+    id_fabricante INT NOT NULL,
+    FOREIGN KEY (id_fabricante) REFERENCES fabricante(id_fabricante)
+);
+```
+
+### Consultas con Operadores Básicos de Comparación
+
+1. **Devuelve todos los productos del fabricante Lenovo:**
+```sql
+SELECT *
+FROM producto
+WHERE id_fabricante = (
+    SELECT id_fabricante 
+    FROM fabricante 
+    WHERE nombre = 'Lenovo'
+);
+```
+
+2. **Devuelve todos los datos de los productos que tienen el mismo precio que el producto más caro del fabricante Lenovo:**
+```sql
+SELECT *
+FROM producto
+WHERE precio = (
+    SELECT MAX(p.precio)
+    FROM producto p
+    WHERE p.id_fabricante = (
+        SELECT f.id_fabricante 
+        FROM fabricante f 
+        WHERE f.nombre = 'Lenovo'
+    )
+);
+```
+
+3. **Lista el nombre del producto más caro del fabricante Lenovo:**
+```sql
+SELECT nombre
+FROM producto
+WHERE id_fabricante = (
+    SELECT id_fabricante 
+    FROM fabricante 
+    WHERE nombre = 'Lenovo'
+)
+AND precio = (
+    SELECT MAX(precio)
+    FROM producto
+    WHERE id_fabricante = (
+        SELECT id_fabricante 
+        FROM fabricante 
+        WHERE nombre = 'Lenovo'
+    )
+);
+```
+
+4. **Lista el nombre del producto más barato del fabricante Hewlett-Packard:**
+```sql
+SELECT nombre
+FROM producto
+WHERE id_fabricante = (
+    SELECT id_fabricante 
+    FROM fabricante 
+    WHERE nombre = 'Hewlett-Packard'
+)
+AND precio = (
+    SELECT MIN(precio)
+    FROM producto
+    WHERE id_fabricante = (
+        SELECT id_fabricante 
+        FROM fabricante 
+        WHERE nombre = 'Hewlett-Packard'
+    )
+);
+```
+
+5. **Devuelve todos los productos de la base de datos que tienen un precio mayor o igual al producto más caro del fabricante Lenovo:**
+```sql
+SELECT *
+FROM producto
+WHERE precio >= (
+    SELECT MAX(precio)
+    FROM producto
+    WHERE id_fabricante = (
+        SELECT id_fabricante 
+        FROM fabricante 
+        WHERE nombre = 'Lenovo'
+    )
+);
+```
+
+6. **Lista todos los productos del fabricante Asus que tienen un precio superior al precio medio de todos sus productos:**
+```sql
+SELECT *
+FROM producto
+WHERE id_fabricante = (
+    SELECT id_fabricante 
+    FROM fabricante 
+    WHERE nombre = 'Asus'
+)
+AND precio > (
+    SELECT AVG(precio)
+    FROM producto
+    WHERE id_fabricante = (
+        SELECT id_fabricante 
+        FROM fabricante 
+        WHERE nombre = 'Asus'
+    )
+);
+```
+
+### Consultas de Extremos y Pertenencia a Conjuntos
+
+7. **Devuelve el producto más caro que existe en la tabla producto:**
+```sql
+SELECT *
+FROM producto
+WHERE precio = (
+    SELECT MAX(precio) 
+    FROM producto
+);
+```
+
+8. **Devuelve el producto más barato que existe en la tabla producto:**
+```sql
+SELECT *
+FROM producto
+WHERE precio = (
+    SELECT MIN(precio) 
+    FROM producto
+);
+```
+
+9. **Devuelve los nombres de los fabricantes que tienen productos asociados:**
+```sql
+SELECT nombre
+FROM fabricante
+WHERE id_fabricante IN (
+    SELECT DISTINCT id_fabricante 
+    FROM producto
+);
+```
+
+10. **Devuelve los nombres de los fabricantes que NO tienen productos asociados:**
+```sql
+SELECT nombre
+FROM fabricante
+WHERE id_fabricante NOT IN (
+    SELECT DISTINCT id_fabricante 
+    FROM producto
+);
+```
+
