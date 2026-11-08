@@ -1,263 +1,188 @@
 /* ==========================================================================
-   Tema Inspirado en MoureDev (moure.dev)
-   Minimalismo oscuro, botones con relieve neobrutalista/moderno,
-   tipografía bold, acentos vibrantes (#3EB0F9, #FFA61E, #00C853)
+   Plataforma de Documentación y Estudio ASIR (Estilo Docs Moderno)
+   Inspirado en Stripe Docs, VitePress y Tailwind UI
+   Limpio, ordenado, profesional y sin estridencias
    ========================================================================== */
 
 :root {
-  --md-primary-fg-color:        #0d1117;
-  --md-primary-fg-color--light:  #161b22;
-  --md-primary-fg-color--dark:   #010409;
-  --md-accent-fg-color:         #3eb0f9; /* Azul cian de MoureDev */
-  
-  --moure-blue:    #3eb0f9;
-  --moure-orange:  #ffa61e;
-  --moure-green:   #10b981;
-  --moure-purple:  #a855f7;
-  --moure-bg-dark: #0e1217;
-  --moure-card-bg: #151b23;
-  --moure-border:  #30363d;
-  
-  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --md-code-font: "JetBrains Mono", monospace;
+  --md-primary-fg-color:        #2563eb; /* Azul corporativo limpio */
+  --md-primary-fg-color--light:  #3b82f6;
+  --md-primary-fg-color--dark:   #1d4ed8;
+  --md-accent-fg-color:         #0284c7;
+
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --md-code-font: "JetBrains Mono", "Fira Code", monospace;
 }
 
-/* Forzamos el esquema oscuro por defecto estilo MoureDev */
-[data-md-color-scheme="slate"],
+/* Modo Claro Limpio */
 [data-md-color-scheme="default"] {
-  --md-default-bg-color:        #0e1217;
-  --md-default-bg-color--light:  #161b22;
-  --md-default-bg-color--lighter: #21262d;
-  --md-default-fg-color:        #f0f6fc;
-  --md-default-fg-color--light:  #8b949e;
-  --md-default-fg-color--lighter: #484f58;
+  --md-default-bg-color:        #ffffff;
+  --md-default-bg-color--light:  #f8fafc;
+  --md-default-bg-color--lighter: #f1f5f9;
+  --md-default-fg-color:        #0f172a;
+  --md-default-fg-color--light:  #475569;
+  --md-default-fg-color--lighter: #94a3b8;
 }
 
-/* ==========================================================================
-   Header Perfil Estilo MoureDev
-   ========================================================================== */
-.moure-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 2.5rem 1rem 1.5rem;
-  max-width: 680px;
-  margin: 0 auto;
+/* Modo Oscuro Elegante (Slate) */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color:        #0f172a; /* Slate 900 */
+  --md-default-bg-color--light:  #1e293b; /* Slate 800 */
+  --md-default-bg-color--lighter: #334155; /* Slate 700 */
+  --md-default-fg-color:        #f8fafc;
+  --md-default-fg-color--light:  #94a3b8;
+  --md-default-fg-color--lighter: #64748b;
+  --md-primary-fg-color:        #3b82f6;
 }
 
-.moure-avatar {
-  width: 105px;
-  height: 105px;
-  border-radius: 50%;
-  border: 3px solid var(--moure-blue);
-  box-shadow: 0 0 25px rgba(62, 176, 249, 0.35);
-  margin-bottom: 1.2rem;
-  background: #161b22;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
+/* Banner superior limpio (Hero) */
+.hero-box {
+  background: var(--md-default-bg-color--light);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 12px;
+  padding: 1.8rem 2rem;
+  margin-bottom: 2rem;
 }
 
-.moure-name {
-  font-size: 2.2rem !important;
+.hero-box h1 {
+  font-size: 1.8rem !important;
   font-weight: 800 !important;
-  color: #ffffff !important;
-  margin: 0 0 0.2rem !important;
+  margin: 0 0 0.5rem !important;
   letter-spacing: -0.02em;
 }
 
-.moure-tag {
-  color: var(--moure-blue) !important;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 1rem !important;
-}
-
-.moure-bio {
-  font-size: 1.05rem;
-  color: #c9d1d9;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
-/* Métricas destacadas (Stats bar) */
-.moure-stats {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  width: 100%;
-  padding: 1rem 0;
-  border-top: 1px solid var(--moure-border);
-  border-bottom: 1px solid var(--moure-border);
-  margin-bottom: 2rem;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stat-num {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--moure-blue);
-}
-
-.stat-label {
-  font-size: 0.8rem;
-  color: #8b949e;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-/* ==========================================================================
-   Botones de Enlace Estilo MoureDev (Neobrutalismo táctil)
-   ========================================================================== */
-.moure-section-title {
-  font-size: 1.4rem !important;
-  font-weight: 800 !important;
-  color: #ffffff !important;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 2.5rem 0 1rem !important;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.moure-section-title::after {
-  content: "";
-  flex: 1;
-  height: 2px;
-  background: var(--moure-border);
-  margin-left: 0.5rem;
-}
-
-.moure-btn-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  margin-bottom: 2rem;
-}
-
-.moure-btn {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  border: 1px solid #30363d;
-  background-color: var(--moure-card-bg);
-  color: #ffffff !important;
-  text-decoration: none !important;
-  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.08);
-  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
-  position: relative;
-}
-
-.moure-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0px 0px rgba(62, 176, 249, 0.4);
-  border-color: var(--moure-blue);
-  background-color: #1c2128;
-}
-
-/* Variantes de color en los botones destacados */
-.moure-btn.btn-featured {
-  border-color: var(--moure-orange);
-  box-shadow: 4px 4px 0px 0px var(--moure-orange);
-}
-
-.moure-btn.btn-featured:hover {
-  box-shadow: 2px 2px 0px 0px var(--moure-orange);
-}
-
-.moure-btn-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  margin-right: 1.1rem;
-  flex-shrink: 0;
-  color: var(--moure-blue);
-}
-
-.moure-btn-body {
-  flex-grow: 1;
-  text-align: left;
-}
-
-.moure-btn-title {
-  font-size: 1.05rem;
-  font-weight: 700;
+.hero-box p {
+  color: var(--md-default-fg-color--light);
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 0;
-  color: #ffffff;
+  max-width: 750px;
 }
 
-.moure-btn-subtitle {
-  font-size: 0.85rem;
-  color: #8b949e;
-  margin: 0.2rem 0 0;
-  line-height: 1.4;
+/* Tablas de Temario Estructurado */
+.syllabus-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lighter);
 }
 
-.moure-btn-badge {
+.syllabus-table th {
+  background: var(--md-default-bg-color--light);
+  padding: 0.85rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--md-default-fg-color--light);
+  text-align: left;
+  border-bottom: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.syllabus-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--md-default-bg-color--lighter);
+  vertical-align: middle;
+}
+
+.syllabus-table tr:last-child td {
+  border-bottom: none;
+}
+
+.syllabus-table tr:hover td {
+  background-color: rgba(37, 99, 235, 0.03);
+}
+
+[data-md-color-scheme="slate"] .syllabus-table tr:hover td {
+  background-color: rgba(59, 130, 246, 0.06);
+}
+
+/* Insignias sutiles */
+.tag {
+  display: inline-block;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.2rem 0.55rem;
+  padding: 0.2rem 0.5rem;
   border-radius: 6px;
-  background: rgba(62, 176, 249, 0.15);
-  color: var(--moure-blue);
-  border: 1px solid rgba(62, 176, 249, 0.3);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-left: 0.8rem;
-  flex-shrink: 0;
+  letter-spacing: 0.03em;
 }
 
-/* Badges de estado */
-.badge-orange {
-  background: rgba(255, 166, 30, 0.15);
-  color: var(--moure-orange);
-  border-color: rgba(255, 166, 30, 0.3);
+.tag-blue {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
 }
 
-.badge-green {
+[data-md-color-scheme="slate"] .tag-blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.tag-green {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+[data-md-color-scheme="slate"] .tag-green {
   background: rgba(16, 185, 129, 0.15);
-  color: var(--moure-green);
-  border-color: rgba(16, 185, 129, 0.3);
+  color: #34d399;
 }
 
-/* ==========================================================================
-   Estilo de Lectura de Temas (Educativo y Limpio)
-   ========================================================================== */
-.md-content {
-  max-width: 900px;
+.tag-purple {
+  background: rgba(168, 85, 247, 0.1);
+  color: #7c3aed;
 }
 
-.md-typeset h1 {
-  font-weight: 800;
-  letter-spacing: -0.02em;
+[data-md-color-scheme="slate"] .tag-purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
 }
 
-.md-typeset table:not([class]) {
-  border: 1px solid var(--moure-border);
-  border-radius: 8px;
+.tag-gray {
+  background: rgba(100, 116, 139, 0.1);
+  color: #475569;
 }
 
-.md-typeset table:not([class]) th {
-  background-color: #161b22;
-  color: #ffffff;
+[data-md-color-scheme="slate"] .tag-gray {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
 }
 
-.md-typeset .admonition {
-  border-radius: 8px;
-  border-left-width: 4px;
+/* Enlaces limpios con flecha */
+.module-link {
+  font-weight: 700;
+  color: var(--md-primary-fg-color) !important;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.module-link:hover {
+  text-decoration: underline;
+}
+
+/* Tarjetas informativas de estudio */
+.info-card {
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 10px;
+  padding: 1.25rem;
+  background: var(--md-default-bg-color);
+  margin-bottom: 1rem;
+}
+
+.info-card h3 {
+  margin: 0 0 0.4rem !important;
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+}
+
+.info-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light);
+  line-height: 1.5;
 }

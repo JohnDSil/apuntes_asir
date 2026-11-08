@@ -1,163 +1,120 @@
-<div class="moure-header">
-  <div class="moure-avatar">💻</div>
-  <h1 class="moure-name">Apuntes ASIR</h1>
-  <p class="moure-tag">@apuntes_asir • Administración de Sistemas y Redes</p>
-  <p class="moure-bio">Aprende administración de sistemas, ciberseguridad, bases de datos y DevOps desde cero. Todo el temario de ASIR ordenado, con scripts listos para usar y resolución de exámenes paso a paso. ¡Bienvenid@!</p>
-
-  <div class="moure-stats">
-    <div class="stat-item">
-      <span class="stat-num">5</span>
-      <span class="stat-label">Módulos Pro</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">22+</span>
-      <span class="stat-label">Unidades</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">100%</span>
-      <span class="stat-label">Práctico</span>
-    </div>
-  </div>
+<div class="hero-box">
+  <h1>📖 Guía de Estudio y Apuntes ASIR</h1>
+  <p>Repositorio central de apuntes, laboratorios prácticos y preparación de exámenes para el ciclo formativo de grado superior en <strong>Administración de Sistemas Informáticos en Red</strong>. Todo el contenido está estructurado por cursos y asignaturas para facilitar el estudio progresivo.</p>
 </div>
+
+## 🚀 Módulos de 2º Curso
+
+En segundo curso se abordan las materias de especialización técnica: administración avanzada, ciberseguridad, gestión de bases de datos y desarrollo web.
+
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Módulo</th>
+      <th>Código</th>
+      <th>Contenidos Clave</th>
+      <th>Estado</th>
+      <th>Acceso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Seguridad y Alta Disponibilidad</strong></td>
+      <td><span class="tag tag-blue">SAD</span></td>
+      <td>Modelo CIDAN, dimensionado de SAIs, copias de seguridad 3-2-1, RAID, criptografía (AES/RSA/PKI), cortafuegos, análisis forense digital y marco legal RGPD/AEPD.</td>
+      <td><span class="tag tag-green">5 Unidades</span></td>
+      <td><a class="module-link" href="2-curso/sad/index.md">Ver temario :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Administración de Sistemas Operativos</strong></td>
+      <td><span class="tag tag-blue">ASO</span></td>
+      <td>Automatización en Linux con Bash scripting, creación de interfaces gráficas con Zenity y programación de tareas con Cron, Anacron y Systemd Timers.</td>
+      <td><span class="tag tag-green">3 Unidades</span></td>
+      <td><a class="module-link" href="2-curso/aso/index.md">Ver temario :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Adm. Gestores de Bases de Datos</strong></td>
+      <td><span class="tag tag-blue">ASGBD</span></td>
+      <td>Despliegue de bases de datos con Docker, Oracle Database, DDL, DML, transacciones ACID, consultas multitabla (JOINs), subconsultas y procedimientos PL/SQL.</td>
+      <td><span class="tag tag-green">7 Unidades</span></td>
+      <td><a class="module-link" href="2-curso/asgbd/index.md">Ver temario :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Implantación de Aplicaciones Web</strong></td>
+      <td><span class="tag tag-blue">IAW</span></td>
+      <td>Arquitectura cliente-servidor, protocolo HTTP, formularios web, programación backend en PHP y despliegue de pilas web en contenedores Docker.</td>
+      <td><span class="tag tag-green">4 Unidades</span></td>
+      <td><a class="module-link" href="2-curso/iaw/index.md">Ver temario :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Herramientas DevOps</strong></td>
+      <td><span class="tag tag-blue">DEVOPS</span></td>
+      <td>Control de versiones profesional con Git y GitHub, flujo de trabajo colaborativo, documentación en Markdown y monitorización con Prometheus y Grafana.</td>
+      <td><span class="tag tag-green">3 Unidades</span></td>
+      <td><a class="module-link" href="2-curso/devops/index.md">Ver temario :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Servicios de Red e Internet</strong></td>
+      <td><span class="tag tag-blue">SRI</span></td>
+      <td>Servicios de infraestructura de red: servidores DNS (Bind9), asignación dinámica DHCP, servidores web (Apache/Nginx), FTP y acceso remoto seguro SSH.</td>
+      <td><span class="tag tag-gray">Temario</span></td>
+      <td><a class="module-link" href="2-curso/sri.md">Ver temario :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-<h2 class="moure-section-title">:material-school: Cursos y Módulos de 2º ASIR</h2>
+## 📘 Módulos de 1º Curso (Fundamentos)
 
-<div class="moure-btn-list">
+Materias fundamentales de primer curso que sientan la base del ciclo:
 
-  <a class="moure-btn btn-featured" href="2-curso/sad/index.md">
-    <div class="moure-btn-icon">:material-shield-lock:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Seguridad y Alta Disponibilidad (SAD)</div>
-      <div class="moure-btn-subtitle">Criptografía, cortafuegos, copias 3-2-1, SAIs, análisis forense y RGPD / AEPD</div>
-    </div>
-    <div class="moure-btn-badge badge-orange">5 Unidades</div>
-  </a>
-
-  <a class="moure-btn" href="2-curso/aso/index.md">
-    <div class="moure-btn-icon">:material-console:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Administración de Sistemas Operativos (ASO)</div>
-      <div class="moure-btn-subtitle">Scripting en Bash, automatización con Zenity GUI y programación con Cron/Systemd</div>
-    </div>
-    <div class="moure-btn-badge">3 Unidades</div>
-  </a>
-
-  <a class="moure-btn" href="2-curso/asgbd/index.md">
-    <div class="moure-btn-icon">:material-database:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Gestión de Bases de Datos Avanzada (ASGBD)</div>
-      <div class="moure-btn-subtitle">Docker para SGBD, Oracle Database, DDL, DML, ACID, JOINs y PL/SQL</div>
-    </div>
-    <div class="moure-btn-badge">7 Unidades</div>
-  </a>
-
-  <a class="moure-btn" href="2-curso/iaw/index.md">
-    <div class="moure-btn-icon">:material-web:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Implantación de Aplicaciones Web (IAW)</div>
-      <div class="moure-btn-subtitle">Arquitectura cliente-servidor, protocolo HTTP, formularios, backend en PHP y Docker</div>
-    </div>
-    <div class="moure-btn-badge">4 Unidades</div>
-  </a>
-
-  <a class="moure-btn" href="2-curso/devops/index.md">
-    <div class="moure-btn-icon">:material-infinity:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Herramientas DevOps</div>
-      <div class="moure-btn-subtitle">Git & GitHub desde cero, flujo de ramas, documentación Markdown y monitorización</div>
-    </div>
-    <div class="moure-btn-badge">3 Unidades</div>
-  </a>
-
-  <a class="moure-btn" href="2-curso/sri.md">
-    <div class="moure-btn-icon">:material-server-network:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Servicios de Red e Internet (SRI)</div>
-      <div class="moure-btn-subtitle">Servidores DNS (Bind9), DHCP, Apache/Nginx, FTP y acceso seguro SSH</div>
-    </div>
-    <div class="moure-btn-badge badge-green">Temario</div>
-  </a>
-
-</div>
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Módulo</th>
+      <th>Código</th>
+      <th>Descripción de la Materia</th>
+      <th>Acceso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Implantación de Sistemas Operativos</strong></td>
+      <td><span class="tag tag-purple">ISO</span></td>
+      <td>Instalación y configuración de distribuciones Linux (Debian/Ubuntu) y Windows Server, gestión de discos, particionado y administración de usuarios.</td>
+      <td><a class="module-link" href="1-curso/iso.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Planificación y Administración de Redes</strong></td>
+      <td><span class="tag tag-purple">PAR</span></td>
+      <td>Subnetting VLSM IPv4 e IPv6, modelos OSI y TCP/IP, cableado estructurado, conmutación Ethernet, configuración de VLANs y enrutamiento estático/dinámico.</td>
+      <td><a class="module-link" href="1-curso/redes.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Gestión de Bases de Datos</strong></td>
+      <td><span class="tag tag-purple">GBD</span></td>
+      <td>Modelado conceptual Entidad-Relación, reglas de normalización (1FN, 2FN, 3FN), lenguaje SQL relacional y administración de MySQL/MariaDB.</td>
+      <td><a class="module-link" href="1-curso/bbdd.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Fundamentos de Hardware</strong></td>
+      <td><span class="tag tag-purple">FH</span></td>
+      <td>Arquitectura interna de computadores, tipos de buses, microprocesadores, módulos de memoria RAM, fuentes de alimentación, refrigeración y firmware BIOS/UEFI.</td>
+      <td><a class="module-link" href="1-curso/hardware.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Lenguajes de Marcas y Sistemas de Gestión</strong></td>
+      <td><span class="tag tag-purple">LMSGI</span></td>
+      <td>Estructura y semántica HTML5, maquetación con CSS3, almacenamiento estructurado con XML, validación mediante DTD/XSD y consultas XPath.</td>
+      <td><a class="module-link" href="1-curso/marcas.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-<h2 class="moure-section-title">:material-book-open-page-variant: Fundamentos de 1º Curso</h2>
+## 💡 Cómo Navegar por los Apuntes
 
-<div class="moure-btn-list">
-
-  <a class="moure-btn" href="1-curso/iso.md">
-    <div class="moure-btn-icon">:material-linux:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Implantación de SO (ISO)</div>
-      <div class="moure-btn-subtitle">Linux Debian/Ubuntu, Windows Server, particionado y gestión de usuarios</div>
-    </div>
-  </a>
-
-  <a class="moure-btn" href="1-curso/redes.md">
-    <div class="moure-btn-icon">:material-lan:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Planificación y Adm. de Redes (PAR)</div>
-      <div class="moure-btn-subtitle">Subnetting VLSM IPv4/IPv6, modelo OSI/TCP-IP, switches, VLANs y routers</div>
-    </div>
-  </a>
-
-  <a class="moure-btn" href="1-curso/bbdd.md">
-    <div class="moure-btn-icon">:material-database-outline:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Gestión de Bases de Datos (GBD)</div>
-      <div class="moure-btn-subtitle">Modelado Entidad-Relación, normalización (1FN-3FN) y consultas SQL relacionales</div>
-    </div>
-  </a>
-
-  <a class="moure-btn" href="1-curso/hardware.md">
-    <div class="moure-btn-icon">:material-memory:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Fundamentos de Hardware (FH)</div>
-      <div class="moure-btn-subtitle">Arquitectura de PCs, buses, memorias RAM, fuentes, refrigeración y BIOS/UEFI</div>
-    </div>
-  </a>
-
-  <a class="moure-btn" href="1-curso/marcas.md">
-    <div class="moure-btn-icon">:material-code-tags:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Lenguajes de Marcas (LMSGI)</div>
-      <div class="moure-btn-subtitle">Estructura HTML5, maquetación CSS3, validación XML (DTD/XSD) y XPath</div>
-    </div>
-  </a>
-
-</div>
-
----
-
-<h2 class="moure-section-title">:material-help-circle: Recursos y Guía para Estudiar</h2>
-
-<div class="moure-btn-list">
-
-  <div class="moure-btn">
-    <div class="moure-btn-icon">:material-magnify:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Buscador Global Instantáneo</div>
-      <div class="moure-btn-subtitle">Presiona la tecla <kbd>S</kbd> o <kbd>/</kbd> en cualquier lugar para buscar comandos y conceptos clave</div>
-    </div>
-  </div>
-
-  <div class="moure-btn">
-    <div class="moure-btn-icon">:material-clipboard-text-outline:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Copia de Código con un Clic</div>
-      <div class="moure-btn-subtitle">Todos los scripts y bloques de terminal incluyen botón de copiado sin caracteres residuales</div>
-    </div>
-  </div>
-
-  <div class="moure-btn">
-    <div class="moure-btn-icon">:material-checkbox-marked-circle-outline:</div>
-    <div class="moure-btn-body">
-      <div class="moure-btn-title">Autoevaluación con Respuestas Ocultas</div>
-      <div class="moure-btn-subtitle">Cada unidad finaliza con preguntas típicas de examen para que intentes resolverlas antes de ver la solución</div>
-    </div>
-  </div>
-
-</div>
+- **Búsqueda global**: En cualquier momento puedes pulsar la tecla <kbd>S</kbd> o <kbd>/</kbd> para abrir el buscador y localizar comandos, conceptos o ficheros de configuración.
+- **Estructura de cada tema**: Cada unidad contiene objetivos de estudio, explicaciones teóricas con diagramas, bloques de comandos listos para copiar, avisos de examen y un test de autoevaluación final con soluciones desplegables.
