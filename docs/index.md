@@ -3,7 +3,62 @@
   <p>Repositorio central de apuntes, laboratorios prácticos y preparación de exámenes para el ciclo formativo de grado superior en <strong>Administración de Sistemas Informáticos en Red</strong>. Todo el contenido está estructurado por cursos y asignaturas para facilitar el estudio progresivo.</p>
 </div>
 
-## 🚀 Módulos de 2º Curso
+## 📘 1º Curso — Fundamentos
+
+Materias fundamentales de primer curso que sientan la base del ciclo:
+
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Módulo</th>
+      <th>Código</th>
+      <th>Contenidos y Competencias Principales</th>
+      <th>Área Técnica</th>
+      <th>Acceso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Implantación de Sistemas Operativos</strong></td>
+      <td><span class="tag tag-purple">ISO</span></td>
+      <td>Instalación de distribuciones Linux (Debian/Ubuntu) y Windows Server, sistemas de archivos, particionado LVM/GPT, gestión de usuarios, permisos y procesos.</td>
+      <td><span class="tag tag-blue">Sistemas</span></td>
+      <td><a class="module-link" href="1-curso/iso.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Planificación y Administración de Redes</strong></td>
+      <td><span class="tag tag-purple">PAR</span></td>
+      <td>Subnetting VLSM IPv4 e IPv6, modelo OSI y TCP/IP, cableado estructurado, conmutación en switches, configuración de VLANs y enrutamiento estático/dinámico.</td>
+      <td><span class="tag tag-green">Redes</span></td>
+      <td><a class="module-link" href="1-curso/redes.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Gestión de Bases de Datos</strong></td>
+      <td><span class="tag tag-purple">GBD</span></td>
+      <td>Modelado conceptual Entidad-Relación, reglas de normalización (1FN a 3FN), álgebra relacional, DDL y DML en lenguaje SQL relacional (MySQL/MariaDB).</td>
+      <td><span class="tag tag-purple">Bases de Datos</span></td>
+      <td><a class="module-link" href="1-curso/bbdd.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Fundamentos de Hardware</strong></td>
+      <td><span class="tag tag-purple">FH</span></td>
+      <td>Arquitectura de computadores von Neumann, buses, microprocesadores multinúcleo, tecnologías de memoria RAM, fuentes de alimentación y firmware BIOS/UEFI.</td>
+      <td><span class="tag tag-gray">Hardware</span></td>
+      <td><a class="module-link" href="1-curso/hardware.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>Lenguajes de Marcas y Sistemas de Gestión</strong></td>
+      <td><span class="tag tag-purple">LMSGI</span></td>
+      <td>Estructura y semántica HTML5, hojas de estilo CSS3, almacenamiento estructurado con XML, validación mediante DTD y XML Schema (XSD), y consultas XPath.</td>
+      <td><span class="tag tag-green">Web & Marcas</span></td>
+      <td><a class="module-link" href="1-curso/marcas.md">Ver apuntes :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## 🚀 2º Curso — Especialización Técnica
 
 En segundo curso se abordan las materias de especialización técnica: administración avanzada, ciberseguridad, gestión de bases de datos y desarrollo web.
 
@@ -59,55 +114,6 @@ En segundo curso se abordan las materias de especialización técnica: administr
       <td>Servicios de infraestructura de red: servidores DNS (Bind9), asignación dinámica DHCP, servidores web (Apache/Nginx), FTP y acceso remoto seguro SSH.</td>
       <td><span class="tag tag-gray">Temario</span></td>
       <td><a class="module-link" href="2-curso/sri.md">Ver temario :octicons-arrow-right-16:</a></td>
-    </tr>
-  </tbody>
-</table>
-
----
-
-## 📘 Módulos de 1º Curso (Fundamentos)
-
-Materias fundamentales de primer curso que sientan la base del ciclo:
-
-<table class="syllabus-table">
-  <thead>
-    <tr>
-      <th>Módulo</th>
-      <th>Código</th>
-      <th>Descripción de la Materia</th>
-      <th>Acceso</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Implantación de Sistemas Operativos</strong></td>
-      <td><span class="tag tag-purple">ISO</span></td>
-      <td>Instalación y configuración de distribuciones Linux (Debian/Ubuntu) y Windows Server, gestión de discos, particionado y administración de usuarios.</td>
-      <td><a class="module-link" href="1-curso/iso.md">Ver apuntes :octicons-arrow-right-16:</a></td>
-    </tr>
-    <tr>
-      <td><strong>Planificación y Administración de Redes</strong></td>
-      <td><span class="tag tag-purple">PAR</span></td>
-      <td>Subnetting VLSM IPv4 e IPv6, modelos OSI y TCP/IP, cableado estructurado, conmutación Ethernet, configuración de VLANs y enrutamiento estático/dinámico.</td>
-      <td><a class="module-link" href="1-curso/redes.md">Ver apuntes :octicons-arrow-right-16:</a></td>
-    </tr>
-    <tr>
-      <td><strong>Gestión de Bases de Datos</strong></td>
-      <td><span class="tag tag-purple">GBD</span></td>
-      <td>Modelado conceptual Entidad-Relación, reglas de normalización (1FN, 2FN, 3FN), lenguaje SQL relacional y administración de MySQL/MariaDB.</td>
-      <td><a class="module-link" href="1-curso/bbdd.md">Ver apuntes :octicons-arrow-right-16:</a></td>
-    </tr>
-    <tr>
-      <td><strong>Fundamentos de Hardware</strong></td>
-      <td><span class="tag tag-purple">FH</span></td>
-      <td>Arquitectura interna de computadores, tipos de buses, microprocesadores, módulos de memoria RAM, fuentes de alimentación, refrigeración y firmware BIOS/UEFI.</td>
-      <td><a class="module-link" href="1-curso/hardware.md">Ver apuntes :octicons-arrow-right-16:</a></td>
-    </tr>
-    <tr>
-      <td><strong>Lenguajes de Marcas y Sistemas de Gestión</strong></td>
-      <td><span class="tag tag-purple">LMSGI</span></td>
-      <td>Estructura y semántica HTML5, maquetación con CSS3, almacenamiento estructurado con XML, validación mediante DTD/XSD y consultas XPath.</td>
-      <td><a class="module-link" href="1-curso/marcas.md">Ver apuntes :octicons-arrow-right-16:</a></td>
     </tr>
   </tbody>
 </table>

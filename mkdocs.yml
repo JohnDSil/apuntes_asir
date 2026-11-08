@@ -81,6 +81,13 @@ markdown_extensions:
 
 nav:
   - '📚 Inicio': index.md
+  - '📘 1º Curso':
+      - 'Visión General': 1-curso/index.md
+      - 'Implantación de SO (ISO)': 1-curso/iso.md
+      - 'Redes (PAR)': 1-curso/redes.md
+      - 'Bases de Datos (GBD)': 1-curso/bbdd.md
+      - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
+      - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
   - '🛡️ Seguridad (SAD)':
       - 'Visión General': 2-curso/sad/index.md
       - 'UT1: Fundamentos de Seguridad': 2-curso/sad/01-fundamentos-seguridad.md
@@ -113,12 +120,6 @@ nav:
       - 'UD1: Introducción a DevOps': 2-curso/devops/ud1-introduccion.md
       - 'UD2: Git, Markdown y GitHub': 2-curso/devops/ud2-git-markdown.md
       - 'UD3: Monitorización de Sistemas': 2-curso/devops/ud3-monitorizacion.md
-  - '📖 1º Curso':
-      - 'Implantación de SO (ISO)': 1-curso/iso.md
-      - 'Redes (PAR)': 1-curso/redes.md
-      - 'Bases de Datos (GBD)': 1-curso/bbdd.md
-      - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
-      - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
-  - '📂 Otros Módulos':
+  - '📂 Otros':
       - 'Servicios de Red (SRI)': 2-curso/sri.md
       - 'Inglés Profesional': 2-curso/ingles.md
