@@ -1,0 +1,3654 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Repositorio estructurado de apuntes, laboratorios prácticos y preparación de exámenes para el CFGS ASIR">
+      
+      
+        <meta name="author" content="Daniel Silva">
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../02-zenity-gui-scripting/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>1. Scripting en Bash y CLI - Apuntes ASIR</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#scripting-en-bash-y-automatizacion-cli" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../.." title="Apuntes ASIR" class="md-header__button md-logo" aria-label="Apuntes ASIR" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Apuntes ASIR
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Scripting en Bash y CLI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JohnDSil/apuntes_asir" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JohnDSil/apuntes_asir
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  📚 Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../1-curso/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📘 1º Curso
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sad/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🛡️ Seguridad (SAD)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  💻 Sistemas (ASO)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../asgbd/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🗄️ Bases de Datos (ASGBD)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../iaw/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 Aplicaciones Web (IAW)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../devops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ♾️ DevOps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sri/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📂 Otros
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Apuntes ASIR" class="md-nav__button md-logo" aria-label="Apuntes ASIR" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    Apuntes ASIR
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JohnDSil/apuntes_asir" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JohnDSil/apuntes_asir
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../1-curso/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📘 1º Curso
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📘 1º Curso
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/iso/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implantación de SO (ISO)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/redes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redes (PAR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/bbdd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bases de Datos (GBD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentos de Hardware (FH)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/marcas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lenguajes de Marcas (LMSGI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../sad/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛡️ Seguridad (SAD)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛡️ Seguridad (SAD)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/01-fundamentos-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT1: Fundamentos de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/02-seguridad-fisica-sai-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT2: Seguridad Física, SAI y Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/03-control-acceso-criptografia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT3: Control de Acceso y Criptografía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/04-amenazas-vulnerabilidades-forense/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT4: Amenazas, Vulnerabilidades y Forense
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/05-marco-legal-rgpd-aepd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT5: Marco Legal — RGPD y AEPD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    💻 Sistemas (ASO)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    💻 Sistemas (ASO)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Scripting en Bash y CLI
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Scripting en Bash y CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-fundamentos-de-un-script-en-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Fundamentos de un Script en Bash
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Fundamentos de un Script en Bash">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-directiva-shebang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Directiva Shebang (#!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-metodos-de-ejecucion-y-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Métodos de Ejecución y Permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-depuracion-de-scripts-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Depuración de Scripts (Debugging)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Depuración de Scripts (Debugging)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-practico-de-depuracion-con-ps4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo Práctico de Depuración con PS4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-salida-por-pantalla-y-entrecomillado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Salida por Pantalla y Entrecomillado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Salida por Pantalla y Entrecomillado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-el-comando-echo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 El comando echo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-reglas-de-entrecomillado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Reglas de Entrecomillado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-sustitucion-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Sustitución de Comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-metacaracteres-y-globbing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Metacaracteres y Globbing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-variables-ambito-y-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Variables, Ámbito y Parámetros
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Variables, Ámbito y Parámetros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-asignacion-y-lectura-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Asignación y Lectura de Datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-variables-locales-vs-variables-de-entorno-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Variables Locales vs Variables de Entorno (export)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-variables-especiales-y-argumentos-posicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Variables Especiales y Argumentos Posicionales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Variables Especiales y Argumentos Posicionales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diferencia-entre-y-entre-comillas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diferencia entre "$*" y "$@" entre comillas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-operaciones-aritmeticas-y-matematicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Operaciones Aritméticas y Matemáticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Operaciones Aritméticas y Matemáticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sintaxis-moderna-recomendada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Sintaxis Moderna $(( ... )) (Recomendada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-comando-interno-let" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Comando Interno let
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-operaciones-con-decimales-mediante-bc-l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Operaciones con Decimales mediante bc -l
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-utilidad-basename-y-dirname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Utilidad basename y dirname
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-estructuras-condicionales-if-y-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Estructuras Condicionales (if y case)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Estructuras Condicionales (if y case)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-sintaxis-de-la-sentencia-if" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Sintaxis de la Sentencia if
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-operadores-de-comparacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Operadores de Comparación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Operadores de Comparación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-cadenas-de-texto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación de Cadenas de Texto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-numerica-de-enteros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación Numérica de Enteros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobaciones-sobre-archivos-y-rutas-file-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobaciones sobre Archivos y Rutas (File Tests)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-operadores-logicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Operadores Lógicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-sentencia-de-seleccion-multiple-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Sentencia de Selección Múltiple case
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-estructuras-repetitivas-bucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Estructuras Repetitivas (Bucles)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Estructuras Repetitivas (Bucles)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-el-bucle-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 El Bucle for
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 El Bucle for">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iteracion-sobre-listas-y-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteración sobre listas y comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteracion-por-rangos-y-numeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteración por rangos y números
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-el-bucle-while-y-lectura-segura-de-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 El Bucle while y Lectura Segura de Archivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-el-bucle-until" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 El Bucle until
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-control-de-flujo-break-y-continue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Control de Flujo: break y continue
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-menus-interactivos-con-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Menús Interactivos con select
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-modularidad-y-funciones-en-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Modularidad y Funciones en Bash
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-interfaces-de-texto-tui-con-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Interfaces de Texto (TUI) con dialog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Interfaces de Texto (TUI) con dialog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-cajas-basicas-de-informacion-y-confirmacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Cajas Básicas de Información y Confirmación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-entrada-de-datos-inputbox-y-seleccion-de-menu-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Entrada de Datos (--inputbox) y Selección de Menú (--menu)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-rapido-de-buenas-practicas-en-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Resumen Rápido de Buenas Prácticas en Bash
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-zenity-gui-scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Scripting Gráfico con Zenity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-programacion-tareas-cron-systemd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación de Tareas (cron/systemd)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../asgbd/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🗄️ Bases de Datos (ASGBD)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🗄️ Bases de Datos (ASGBD)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/01-docker-sgbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker y Contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/02-diseno-fisico-ddl-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. DDL y Restricciones (Oracle)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/03-consultas-avanzadas-joins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Consultas Multitabla (JOINs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/04-agrupamiento-funciones-grupo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Agrupamiento y Funciones Grupo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/05-subconsultas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Subconsultas en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/06-dml-transacciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. DML y Transacciones ACID
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/07-administracion-oracle-plsql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Administración Oracle y PL/SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../iaw/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌐 Aplicaciones Web (IAW)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🌐 Aplicaciones Web (IAW)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/01-fundamentos-web-arquitectura-cliente-servidor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos Web y Cliente-Servidor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/02-protocolo-http-formularios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Protocolo HTTP y Formularios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/03-programacion-servidor-php/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación Backend con PHP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/04-despliegue-servidores-web-docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Despliegue Web y Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../devops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ♾️ DevOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ♾️ DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud1-introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD1: Introducción a DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud2-git-markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD2: Git, Markdown y GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud3-monitorizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD3: Monitorización de Sistemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📂 Otros
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📂 Otros
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sri/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios de Red (SRI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ingles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inglés Profesional
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-fundamentos-de-un-script-en-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Fundamentos de un Script en Bash
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Fundamentos de un Script en Bash">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-directiva-shebang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Directiva Shebang (#!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-metodos-de-ejecucion-y-permisos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Métodos de Ejecución y Permisos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-depuracion-de-scripts-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Depuración de Scripts (Debugging)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Depuración de Scripts (Debugging)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ejemplo-practico-de-depuracion-con-ps4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ejemplo Práctico de Depuración con PS4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-salida-por-pantalla-y-entrecomillado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Salida por Pantalla y Entrecomillado
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Salida por Pantalla y Entrecomillado">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-el-comando-echo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 El comando echo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-reglas-de-entrecomillado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Reglas de Entrecomillado
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-sustitucion-de-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Sustitución de Comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-metacaracteres-y-globbing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Metacaracteres y Globbing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-variables-ambito-y-parametros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Variables, Ámbito y Parámetros
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Variables, Ámbito y Parámetros">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-asignacion-y-lectura-de-datos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Asignación y Lectura de Datos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-variables-locales-vs-variables-de-entorno-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Variables Locales vs Variables de Entorno (export)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-variables-especiales-y-argumentos-posicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Variables Especiales y Argumentos Posicionales
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Variables Especiales y Argumentos Posicionales">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#diferencia-entre-y-entre-comillas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diferencia entre "$*" y "$@" entre comillas
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-operaciones-aritmeticas-y-matematicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Operaciones Aritméticas y Matemáticas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Operaciones Aritméticas y Matemáticas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sintaxis-moderna-recomendada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Sintaxis Moderna $(( ... )) (Recomendada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-comando-interno-let" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Comando Interno let
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-operaciones-con-decimales-mediante-bc-l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Operaciones con Decimales mediante bc -l
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-utilidad-basename-y-dirname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Utilidad basename y dirname
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-estructuras-condicionales-if-y-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Estructuras Condicionales (if y case)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Estructuras Condicionales (if y case)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-sintaxis-de-la-sentencia-if" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Sintaxis de la Sentencia if
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-operadores-de-comparacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Operadores de Comparación
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Operadores de Comparación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-de-cadenas-de-texto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación de Cadenas de Texto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comparacion-numerica-de-enteros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparación Numérica de Enteros
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#comprobaciones-sobre-archivos-y-rutas-file-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comprobaciones sobre Archivos y Rutas (File Tests)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-operadores-logicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Operadores Lógicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-sentencia-de-seleccion-multiple-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Sentencia de Selección Múltiple case
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-estructuras-repetitivas-bucles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Estructuras Repetitivas (Bucles)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Estructuras Repetitivas (Bucles)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-el-bucle-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 El Bucle for
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.1 El Bucle for">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iteracion-sobre-listas-y-comandos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteración sobre listas y comandos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteracion-por-rangos-y-numeros" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteración por rangos y números
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-el-bucle-while-y-lectura-segura-de-archivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 El Bucle while y Lectura Segura de Archivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-el-bucle-until" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 El Bucle until
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-control-de-flujo-break-y-continue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Control de Flujo: break y continue
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-menus-interactivos-con-select" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Menús Interactivos con select
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-modularidad-y-funciones-en-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Modularidad y Funciones en Bash
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-interfaces-de-texto-tui-con-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Interfaces de Texto (TUI) con dialog
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Interfaces de Texto (TUI) con dialog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-cajas-basicas-de-informacion-y-confirmacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Cajas Básicas de Información y Confirmación
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-entrada-de-datos-inputbox-y-seleccion-de-menu-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Entrada de Datos (--inputbox) y Selección de Menú (--menu)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resumen-rapido-de-buenas-practicas-en-bash" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 Resumen Rápido de Buenas Prácticas en Bash
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegación" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    📚 Inicio
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    💻 Sistemas (ASO)
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="scripting-en-bash-y-automatizacion-cli">Scripting en Bash y Automatización CLI<a class="headerlink" href="#scripting-en-bash-y-automatizacion-cli" title="Permanent link">&para;</a></h1>
+<p>En la administración de sistemas operativos Linux/UNIX, el <strong>Shell Scripting</strong> con GNU Bash es la habilidad fundamental para automatizar tareas repetitivas, gestionar configuraciones, monitorizar servicios y crear herramientas operativas robustas y seguras.</p>
+<hr />
+<h2 id="1-fundamentos-de-un-script-en-bash">1. Fundamentos de un Script en Bash<a class="headerlink" href="#1-fundamentos-de-un-script-en-bash" title="Permanent link">&para;</a></h2>
+<p>Un script de Bash es un archivo de texto plano que contiene una secuencia de órdenes ejecutadas secuencialmente por el intérprete <code>/bin/bash</code>.</p>
+<h3 id="11-directiva-shebang">1.1 Directiva Shebang (<code>#!</code>)<a class="headerlink" href="#11-directiva-shebang" title="Permanent link">&para;</a></h3>
+<p>La primera línea de cualquier script profesional debe especificar el intérprete exacto mediante el <strong>shebang</strong>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="ch">#!/bin/bash</span>
+</span></code></pre></div>
+<blockquote>
+<p>[!NOTE] ¿Por qué especificar <code>/bin/bash</code> en lugar de <code>/bin/sh</code>?
+En sistemas Debian/Ubuntu, <code>/bin/sh</code> apunta a <code>dash</code> (Debian Almquist Shell), una shell POSIX rápida y ligera pero carente de "bashismos" como <code>[[ ... ]]</code>, arrays o expansiones avanzadas. Indicar explícitamente <code>#!/bin/bash</code> asegura total compatibilidad con todas las características de Bash.</p>
+</blockquote>
+<h3 id="12-metodos-de-ejecucion-y-permisos">1.2 Métodos de Ejecución y Permisos<a class="headerlink" href="#12-metodos-de-ejecucion-y-permisos" title="Permanent link">&para;</a></h3>
+<p>Para ejecutar un script existen dos formas principales:</p>
+<ol>
+<li>
+<p><strong>Invocación directa a través del intérprete</strong>:
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>bash<span class="w"> </span>miscript.sh
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># O con sh:</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sh<span class="w"> </span>miscript.sh
+</span></code></pre></div>
+   No requiere que el archivo tenga permisos de ejecución, únicamente permiso de lectura (<code>r</code>).</p>
+</li>
+<li>
+<p><strong>Ejecución como binario autónomo (Recomendado)</strong>:
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>chmod<span class="w"> </span>+x<span class="w"> </span>miscript.sh
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>./miscript.sh
+</span></code></pre></div>
+   Requiere permisos de lectura y ejecución (<code>rx</code>). Si el script se ubica en un directorio dentro del <code>$PATH</code> (como <code>/usr/local/bin</code> o <code>~/bin</code>), podrá ejecutarse desde cualquier ruta indicando únicamente su nombre.</p>
+</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>+----------------------------------------------------------------+
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>|                     PRINCIPIO KISS EN BASH                     |
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>|           "Keep It Simple, Stupid" (Mantenlo simple)           |
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>|  - Escribe código legible, estructurado y documentado.         |
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>|  - Valida siempre los argumentos y el usuario de ejecución.    |
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>|  - Comprueba los códigos de retorno ($?) tras acciones clave.  |
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>+----------------------------------------------------------------+
+</span></code></pre></div>
+<hr />
+<h2 id="2-depuracion-de-scripts-debugging">2. Depuración de Scripts (Debugging)<a class="headerlink" href="#2-depuracion-de-scripts-debugging" title="Permanent link">&para;</a></h2>
+<p>El comando interno <code>set</code> de Bash permite activar banderas de depuración para rastrear errores sintácticos y lógicos:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Opción</th>
+<th style="text-align: left;">Modo</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>set -n</code></td>
+<td style="text-align: left;"><code>noexec</code></td>
+<td style="text-align: left;">Lee los comandos pero <strong>no los ejecuta</strong>. Útil para detectar errores de sintaxis antes de lanzar operaciones destructivas.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>set -v</code></td>
+<td style="text-align: left;"><code>verbose</code></td>
+<td style="text-align: left;">Imprime las líneas del script por pantalla tal y como se leen en el archivo, antes de ejecutar.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>set -x</code></td>
+<td style="text-align: left;"><code>xtrace</code></td>
+<td style="text-align: left;">Muestra cada comando <strong>tras expandir</strong> variables, comodines y sustituciones, precedido por el valor de <code>$PS4</code> (por defecto <code>+</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>set -e</code></td>
+<td style="text-align: left;"><code>errexit</code></td>
+<td style="text-align: left;">Detiene inmediatamente la ejecución si cualquier comando devuelve un código de salida distinto de 0.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>set -u</code></td>
+<td style="text-align: left;"><code>nounset</code></td>
+<td style="text-align: left;">Trata el uso de variables no definidas como un error y aborta el script.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ejemplo-practico-de-depuracion-con-ps4">Ejemplo Práctico de Depuración con <code>PS4</code><a class="headerlink" href="#ejemplo-practico-de-depuracion-con-ps4" title="Permanent link">&para;</a></h3>
+<p>Podemos personalizar la variable de entorno <code>$PS4</code> para que muestre el número de línea y el nombre del script durante la traza con <code>-x</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PS4</span><span class="o">=</span><span class="s1">'+ [${BASH_SOURCE}:${LINENO}]: '</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nb">set</span><span class="w"> </span>-x<span class="w">  </span><span class="c1"># Activar traza detallada</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nv">NOMBRE</span><span class="o">=</span><span class="s2">"ASIR"</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Hola, </span><span class="nv">$NOMBRE</span><span class="s2">"</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nb">set</span><span class="w"> </span>+x<span class="w">  </span><span class="c1"># Desactivar traza para el resto del código</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Fin de la depuración"</span>
+</span></code></pre></div>
+<p>También es posible invocar la depuración directamente desde la terminal sin alterar el archivo:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>bash<span class="w"> </span>-x<span class="w"> </span>miscript.sh<span class="w">       </span><span class="c1"># Traza completa de ejecución</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>bash<span class="w"> </span>-n<span class="w"> </span>miscript.sh<span class="w">       </span><span class="c1"># Verificación sintáctica sin ejecución</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="3-salida-por-pantalla-y-entrecomillado">3. Salida por Pantalla y Entrecomillado<a class="headerlink" href="#3-salida-por-pantalla-y-entrecomillado" title="Permanent link">&para;</a></h2>
+<h3 id="31-el-comando-echo">3.1 El comando <code>echo</code><a class="headerlink" href="#31-el-comando-echo" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>-n</code>: Suprime el salto de línea final.</li>
+<li><code>-e</code>: Habilita la interpretación de caracteres de escape especiales (<code>\n</code> nueva línea, <code>\t</code> tabulador, <code>\a</code> alerta sonora, <code>\\</code> barra invertida):</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"Introduce tu IP: "</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"\nServidores activos:\n\t192.168.1.1\n\t192.168.1.10"</span>
+</span></code></pre></div>
+<h3 id="32-reglas-de-entrecomillado">3.2 Reglas de Entrecomillado<a class="headerlink" href="#32-reglas-de-entrecomillado" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Comillas Simples (<code>'...'</code>)</strong>: Preservan el valor <strong>literal</strong> de cada carácter dentro de ellas. Anulan la expansión de variables (<code>$VAR</code>), caracteres de escape y comodines.</li>
+<li><strong>Comillas Dobles (<code>"..."</code>)</strong>: Permiten la sustitución de variables y la ejecución de comandos, pero protegen los espacios en blanco para evitar división de palabras (<em>word splitting</em>).</li>
+<li><strong>Sin comillas</strong>: La shell aplica expansión y división por espacios inmediatamente.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">CURSO</span><span class="o">=</span><span class="s2">"ASO"</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">'El módulo es $CURSO'</span><span class="w">   </span><span class="c1"># Salida: El módulo es $CURSO</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"El módulo es </span><span class="nv">$CURSO</span><span class="s2">"</span><span class="w">   </span><span class="c1"># Salida: El módulo es ASO</span>
+</span></code></pre></div>
+<h3 id="33-sustitucion-de-comandos">3.3 Sustitución de Comandos<a class="headerlink" href="#33-sustitucion-de-comandos" title="Permanent link">&para;</a></h3>
+<p>Permite capturar la salida estándar de un comando para guardarla en una variable:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Sintaxis moderna y anidable (Recomendada):</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">FECHA_HOY</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%Y-%m-%d<span class="k">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">TOTAL_USUARIOS</span><span class="o">=</span><span class="k">$(</span>who<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l<span class="k">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Sintaxis clásica obsoleta (Backticks - Desaconsejada en código moderno):</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nv">HORA</span><span class="o">=</span><span class="sb">`</span>date<span class="w"> </span>+%H:%M<span class="sb">`</span>
+</span></code></pre></div>
+<h3 id="34-metacaracteres-y-globbing">3.4 Metacaracteres y Globbing<a class="headerlink" href="#34-metacaracteres-y-globbing" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Metacaracteres de control</strong>:</li>
+<li><code>;</code>: Separador secuencial de órdenes en la misma línea.</li>
+<li><code>&amp;</code>: Ejecución en segundo plano (background).</li>
+<li><code>&amp;&amp;</code>: Operador lógico AND (ejecuta el siguiente comando solo si el anterior tuvo éxito, retorno 0).</li>
+<li><code>||</code>: Operador lógico OR (ejecuta el siguiente comando solo si el anterior falló, retorno distinto de 0).</li>
+<li><code>|</code>: Tubería (<em>pipe</em>), conecta la salida estándar de un proceso con la entrada del siguiente.</li>
+<li><code>\</code>: Carácter de escape para anular el significado especial del siguiente símbolo.</li>
+<li><strong>Expansiones de Ficheros (Globbing)</strong>:</li>
+<li><code>*</code>: Coincide con cero o más caracteres (<code>ls *.txt</code>).</li>
+<li><code>?</code>: Coincide con exactamente un carácter (<code>cat test?.log</code>).</li>
+<li><code>[...]</code>: Rango de caracteres (<code>[0-9]</code>, <code>[a-z]</code>, <code>[A-Z]</code>).</li>
+<li><code>{a,b,c}</code>: Expansión de llaves (<code>mkdir -p /srv/{backup,data,logs}</code>).</li>
+</ul>
+<hr />
+<h2 id="4-variables-ambito-y-parametros">4. Variables, Ámbito y Parámetros<a class="headerlink" href="#4-variables-ambito-y-parametros" title="Permanent link">&para;</a></h2>
+<h3 id="41-asignacion-y-lectura-de-datos">4.1 Asignación y Lectura de Datos<a class="headerlink" href="#41-asignacion-y-lectura-de-datos" title="Permanent link">&para;</a></h3>
+<p>En Bash la asignación de variables <strong>nunca debe contener espacios</strong> alrededor del signo igual (<code>=</code>):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">SERVIDOR</span><span class="o">=</span><span class="s2">"srv-debian"</span><span class="w">     </span><span class="c1"># Correcto</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">SERVIDOR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"srv-debian"</span><span class="w">   </span><span class="c1"># ERROR: La shell intenta ejecutar el comando 'SERVIDOR'</span>
+</span></code></pre></div>
+<p>Para solicitar datos al usuario por teclado se utiliza <code>read</code>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">read</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">"Introduce el nombre de usuario a crear: "</span><span class="w"> </span>NUEVO_USUARIO
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">read</span><span class="w"> </span>-s<span class="w"> </span>-p<span class="w"> </span><span class="s2">"Introduce la contraseña: "</span><span class="w"> </span>PASSWORD<span class="w">   </span><span class="c1"># -s oculta la entrada (password)</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">""</span>
+</span></code></pre></div></p>
+<blockquote>
+<p>[!TIP] Variable <code>$IFS</code> (Internal Field Separator)
+Determina cómo Bash reconoce los delimitadores de campos al dividir cadenas y procesar lecturas. Por defecto contiene espacio, tabulador y salto de línea (<code>IFS=$' \t\n'</code>). Modificar <code>$IFS=":"</code> permite parsear fácilmente archivos como <code>/etc/passwd</code>.</p>
+</blockquote>
+<h3 id="42-variables-locales-vs-variables-de-entorno-export">4.2 Variables Locales vs Variables de Entorno (<code>export</code>)<a class="headerlink" href="#42-variables-locales-vs-variables-de-entorno-export" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Variable Local</strong>: Existe únicamente dentro del proceso de la shell o script actual. No se transfiere a los procesos hijos iniciados desde él.</li>
+<li><strong>Variable de Entorno (<code>export</code>)</strong>: Se propaga al entorno de todos los procesos hijos creados a partir del script.</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">MI_VAR</span><span class="o">=</span><span class="s2">"local"</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MI_GLOBAL</span><span class="o">=</span><span class="s2">"visible_en_hijos"</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>env<span class="w">          </span><span class="c1"># Muestra todas las variables de entorno exportadas</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">set</span><span class="w">          </span><span class="c1"># Muestra todas las variables (locales y de entorno) y funciones</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nb">unset</span><span class="w"> </span>MI_VAR<span class="w"> </span><span class="c1"># Elimina la variable de la memoria</span>
+</span></code></pre></div>
+<h3 id="43-variables-especiales-y-argumentos-posicionales">4.3 Variables Especiales y Argumentos Posicionales<a class="headerlink" href="#43-variables-especiales-y-argumentos-posicionales" title="Permanent link">&para;</a></h3>
+<p>Bash proporciona un conjunto de variables automáticas reservadas de vital importancia para la automatización:</p>
+<pre class="mermaid"><code>classDiagram
+    class VariablesEspeciales {
+        +$0 : Nombre del script invocado
+        +$1..$9 : Argumentos posicionales 1 al 9
+        +${10} : Argumentos a partir del décimo (entre llaves)
+        +$# : Número total de argumentos pasados
+        +$* : Todos los argumentos en una sola cadena
+        +$@ : Todos los argumentos como elementos separados
+        +$? : Código de estado del comando previo (0=OK)
+        +$$ : PID del proceso del propio script
+        +$! : PID del último proceso enviado a segundo plano
+        +$_ : Último argumento del comando anterior
+    }</code></pre>
+<h4 id="diferencia-entre-y-entre-comillas">Diferencia entre <code>"$*"</code> y <code>"$@"</code> entre comillas<a class="headerlink" href="#diferencia-entre-y-entre-comillas" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso de \$*:"</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">for</span><span class="w"> </span>arg<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="nv">$*</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" -&gt; </span><span class="nv">$arg</span><span class="s2">"</span><span class="w">  </span><span class="c1"># Se ejecuta 1 sola vez con todos los argumentos concatenados</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="k">done</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso de \$@:"</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="k">for</span><span class="w"> </span>arg<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">" -&gt; </span><span class="nv">$arg</span><span class="s2">"</span><span class="w">  </span><span class="c1"># Itera individualmente por cada argumento recibido</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="k">done</span>
+</span></code></pre></div>
+<hr />
+<h2 id="5-operaciones-aritmeticas-y-matematicas">5. Operaciones Aritméticas y Matemáticas<a class="headerlink" href="#5-operaciones-aritmeticas-y-matematicas" title="Permanent link">&para;</a></h2>
+<p>Bash trabaja nativamente con aritmética de números enteros. Existen tres formas principales de evaluarla:</p>
+<h3 id="51-sintaxis-moderna-recomendada">5.1 Sintaxis Moderna <code>$(( ... ))</code> (Recomendada)<a class="headerlink" href="#51-sintaxis-moderna-recomendada" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nv">NUM1</span><span class="o">=</span><span class="m">15</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nv">NUM2</span><span class="o">=</span><span class="m">4</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nv">SUMA</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">NUM1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nv">NUM2</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="nv">RESTO</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">NUM1</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="nv">NUM2</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nv">POTENCIA</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">NUM1</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="k">))</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Suma: </span><span class="nv">$SUMA</span><span class="s2">, Resto: </span><span class="nv">$RESTO</span><span class="s2">, Potencia: </span><span class="nv">$POTENCIA</span><span class="s2">"</span>
+</span></code></pre></div>
+<h3 id="52-comando-interno-let">5.2 Comando Interno <code>let</code><a class="headerlink" href="#52-comando-interno-let" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">let</span><span class="w"> </span>CONTADOR++
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">let</span><span class="w"> </span><span class="nv">TOTAL</span><span class="o">=</span><span class="s2">"NUM1 * 2 + 5"</span>
+</span></code></pre></div>
+<h3 id="53-operaciones-con-decimales-mediante-bc-l">5.3 Operaciones con Decimales mediante <code>bc -l</code><a class="headerlink" href="#53-operaciones-con-decimales-mediante-bc-l" title="Permanent link">&para;</a></h3>
+<p>Para cálculos de coma flotante o funciones matemáticas avanzadas se canaliza la expresión a la calculadora de precisión arbitraria <code>bc</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Calcular el porcentaje de uso con 2 decimales:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nv">TOTAL_MEM</span><span class="o">=</span><span class="m">16384</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nv">USO_MEM</span><span class="o">=</span><span class="m">5420</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nv">PORCENTAJE</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"scale=2; (</span><span class="nv">$USO_MEM</span><span class="s2"> * 100) / </span><span class="nv">$TOTAL_MEM</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>bc<span class="w"> </span>-l<span class="k">)</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso de memoria: </span><span class="nv">$PORCENTAJE</span><span class="s2"> %"</span>
+</span></code></pre></div>
+<h3 id="54-utilidad-basename-y-dirname">5.4 Utilidad <code>basename</code> y <code>dirname</code><a class="headerlink" href="#54-utilidad-basename-y-dirname" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nv">RUTA</span><span class="o">=</span><span class="s2">"/var/log/apache2/access.log"</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="nv">ARCHIVO</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">"</span><span class="nv">$RUTA</span><span class="s2">"</span><span class="k">)</span><span class="w">          </span><span class="c1"># access.log</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="nv">SIN_EXT</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">"</span><span class="nv">$RUTA</span><span class="s2">"</span><span class="w"> </span>.log<span class="k">)</span><span class="w">     </span><span class="c1"># access</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="nv">DIRECTORIO</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">"</span><span class="nv">$RUTA</span><span class="s2">"</span><span class="k">)</span><span class="w">        </span><span class="c1"># /var/log/apache2</span>
+</span></code></pre></div>
+<hr />
+<h2 id="6-estructuras-condicionales-if-y-case">6. Estructuras Condicionales (<code>if</code> y <code>case</code>)<a class="headerlink" href="#6-estructuras-condicionales-if-y-case" title="Permanent link">&para;</a></h2>
+<h3 id="61-sintaxis-de-la-sentencia-if">6.1 Sintaxis de la Sentencia <code>if</code><a class="headerlink" href="#61-sintaxis-de-la-sentencia-if" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>condicion<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="c1"># Bloque si se cumple</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">elif</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>otra_condicion<span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">    </span><span class="c1"># Bloque alternativo</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">else</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="c1"># Bloque por defecto</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="k">fi</span>
+</span></code></pre></div>
+<h3 id="62-operadores-de-comparacion">6.2 Operadores de Comparación<a class="headerlink" href="#62-operadores-de-comparacion" title="Permanent link">&para;</a></h3>
+<h4 id="comparacion-de-cadenas-de-texto">Comparación de Cadenas de Texto<a class="headerlink" href="#comparacion-de-cadenas-de-texto" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operador</th>
+<th style="text-align: left;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>str1 = str2</code> o <code>==</code></td>
+<td style="text-align: left;">Las cadenas son idénticas</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>str1 != str2</code></td>
+<td style="text-align: left;">Las cadenas son diferentes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-z "$str"</code></td>
+<td style="text-align: left;">Longitud cero (la cadena está vacía)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-n "$str"</code></td>
+<td style="text-align: left;">Longitud mayor que cero (la cadena no está vacía)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="comparacion-numerica-de-enteros">Comparación Numérica de Enteros<a class="headerlink" href="#comparacion-numerica-de-enteros" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Operador</th>
+<th style="text-align: left;">Nemotécnico</th>
+<th style="text-align: left;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-eq</code></td>
+<td style="text-align: left;">Equal</td>
+<td style="text-align: left;">Igual a (<code>==</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-ne</code></td>
+<td style="text-align: left;">Not Equal</td>
+<td style="text-align: left;">Distinto de (<code>!=</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-lt</code></td>
+<td style="text-align: left;">Less Than</td>
+<td style="text-align: left;">Menor que (<code>&lt;</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-le</code></td>
+<td style="text-align: left;">Less or Equal</td>
+<td style="text-align: left;">Menor o igual que (<code>&lt;=</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-gt</code></td>
+<td style="text-align: left;">Greater Than</td>
+<td style="text-align: left;">Mayor que (<code>&gt;</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-ge</code></td>
+<td style="text-align: left;">Greater or Equal</td>
+<td style="text-align: left;">Mayor o igual que (<code>&gt;=</code>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="comprobaciones-sobre-archivos-y-rutas-file-tests">Comprobaciones sobre Archivos y Rutas (File Tests)<a class="headerlink" href="#comprobaciones-sobre-archivos-y-rutas-file-tests" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Flag</th>
+<th style="text-align: left;">Prueba</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-e $ruta</code></td>
+<td style="text-align: left;">La ruta existe en el sistema de ficheros</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-f $ruta</code></td>
+<td style="text-align: left;">Existe y es un archivo regular (no directorio ni dispositivo)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-d $ruta</code></td>
+<td style="text-align: left;">Existe y es un directorio</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-r $ruta</code></td>
+<td style="text-align: left;">Tiene permiso de lectura para el usuario actual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-w $ruta</code></td>
+<td style="text-align: left;">Tiene permiso de escritura para el usuario actual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-x $ruta</code></td>
+<td style="text-align: left;">Tiene permiso de ejecución para el usuario actual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-s $ruta</code></td>
+<td style="text-align: left;">Existe y su tamaño es superior a 0 bytes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-L $ruta</code> o <code>-h</code></td>
+<td style="text-align: left;">Es un enlace simbólico</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-b $ruta</code></td>
+<td style="text-align: left;">Es un archivo especial de dispositivo de bloques (ej: <code>/dev/sda</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>-c $ruta</code></td>
+<td style="text-align: left;">Es un archivo especial de dispositivo de caracteres (ej: <code>/dev/tty</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>f1 -nt f2</code></td>
+<td style="text-align: left;"><em>Newer than</em>: <code>f1</code> ha sido modificado más recientemente que <code>f2</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>f1 -ot f2</code></td>
+<td style="text-align: left;"><em>Older than</em>: <code>f1</code> es más antiguo que <code>f2</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-operadores-logicos">6.3 Operadores Lógicos<a class="headerlink" href="#63-operadores-logicos" title="Permanent link">&para;</a></h3>
+<ul>
+<li>En el test clásico <code>[ ... ]</code>: <code>!</code> (NOT), <code>-a</code> (AND), <code>-o</code> (OR).</li>
+<li>En el test avanzado <code>[[ ... ]]</code>: <code>!</code> (NOT), <code>&amp;&amp;</code> (AND), <code>||</code> (OR).</li>
+</ul>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Comprobación de privilegios de superusuario (root)</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$EUID</span><span class="s2">"</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"ERROR: Este script debe ejecutarse como root (sudo)."</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">fi</span>
+</span></code></pre></div>
+<h3 id="64-sentencia-de-seleccion-multiple-case">6.4 Sentencia de Selección Múltiple <code>case</code><a class="headerlink" href="#64-sentencia-de-seleccion-multiple-case" title="Permanent link">&para;</a></h3>
+<p>Ideal para validar menús de texto, opciones pasadas por CLI o analizar patrones:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">case</span><span class="w"> </span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="w"> </span><span class="k">in</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span>start<span class="p">|</span>iniciar<span class="o">)</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Iniciando servicio..."</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">        </span>systemctl<span class="w"> </span>start<span class="w"> </span>mi-servicio
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">        </span><span class="p">;;</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">    </span>stop<span class="p">|</span>parar<span class="o">)</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Deteniendo servicio..."</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">        </span>systemctl<span class="w"> </span>stop<span class="w"> </span>mi-servicio
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">        </span><span class="p">;;</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">    </span>restart<span class="p">|</span>reiniciar<span class="o">)</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Reiniciando servicio..."</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">        </span>systemctl<span class="w"> </span>restart<span class="w"> </span>mi-servicio
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">        </span><span class="p">;;</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">    </span>status<span class="o">)</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="w">        </span>systemctl<span class="w"> </span>status<span class="w"> </span>mi-servicio
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="w">        </span><span class="p">;;</span>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="w">    </span>*<span class="o">)</span>
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Uso: </span><span class="nv">$0</span><span class="s2"> {start|stop|restart|status}"</span>
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="w">        </span><span class="nb">exit</span><span class="w"> </span><span class="m">2</span>
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="w">        </span><span class="p">;;</span>
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="k">esac</span>
+</span></code></pre></div>
+<hr />
+<h2 id="7-estructuras-repetitivas-bucles">7. Estructuras Repetitivas (Bucles)<a class="headerlink" href="#7-estructuras-repetitivas-bucles" title="Permanent link">&para;</a></h2>
+<h3 id="71-el-bucle-for">7.1 El Bucle <code>for</code><a class="headerlink" href="#71-el-bucle-for" title="Permanent link">&para;</a></h3>
+<h4 id="iteracion-sobre-listas-y-comandos">Iteración sobre listas y comandos<a class="headerlink" href="#iteracion-sobre-listas-y-comandos" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">for</span><span class="w"> </span>SERVICIO<span class="w"> </span><span class="k">in</span><span class="w"> </span>sshd<span class="w"> </span>nginx<span class="w"> </span>cron<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span>systemctl<span class="w"> </span>is-active<span class="w"> </span>--quiet<span class="w"> </span><span class="s2">"</span><span class="nv">$SERVICIO</span><span class="s2">"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SERVICIO</span><span class="s2">: ACTIVO"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$SERVICIO</span><span class="s2">: INACTIVO"</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="k">done</span>
+</span></code></pre></div>
+<h4 id="iteracion-por-rangos-y-numeros">Iteración por rangos y números<a class="headerlink" href="#iteracion-por-rangos-y-numeros" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Con expansión de llaves:</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..5<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Intento </span><span class="nv">$i</span><span class="s2"> de 5"</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="k">done</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="c1"># Estilo C:</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="k">for</span><span class="w"> </span><span class="o">((</span><span class="w"> </span><span class="nv">i</span><span class="o">=</span><span class="m">0</span><span class="p">;</span><span class="w"> </span>i&lt;<span class="m">10</span><span class="p">;</span><span class="w"> </span><span class="nv">i</span><span class="o">+=</span><span class="m">2</span><span class="w"> </span><span class="o">))</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Paso par: </span><span class="nv">$i</span><span class="s2">"</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="k">done</span>
+</span></code></pre></div>
+<h3 id="72-el-bucle-while-y-lectura-segura-de-archivos">7.2 El Bucle <code>while</code> y Lectura Segura de Archivos<a class="headerlink" href="#72-el-bucle-while-y-lectura-segura-de-archivos" title="Permanent link">&para;</a></h3>
+<p>El bucle <code>while</code> se ejecuta mientras la condición devuelva código de éxito (0). Es la herramienta idónea para procesar archivos de configuración o logs línea por línea:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># Procesar archivo CSV/delimitado de usuarios (formato: usuario:uid:grupo)</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="nv">FICHERO</span><span class="o">=</span><span class="s2">"/root/usuarios.txt"</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>!<span class="w"> </span>-f<span class="w"> </span><span class="s2">"</span><span class="nv">$FICHERO</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"El archivo </span><span class="nv">$FICHERO</span><span class="s2"> no existe."</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="k">fi</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="s2">":"</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>USUARIO<span class="w"> </span>UID<span class="w"> </span>GRUPO<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Creando usuario: </span><span class="nv">$USUARIO</span><span class="s2"> (UID: </span><span class="nv">$UID</span><span class="s2">, Grupo: </span><span class="nv">$GRUPO</span><span class="s2">)"</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="w">    </span><span class="c1"># useradd -u "$UID" -g "$GRUPO" -m "$USUARIO"</span>
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="k">done</span><span class="w"> </span>&lt;<span class="w"> </span><span class="s2">"</span><span class="nv">$FICHERO</span><span class="s2">"</span>
+</span></code></pre></div>
+<blockquote>
+<p>[!IMPORTANT] Por qué usar <code>IFS= read -r linea</code>
+- <code>IFS=</code>: Evita que se recorten los espacios o tabuladores al inicio o al final de cada línea.
+- <code>-r</code>: Evita que las barras invertidas (<code>\</code>) sean interpretadas como caracteres de escape, preservando las rutas íntegras.</p>
+</blockquote>
+<h3 id="73-el-bucle-until">7.3 El Bucle <code>until</code><a class="headerlink" href="#73-el-bucle-until" title="Permanent link">&para;</a></h3>
+<p>Se ejecuta <strong>hasta que</strong> la condición se vuelva verdadera (mientras sea falsa):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nv">PUERTO</span><span class="o">=</span><span class="m">80</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">until</span><span class="w"> </span>nc<span class="w"> </span>-z<span class="w"> </span>localhost<span class="w"> </span><span class="nv">$PUERTO</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Esperando a que el servidor web en el puerto </span><span class="nv">$PUERTO</span><span class="s2"> responda..."</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">    </span>sleep<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="k">done</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"¡Servidor web operativo!"</span>
+</span></code></pre></div>
+<h3 id="74-control-de-flujo-break-y-continue">7.4 Control de Flujo: <code>break</code> y <code>continue</code><a class="headerlink" href="#74-control-de-flujo-break-y-continue" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>break</code>: Rompe y sale inmediatamente del bucle actual.</li>
+<li><code>continue</code>: Omite las instrucciones restantes de la iteración actual y pasa a la siguiente.</li>
+</ul>
+<hr />
+<h2 id="8-menus-interactivos-con-select">8. Menús Interactivos con <code>select</code><a class="headerlink" href="#8-menus-interactivos-con-select" title="Permanent link">&para;</a></h2>
+<p>La instrucción <code>select</code> genera de forma automática un menú numérico con las opciones especificadas, leyendo la elección del usuario en la variable <code>$REPLY</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nv">PS3</span><span class="o">=</span><span class="s2">"Seleccione una opción de mantenimiento [1-4]: "</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="k">select</span><span class="w"> </span>OPCION<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="s2">"Copias de seguridad"</span><span class="w"> </span><span class="s2">"Espacio en disco"</span><span class="w"> </span><span class="s2">"Usuarios conectados"</span><span class="w"> </span><span class="s2">"Salir"</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="s2">"</span><span class="nv">$REPLY</span><span class="s2">"</span><span class="w"> </span><span class="k">in</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">        </span><span class="m">1</span><span class="o">)</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Ejecutando backup en /backup..."</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">            </span>tar<span class="w"> </span>-czf<span class="w"> </span>/backup/etc-<span class="k">$(</span>date<span class="w"> </span>+%F<span class="k">)</span>.tar.gz<span class="w"> </span>/etc<span class="w"> </span><span class="m">2</span>&gt;/dev/null
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="w">            </span><span class="p">;;</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="w">        </span><span class="m">2</span><span class="o">)</span>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="w">            </span>df<span class="w"> </span>-h<span class="w"> </span>/
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="w">            </span><span class="p">;;</span>
+</span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="w">        </span><span class="m">3</span><span class="o">)</span>
+</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="w">            </span>who
+</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a><span class="w">            </span><span class="p">;;</span>
+</span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a><span class="w">        </span><span class="m">4</span><span class="o">)</span>
+</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Saliendo del asistente..."</span>
+</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a><span class="w">            </span><span class="k">break</span>
+</span><span id="__span-24-19"><a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a><span class="w">            </span><span class="p">;;</span>
+</span><span id="__span-24-20"><a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="w">        </span>*<span class="o">)</span>
+</span><span id="__span-24-21"><a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Opción no válida. Inténtelo de nuevo."</span>
+</span><span id="__span-24-22"><a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a><span class="w">            </span><span class="p">;;</span>
+</span><span id="__span-24-23"><a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a><span class="w">    </span><span class="k">esac</span>
+</span><span id="__span-24-24"><a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a><span class="k">done</span>
+</span></code></pre></div>
+<hr />
+<h2 id="9-modularidad-y-funciones-en-bash">9. Modularidad y Funciones en Bash<a class="headerlink" href="#9-modularidad-y-funciones-en-bash" title="Permanent link">&para;</a></h2>
+<p>Las funciones permiten estructurar el código, evitar duplicidades y mejorar la mantenibilidad de los scripts administrativos.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="c1"># Declaración de la función</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>verificar_paquete<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">PAQUETE</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="w">  </span><span class="c1"># Variable de ámbito exclusivamente local</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span>dpkg<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="nv">$PAQUETE</span><span class="s2">"</span><span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"[OK] El paquete '</span><span class="nv">$PAQUETE</span><span class="s2">' está instalado."</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="w">    </span><span class="k">else</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="w">        </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"[FALLO] El paquete '</span><span class="nv">$PAQUETE</span><span class="s2">' NO está instalado."</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="m">1</span>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="w">    </span><span class="k">fi</span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="o">}</span>
+</span><span id="__span-25-15"><a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a>
+</span><span id="__span-25-16"><a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a><span class="c1"># Invocación pasando parámetros</span>
+</span><span id="__span-25-17"><a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a>verificar_paquete<span class="w"> </span><span class="s2">"curl"</span>
+</span><span id="__span-25-18"><a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-25-19"><a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a><span class="w">    </span>apt<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>curl
+</span><span id="__span-25-20"><a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="k">fi</span>
+</span></code></pre></div>
+<hr />
+<h2 id="10-interfaces-de-texto-tui-con-dialog">10. Interfaces de Texto (TUI) con <code>dialog</code><a class="headerlink" href="#10-interfaces-de-texto-tui-con-dialog" title="Permanent link">&para;</a></h2>
+<p>La herramienta <code>dialog</code> permite diseñar interfaces semigráficas basadas en consola (ncurses) para dotar a los scripts de menús profesionales en servidores sin entorno gráfico:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>dialog
+</span></code></pre></div>
+<h3 id="101-cajas-basicas-de-informacion-y-confirmacion">10.1 Cajas Básicas de Información y Confirmación<a class="headerlink" href="#101-cajas-basicas-de-informacion-y-confirmacion" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Caja de mensaje informativa:</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>dialog<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Mantenimiento"</span><span class="w"> </span>--msgbox<span class="w"> </span><span class="s2">"La base de datos ha sido optimizada."</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">45</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Caja de confirmación (Si/No):</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="k">if</span><span class="w"> </span>dialog<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Reinicio"</span><span class="w"> </span>--yesno<span class="w"> </span><span class="s2">"¿Desea reiniciar el servidor ahora?"</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="m">50</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">    </span>reboot
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="k">else</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Reinicio cancelado."</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="k">fi</span>
+</span></code></pre></div>
+<h3 id="102-entrada-de-datos-inputbox-y-seleccion-de-menu-menu">10.2 Entrada de Datos (<code>--inputbox</code>) y Selección de Menú (<code>--menu</code>)<a class="headerlink" href="#102-entrada-de-datos-inputbox-y-seleccion-de-menu-menu" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="c1"># Captura de salida redirigiendo el descriptor 2 (stderr)</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="nv">USUARIO</span><span class="o">=</span><span class="k">$(</span>dialog<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Alta de Usuario"</span><span class="w"> </span>--inputbox<span class="w"> </span><span class="s2">"Introduce el nuevo login:"</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">40</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span>&gt;/dev/tty<span class="k">)</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$USUARIO</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span><span class="nv">ACCION</span><span class="o">=</span><span class="k">$(</span>dialog<span class="w"> </span>--title<span class="w"> </span><span class="s2">"Rol del Usuario"</span><span class="w"> </span>--menu<span class="w"> </span><span class="s2">"Selecciona el perfil:"</span><span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">40</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">        </span><span class="m">1</span><span class="w"> </span><span class="s2">"Administrador"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="w">        </span><span class="m">2</span><span class="w"> </span><span class="s2">"Operador"</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="w">        </span><span class="m">3</span><span class="w"> </span><span class="s2">"Invitado"</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span>&gt;/dev/tty<span class="k">)</span>
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="w">    </span>clear
+</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Creando usuario </span><span class="nv">$USUARIO</span><span class="s2"> con rol </span><span class="nv">$ACCION</span><span class="s2">..."</span>
+</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a><span class="k">fi</span>
+</span></code></pre></div>
+<hr />
+<h2 id="resumen-rapido-de-buenas-practicas-en-bash">📋 Resumen Rápido de Buenas Prácticas en Bash<a class="headerlink" href="#resumen-rapido-de-buenas-practicas-en-bash" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Shebang explícito</strong>: Utiliza siempre <code>#!/bin/bash</code>.</li>
+<li><strong>Control estricto de errores</strong>: Emplea <code>set -euo pipefail</code> en scripts de producción críticos.</li>
+<li><strong>Comillas en variables</strong>: Siempre que una variable pueda contener espacios o nombres de archivos, enciérrala entre comillas dobles: <code>"$FICHERO"</code>.</li>
+<li><strong>Comprobación de privilegios</strong>: Verifica si el script requiere privilegios mediante <code>if [ "$EUID" -ne 0 ]</code>.</li>
+<li><strong>Códigos de salida significativos</strong>: Termina con <code>exit 0</code> en ejecuciones exitosas y códigos <code>1..255</code> documentados en caso de error.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

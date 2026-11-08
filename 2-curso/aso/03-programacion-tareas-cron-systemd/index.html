@@ -1,0 +1,3510 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Repositorio estructurado de apuntes, laboratorios prácticos y preparación de exámenes para el CFGS ASIR">
+      
+      
+        <meta name="author" content="Daniel Silva">
+      
+      
+      
+        <link rel="prev" href="../02-zenity-gui-scripting/">
+      
+      
+        <link rel="next" href="../../asgbd/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>3. Programación de Tareas (cron/systemd) - Apuntes ASIR</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#programacion-de-tareas-at-cron-anacron-y-systemd-timers" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../.." title="Apuntes ASIR" class="md-header__button md-logo" aria-label="Apuntes ASIR" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Apuntes ASIR
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Programación de Tareas (cron/systemd)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JohnDSil/apuntes_asir" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JohnDSil/apuntes_asir
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  📚 Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../1-curso/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📘 1º Curso
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sad/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🛡️ Seguridad (SAD)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  💻 Sistemas (ASO)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../asgbd/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🗄️ Bases de Datos (ASGBD)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../iaw/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 Aplicaciones Web (IAW)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../devops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ♾️ DevOps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sri/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📂 Otros
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Apuntes ASIR" class="md-nav__button md-logo" aria-label="Apuntes ASIR" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    Apuntes ASIR
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JohnDSil/apuntes_asir" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JohnDSil/apuntes_asir
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../1-curso/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📘 1º Curso
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📘 1º Curso
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/iso/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implantación de SO (ISO)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/redes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redes (PAR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/bbdd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bases de Datos (GBD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentos de Hardware (FH)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/marcas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lenguajes de Marcas (LMSGI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../sad/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛡️ Seguridad (SAD)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛡️ Seguridad (SAD)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/01-fundamentos-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT1: Fundamentos de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/02-seguridad-fisica-sai-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT2: Seguridad Física, SAI y Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/03-control-acceso-criptografia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT3: Control de Acceso y Criptografía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/04-amenazas-vulnerabilidades-forense/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT4: Amenazas, Vulnerabilidades y Forense
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/05-marco-legal-rgpd-aepd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT5: Marco Legal — RGPD y AEPD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    💻 Sistemas (ASO)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    💻 Sistemas (ASO)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-scripting-bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Scripting en Bash y CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-zenity-gui-scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Scripting Gráfico con Zenity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación de Tareas (cron/systemd)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación de Tareas (cron/systemd)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-clasificacion-de-herramientas-de-planificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Clasificación de Herramientas de Planificación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ejecucion-puntual-diferida-at-y-el-demonio-atd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ejecución Puntual Diferida: at y el Demonio atd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Ejecución Puntual Diferida: at y el Demonio atd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-demonio-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Demonio del Servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-especificacion-de-horas-y-fechas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Especificación de Horas y Fechas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-creacion-de-tareas-con-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Creación de Tareas con at
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Creación de Tareas con at">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modo-interactivo-entrada-estandar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modo Interactivo (Entrada estándar)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modo-no-interactivo-script-o-tuberia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modo No Interactivo (Script o Tubería)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-gestion-de-la-cola-atq-atrm-y-opciones-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Gestión de la Cola: atq, atrm y Opciones Principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-control-de-acceso-y-seguridad-de-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Control de Acceso y Seguridad de at
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-tareas-periodicas-cron-y-tablas-crontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Tareas Periódicas: cron y Tablas crontab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Tareas Periódicas: cron y Tablas crontab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-gestion-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Gestión del Servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-administracion-de-las-tablas-de-usuario-crontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Administración de las Tablas de Usuario (crontab)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sintaxis-de-programacion-en-cron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Sintaxis de Programación en cron
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Sintaxis de Programación en cron">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-operadores-especiales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Operadores Especiales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-cadenas-de-sustitucion-rapida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Cadenas de Sustitución Rápida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-ejemplos-practicos-de-programacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Ejemplos Prácticos de Programación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-buenas-practicas-criticas-en-cron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Buenas Prácticas Críticas en cron
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-programacion-a-nivel-de-sistema-etccrontab-y-run-parts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Programación a Nivel de Sistema: /etc/crontab y run-parts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Programación a Nivel de Sistema: /etc/crontab y run-parts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-estructura-de-etccrontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Estructura de /etc/crontab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-la-utilidad-run-parts-y-directorios-periodicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 La Utilidad run-parts y Directorios Periódicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-caso-practico-empresarial-vanecar-sl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Caso Práctico Empresarial (Vanecar S.L.)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 Caso Práctico Empresarial (Vanecar S.L.)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solucion-implementada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solución Implementada:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-equipos-discontinuos-anacron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Equipos Discontinuos: anacron
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Equipos Discontinuos: anacron">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-diferencias-entre-cron-y-anacron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Diferencias entre cron y anacron
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-fichero-de-configuracion-etcanacrontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Fichero de Configuración /etc/anacrontab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-comandos-de-inspeccion-y-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Comandos de Inspección y Prueba
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-ejecucion-de-aplicaciones-graficas-desde-tareas-programadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Ejecución de Aplicaciones Gráficas desde Tareas Programadas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Ejecución de Aplicaciones Gráficas desde Tareas Programadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-el-problema-ausencia-de-variables-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 El Problema: Ausencia de Variables de Sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-solucion-clasica-en-x11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Solución Clásica en X11
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-la-solucion-moderna-systemd-user-timers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. La Solución Moderna: Systemd User Timers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. La Solución Moderna: Systemd User Timers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-ventajas-frente-a-cron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Ventajas frente a Cron
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-implementacion-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Implementación Paso a Paso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 Implementación Paso a Paso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-crear-el-directorio-de-servicios-del-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Crear el Directorio de Servicios del Usuario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-crear-el-fichero-de-servicio-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Crear el Fichero de Servicio (.service)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-crear-el-fichero-del-temporizador-timer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Crear el Fichero del Temporizador (.timer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-habilitar-y-monitorizar-el-temporizador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: Habilitar y Monitorizar el Temporizador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-herramientas-graficas-de-planificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Herramientas Gráficas de Planificación
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../asgbd/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🗄️ Bases de Datos (ASGBD)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🗄️ Bases de Datos (ASGBD)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/01-docker-sgbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker y Contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/02-diseno-fisico-ddl-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. DDL y Restricciones (Oracle)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/03-consultas-avanzadas-joins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Consultas Multitabla (JOINs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/04-agrupamiento-funciones-grupo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Agrupamiento y Funciones Grupo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/05-subconsultas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Subconsultas en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/06-dml-transacciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. DML y Transacciones ACID
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../asgbd/07-administracion-oracle-plsql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Administración Oracle y PL/SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../iaw/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌐 Aplicaciones Web (IAW)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🌐 Aplicaciones Web (IAW)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/01-fundamentos-web-arquitectura-cliente-servidor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos Web y Cliente-Servidor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/02-protocolo-http-formularios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Protocolo HTTP y Formularios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/03-programacion-servidor-php/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación Backend con PHP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/04-despliegue-servidores-web-docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Despliegue Web y Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../devops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ♾️ DevOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ♾️ DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud1-introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD1: Introducción a DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud2-git-markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD2: Git, Markdown y GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud3-monitorizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD3: Monitorización de Sistemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📂 Otros
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📂 Otros
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sri/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios de Red (SRI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ingles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inglés Profesional
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-clasificacion-de-herramientas-de-planificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Clasificación de Herramientas de Planificación
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ejecucion-puntual-diferida-at-y-el-demonio-atd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Ejecución Puntual Diferida: at y el Demonio atd
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Ejecución Puntual Diferida: at y el Demonio atd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-demonio-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Demonio del Servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-especificacion-de-horas-y-fechas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Especificación de Horas y Fechas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-creacion-de-tareas-con-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Creación de Tareas con at
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Creación de Tareas con at">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modo-interactivo-entrada-estandar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modo Interactivo (Entrada estándar)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modo-no-interactivo-script-o-tuberia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modo No Interactivo (Script o Tubería)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-gestion-de-la-cola-atq-atrm-y-opciones-principales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Gestión de la Cola: atq, atrm y Opciones Principales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-control-de-acceso-y-seguridad-de-at" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Control de Acceso y Seguridad de at
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-tareas-periodicas-cron-y-tablas-crontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Tareas Periódicas: cron y Tablas crontab
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Tareas Periódicas: cron y Tablas crontab">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-gestion-del-servicio" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Gestión del Servicio
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-administracion-de-las-tablas-de-usuario-crontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Administración de las Tablas de Usuario (crontab)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-sintaxis-de-programacion-en-cron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Sintaxis de Programación en cron
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Sintaxis de Programación en cron">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-operadores-especiales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Operadores Especiales
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-cadenas-de-sustitucion-rapida" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Cadenas de Sustitución Rápida
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-ejemplos-practicos-de-programacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Ejemplos Prácticos de Programación
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-buenas-practicas-criticas-en-cron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Buenas Prácticas Críticas en cron
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-programacion-a-nivel-de-sistema-etccrontab-y-run-parts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Programación a Nivel de Sistema: /etc/crontab y run-parts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Programación a Nivel de Sistema: /etc/crontab y run-parts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-estructura-de-etccrontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Estructura de /etc/crontab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-la-utilidad-run-parts-y-directorios-periodicos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 La Utilidad run-parts y Directorios Periódicos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-caso-practico-empresarial-vanecar-sl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Caso Práctico Empresarial (Vanecar S.L.)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.3 Caso Práctico Empresarial (Vanecar S.L.)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#solucion-implementada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Solución Implementada:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-equipos-discontinuos-anacron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Equipos Discontinuos: anacron
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Equipos Discontinuos: anacron">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-diferencias-entre-cron-y-anacron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Diferencias entre cron y anacron
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-fichero-de-configuracion-etcanacrontab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Fichero de Configuración /etc/anacrontab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-comandos-de-inspeccion-y-prueba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Comandos de Inspección y Prueba
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-ejecucion-de-aplicaciones-graficas-desde-tareas-programadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Ejecución de Aplicaciones Gráficas desde Tareas Programadas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Ejecución de Aplicaciones Gráficas desde Tareas Programadas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-el-problema-ausencia-de-variables-de-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 El Problema: Ausencia de Variables de Sesión
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-solucion-clasica-en-x11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Solución Clásica en X11
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-la-solucion-moderna-systemd-user-timers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. La Solución Moderna: Systemd User Timers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. La Solución Moderna: Systemd User Timers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-ventajas-frente-a-cron" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Ventajas frente a Cron
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-implementacion-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Implementación Paso a Paso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2 Implementación Paso a Paso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#paso-1-crear-el-directorio-de-servicios-del-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 1: Crear el Directorio de Servicios del Usuario
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-2-crear-el-fichero-de-servicio-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 2: Crear el Fichero de Servicio (.service)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-3-crear-el-fichero-del-temporizador-timer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 3: Crear el Fichero del Temporizador (.timer)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paso-4-habilitar-y-monitorizar-el-temporizador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paso 4: Habilitar y Monitorizar el Temporizador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-herramientas-graficas-de-planificacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Herramientas Gráficas de Planificación
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegación" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    📚 Inicio
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    💻 Sistemas (ASO)
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="programacion-de-tareas-at-cron-anacron-y-systemd-timers">Programación de Tareas: at, cron, anacron y systemd timers<a class="headerlink" href="#programacion-de-tareas-at-cron-anacron-y-systemd-timers" title="Permanent link">&para;</a></h1>
+<p>La automatización de tareas en Linux permite delegar en el sistema operativo la ejecución desatendida de copias de seguridad, rotación de logs, sincronización de bases de datos, generación de informes y labores de mantenimiento predictivo.</p>
+<hr />
+<h2 id="1-clasificacion-de-herramientas-de-planificacion">1. Clasificación de Herramientas de Planificación<a class="headerlink" href="#1-clasificacion-de-herramientas-de-planificacion" title="Permanent link">&para;</a></h2>
+<p>En la administración de sistemas operativos coexisten cuatro herramientas complementarias:</p>
+<pre class="mermaid"><code>flowchart TD
+    Inicio["¿Cuándo debe ejecutarse la tarea?"]
+
+    Inicio --&gt;|Una sola vez en el futuro| AT["at / atd\n(Ejecución diferida puntual)"]
+    Inicio --&gt;|Periódicamente en servidores 24/7| CRON["cron / crontab\n(Minutos, horas, días precisos)"]
+    Inicio --&gt;|Periódicamente en equipos que se apagan| ANACRON["anacron\n(Frecuencia en días + retardo al arranque)"]
+    Inicio --&gt;|En sesiones de usuario modernas / GUI| TIMERS["systemd user timers\n(Control de dependencias, logs journal y Wayland/X11)"]</code></pre>
+<hr />
+<h2 id="2-ejecucion-puntual-diferida-at-y-el-demonio-atd">2. Ejecución Puntual Diferida: <code>at</code> y el Demonio <code>atd</code><a class="headerlink" href="#2-ejecucion-puntual-diferida-at-y-el-demonio-atd" title="Permanent link">&para;</a></h2>
+<p>El comando <code>at</code> permite programar comandos o scripts para que se ejecuten <strong>una sola vez</strong> a una hora o fecha futura determinada.</p>
+<h3 id="21-demonio-del-servicio">2.1 Demonio del Servicio<a class="headerlink" href="#21-demonio-del-servicio" title="Permanent link">&para;</a></h3>
+<p>Requiere que el demonio <code>atd</code> esté activo y habilitado en el arranque:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>at
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>atd
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>atd
+</span></code></pre></div></p>
+<h3 id="22-especificacion-de-horas-y-fechas">2.2 Especificación de Horas y Fechas<a class="headerlink" href="#22-especificacion-de-horas-y-fechas" title="Permanent link">&para;</a></h3>
+<p><code>at</code> admite formatos temporales muy flexibles:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Expresión de Tiempo</th>
+<th style="text-align: left;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>at 17:30</code></td>
+<td style="text-align: left;">A las 17:30 horas del día actual (o del día siguiente si ya ha pasado)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at now + 15 minutes</code></td>
+<td style="text-align: left;">Dentro de 15 minutos exactos</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at now + 2 hours</code></td>
+<td style="text-align: left;">Dentro de 2 horas</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at now + 3 days</code></td>
+<td style="text-align: left;">Dentro de 3 días a la hora actual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at 02:00 tomorrow</code></td>
+<td style="text-align: left;">Mañana a las 02:00 AM</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at 23:00 25.12.26</code></td>
+<td style="text-align: left;">El 25 de diciembre de 2026 a las 23:00</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at teatime</code></td>
+<td style="text-align: left;">A las 16:00 (hora del té tradicional)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at noon</code> / <code>at midnight</code></td>
+<td style="text-align: left;">A las 12:00 del mediodía / 00:00 de la medianoche</td>
+</tr>
+</tbody>
+</table>
+<h3 id="23-creacion-de-tareas-con-at">2.3 Creación de Tareas con <code>at</code><a class="headerlink" href="#23-creacion-de-tareas-con-at" title="Permanent link">&para;</a></h3>
+<h4 id="modo-interactivo-entrada-estandar">Modo Interactivo (Entrada estándar)<a class="headerlink" href="#modo-interactivo-entrada-estandar" title="Permanent link">&para;</a></h4>
+<p>Se indica la hora y se escriben los comandos. Se finaliza la entrada pulsando <span class="keys"><kbd class="key-control">Ctrl</kbd><span>+</span><kbd class="key-d">D</kbd></span>:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>at<span class="w"> </span><span class="m">22</span>:30
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>warning:<span class="w"> </span>commands<span class="w"> </span>will<span class="w"> </span>be<span class="w"> </span>executed<span class="w"> </span>using<span class="w"> </span>/bin/sh
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>at&gt;<span class="w"> </span>/usr/local/bin/backup_diario.sh
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>at&gt;<span class="w"> </span>sync
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>at&gt;<span class="w"> </span>&lt;EOT&gt;<span class="w">  </span><span class="c1"># Pulsar Ctrl + D</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>job<span class="w"> </span><span class="m">4</span><span class="w"> </span>at<span class="w"> </span>Fri<span class="w"> </span>Nov<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">22</span>:30:00<span class="w"> </span><span class="m">2026</span>
+</span></code></pre></div></p>
+<h4 id="modo-no-interactivo-script-o-tuberia">Modo No Interactivo (Script o Tubería)<a class="headerlink" href="#modo-no-interactivo-script-o-tuberia" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Mediante el flag -f leyendo desde archivo:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>at<span class="w"> </span>-f<span class="w"> </span>/root/mantenimiento.sh<span class="w"> </span><span class="m">03</span>:00<span class="w"> </span>tomorrow
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Mediante tubería (pipe) con echo:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"systemctl restart apache2"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>at<span class="w"> </span>now<span class="w"> </span>+<span class="w"> </span><span class="m">30</span><span class="w"> </span>minutes
+</span></code></pre></div>
+<h3 id="24-gestion-de-la-cola-atq-atrm-y-opciones-principales">2.4 Gestión de la Cola: <code>atq</code>, <code>atrm</code> y Opciones Principales<a class="headerlink" href="#24-gestion-de-la-cola-atq-atrm-y-opciones-principales" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Opción de <code>at</code></th>
+<th style="text-align: left;">Utilidad equivalente</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>at -l</code></td>
+<td style="text-align: left;"><code>atq</code></td>
+<td style="text-align: left;">Lista los trabajos pendientes en la cola con su ID, fecha y usuario propietario.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at -d &lt;id&gt;</code></td>
+<td style="text-align: left;"><code>atrm &lt;id&gt;</code></td>
+<td style="text-align: left;">Elimina el trabajo especificado por su número identificador.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at -c &lt;id&gt;</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Muestra el script completo y todas las variables de entorno asociadas a la tarea guardada.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at -f &lt;file&gt;</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Lee los comandos desde el archivo indicado en lugar de la consola.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at -m</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Envía un correo electrónico al usuario cuando la tarea finaliza, incluso si no generó salida.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at -q &lt;cola&gt;</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Asigna la tarea a una cola concreta (<code>a</code>-<code>z</code> para at, <code>A</code>-<code>Z</code> para batch). Letras mayores tienen menor prioridad de CPU (<em>nice</em>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>at -v</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Muestra la hora de ejecución programada antes de leer los comandos.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-control-de-acceso-y-seguridad-de-at">2.5 Control de Acceso y Seguridad de <code>at</code><a class="headerlink" href="#25-control-de-acceso-y-seguridad-de-at" title="Permanent link">&para;</a></h3>
+<p>El acceso a la planificación mediante <code>at</code> se restringe mediante dos archivos en <code>/etc</code>:</p>
+<ul>
+<li><code>/etc/at.allow</code>: Lista blanca de usuarios autorizados.</li>
+<li><code>/etc/at.deny</code>: Lista negra de usuarios denegados.</li>
+</ul>
+<pre class="mermaid"><code>flowchart TD
+    CheckAllow{"¿Existe /etc/at.allow?"}
+    CheckAllow --&gt;|Sí| InAllow{"¿Está el usuario en at.allow?"}
+    InAllow --&gt;|Sí| Permitido["ACCESO PERMITIDO"]
+    InAllow --&gt;|No| Denegado["ACCESO DENEGADO"]
+
+    CheckAllow --&gt;|No| CheckDeny{"¿Existe /etc/at.deny?"}
+    CheckDeny --&gt;|Sí| InDeny{"¿Está el usuario en at.deny?"}
+    InDeny --&gt;|Sí| Denegado
+    InDeny --&gt;|No| Permitido
+
+    CheckDeny --&gt;|No| SoloRoot["SOLO root TIENE PERMISO"]</code></pre>
+<blockquote>
+<p>[!IMPORTANT] Precedencia de Seguridad
+- Si existe <code>/etc/at.allow</code>, el archivo <code>/etc/at.deny</code> es <strong>completamente ignorado</strong>. Solo pueden usar <code>at</code> los usuarios especificados explícitamente en <code>at.allow</code>.
+- Si un usuario está presente simultáneamente en ambos ficheros, <strong>prevalece <code>at.allow</code></strong>.</p>
+</blockquote>
+<hr />
+<h2 id="3-tareas-periodicas-cron-y-tablas-crontab">3. Tareas Periódicas: <code>cron</code> y Tablas <code>crontab</code><a class="headerlink" href="#3-tareas-periodicas-cron-y-tablas-crontab" title="Permanent link">&para;</a></h2>
+<p>El demonio <code>cron</code> (<code>crond</code>) es el encargado de ejecutar procesos periódicos en segundo plano siguiendo una programación basada en minutos, horas, días del mes, meses y días de la semana.</p>
+<h3 id="31-gestion-del-servicio">3.1 Gestión del Servicio<a class="headerlink" href="#31-gestion-del-servicio" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>cron
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>is-enabled<span class="w"> </span>cron
+</span></code></pre></div>
+<h3 id="32-administracion-de-las-tablas-de-usuario-crontab">3.2 Administración de las Tablas de Usuario (<code>crontab</code>)<a class="headerlink" href="#32-administracion-de-las-tablas-de-usuario-crontab" title="Permanent link">&para;</a></h3>
+<p>Cada usuario del sistema (incluido <code>root</code>) dispone de su propia tabla <code>crontab</code> independiente, guardada en <code>/var/spool/cron/crontabs/&lt;usuario&gt;</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Editar la tabla crontab del usuario actual (abrirá el editor configurado):</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>crontab<span class="w"> </span>-e
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Configurar Nano como editor predeterminado de crontab:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">EDITOR</span><span class="o">=</span>nano<span class="p">;</span><span class="w"> </span>crontab<span class="w"> </span>-e
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Visualizar las tareas programadas activas:</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>crontab<span class="w"> </span>-l
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Eliminar todas las tareas del usuario actual:</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>crontab<span class="w"> </span>-r
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># Como superusuario (root), gestionar la tabla de otro usuario:</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>sudo<span class="w"> </span>crontab<span class="w"> </span>-u<span class="w"> </span>operador1<span class="w"> </span>-l
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>sudo<span class="w"> </span>crontab<span class="w"> </span>-u<span class="w"> </span>operador1<span class="w"> </span>-e
+</span></code></pre></div>
+<blockquote>
+<p>[!WARNING] Carga de Ficheros en Crontab
+Si ejecutas <code>crontab fichero.txt</code>, el contenido de ese fichero <strong>reemplazará completamente</strong> todas las tareas que el usuario tuviese programadas previamente, sin pedir confirmación.</p>
+</blockquote>
+<hr />
+<h2 id="4-sintaxis-de-programacion-en-cron">4. Sintaxis de Programación en <code>cron</code><a class="headerlink" href="#4-sintaxis-de-programacion-en-cron" title="Permanent link">&para;</a></h2>
+<p>Una línea de <code>crontab</code> de usuario consta de <strong>5 campos temporales</strong> seguidos de la orden o comando a ejecutar:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>┌───────────── Minuto (0 - 59)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>│ ┌────────────── Hora (0 - 23)
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>│ │ ┌─────────────── Día del Mes (1 - 31)
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>│ │ │ ┌──────────────── Mes (1 - 12 o JAN-DEC)
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>│ │ │ │ ┌───────────────── Día de la Semana (0 - 7, donde 0 y 7 = Domingo)
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>│ │ │ │ │
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>* * * * * comando_a_ejecutar
+</span></code></pre></div>
+<h3 id="41-operadores-especiales">4.1 Operadores Especiales<a class="headerlink" href="#41-operadores-especiales" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Operador</th>
+<th style="text-align: left;">Significado</th>
+<th style="text-align: left;">Ejemplo</th>
+<th style="text-align: left;">Explicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>*</code></td>
+<td style="text-align: left;">Cualquier valor / siempre</td>
+<td style="text-align: left;"><code>* * * * *</code></td>
+<td style="text-align: left;">Cada minuto de cada hora de cada día.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>,</code></td>
+<td style="text-align: left;">Lista de valores discretos</td>
+<td style="text-align: left;"><code>15,45 * * * *</code></td>
+<td style="text-align: left;">En el minuto 15 y en el minuto 45 de cada hora.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>-</code></td>
+<td style="text-align: left;">Rango cerrado de valores</td>
+<td style="text-align: left;"><code>0 9-18 * * 1-5</code></td>
+<td style="text-align: left;">Cada hora en punto de 9:00 a 18:00, de lunes a viernes.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>/</code></td>
+<td style="text-align: left;">Incremento o saltos (<em>steps</em>)</td>
+<td style="text-align: left;"><code>*/10 * * * *</code></td>
+<td style="text-align: left;">Cada 10 minutos (<code>0, 10, 20, 30, 40, 50</code>).</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>#</code></td>
+<td style="text-align: left;">Comentario</td>
+<td style="text-align: left;"><code># Tarea de backup</code></td>
+<td style="text-align: left;">Línea ignorada por el demonio cron.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-cadenas-de-sustitucion-rapida">4.2 Cadenas de Sustitución Rápida<a class="headerlink" href="#42-cadenas-de-sustitucion-rapida" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Cadena</th>
+<th style="text-align: left;">Equivalencia cron</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>@reboot</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Se ejecuta una sola vez tras el arranque del sistema.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@yearly</code> / <code>@annually</code></td>
+<td style="text-align: left;"><code>0 0 1 1 *</code></td>
+<td style="text-align: left;">Una vez al año (1 de enero a medianoche).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@monthly</code></td>
+<td style="text-align: left;"><code>0 0 1 * *</code></td>
+<td style="text-align: left;">Una vez al mes (el día 1 a las 00:00).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@weekly</code></td>
+<td style="text-align: left;"><code>0 0 * * 0</code></td>
+<td style="text-align: left;">Una vez a la semana (domingo a las 00:00).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@daily</code> / <code>@midnight</code></td>
+<td style="text-align: left;"><code>0 0 * * *</code></td>
+<td style="text-align: left;">Una vez al día (a las 00:00 medianoche).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@hourly</code></td>
+<td style="text-align: left;"><code>0 * * * *</code></td>
+<td style="text-align: left;">Una vez por hora (en el minuto 0).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-ejemplos-practicos-de-programacion">4.3 Ejemplos Prácticos de Programación<a class="headerlink" href="#43-ejemplos-practicos-de-programacion" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 1. Copia de seguridad cada noche a las 02:30 AM:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="m">30</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/usr/local/bin/backup.sh<span class="w"> </span>&gt;<span class="w"> </span>/var/log/backup.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 2. Sincronización horaria NTP cada 4 horas:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="m">0</span><span class="w"> </span>*/4<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/usr/sbin/ntpdate<span class="w"> </span>pool.ntp.org<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># 3. Limpieza de temporales todos los domingos a las 23:45:</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="m">45</span><span class="w"> </span><span class="m">23</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">0</span><span class="w"> </span>/usr/bin/find<span class="w"> </span>/tmp<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-mtime<span class="w"> </span>+7<span class="w"> </span>-delete
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># 4. Enviar reporte el primer día de cada mes a las 08:00 AM:</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="m">0</span><span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/usr/local/bin/reporte_mensual.sh
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># 5. Ejecutar tarea tras arrancar el equipo:</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>@reboot<span class="w"> </span>/usr/local/bin/notificar_arranque.sh
+</span></code></pre></div>
+<hr />
+<h2 id="5-buenas-practicas-criticas-en-cron">5. Buenas Prácticas Críticas en <code>cron</code><a class="headerlink" href="#5-buenas-practicas-criticas-en-cron" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Utilizar siempre rutas absolutas</strong>: El entorno de cron solo define un <code>$PATH</code> elemental (<code>/usr/bin:/bin</code>). Nunca invoques <code>backup.sh</code> directamente; utiliza siempre <code>/root/scripts/backup.sh</code> y binarios con su ruta (<code>/usr/bin/curl</code>).</li>
+<li><strong>Redirección de salidas obligatoria</strong>: Si un comando emite texto por <code>stdout</code> o <code>stderr</code> y no se redirige, <code>cron</code> intentará enviarlo por correo local (<code>mailx</code> / <code>/var/mail/usuario</code>). Si el servidor de correo local no está configurado, se acumularán avisos de error.
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Redireccionar salida y errores a un log:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/ruta/script.sh<span class="w"> </span>&gt;&gt;<span class="w"> </span>/var/log/script.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Descartar toda salida:</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>/ruta/script.sh<span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span></code></pre></div></li>
+<li><strong>Definir variables al inicio del crontab</strong>:
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nv">SHELL</span><span class="o">=</span>/bin/bash
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">PATH</span><span class="o">=</span>/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nv">MAILTO</span><span class="o">=</span>admin@empresa.com
+</span></code></pre></div></li>
+</ol>
+<hr />
+<h2 id="6-programacion-a-nivel-de-sistema-etccrontab-y-run-parts">6. Programación a Nivel de Sistema: <code>/etc/crontab</code> y <code>run-parts</code><a class="headerlink" href="#6-programacion-a-nivel-de-sistema-etccrontab-y-run-parts" title="Permanent link">&para;</a></h2>
+<p>A diferencia de las tablas de usuario gestionadas con <code>crontab -e</code>, el archivo <code>/etc/crontab</code> es la tabla central del sistema operativo.</p>
+<h3 id="61-estructura-de-etccrontab">6.1 Estructura de <code>/etc/crontab</code><a class="headerlink" href="#61-estructura-de-etccrontab" title="Permanent link">&para;</a></h3>
+<p>Incluye un <strong>sexto campo obligatorio</strong>: el <strong>usuario</strong> bajo el cual se ejecuta el proceso:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Formato en /etc/crontab:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="c1"># min hora dia mes dsem usuario comando</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="m">17</span><span class="w"> </span>*<span class="w">  </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>root<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.hourly
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="m">25</span><span class="w"> </span><span class="m">6</span><span class="w">  </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>root<span class="w">    </span><span class="nb">test</span><span class="w"> </span>-x<span class="w"> </span>/usr/sbin/anacron<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.daily<span class="w"> </span><span class="o">)</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="m">47</span><span class="w"> </span><span class="m">6</span><span class="w">  </span>*<span class="w"> </span>*<span class="w"> </span><span class="m">7</span><span class="w"> </span>root<span class="w">    </span><span class="nb">test</span><span class="w"> </span>-x<span class="w"> </span>/usr/sbin/anacron<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.weekly<span class="w"> </span><span class="o">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="m">52</span><span class="w"> </span><span class="m">6</span><span class="w">  </span><span class="m">1</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>root<span class="w">    </span><span class="nb">test</span><span class="w"> </span>-x<span class="w"> </span>/usr/sbin/anacron<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.monthly<span class="w"> </span><span class="o">)</span>
+</span></code></pre></div>
+<h3 id="62-la-utilidad-run-parts-y-directorios-periodicos">6.2 La Utilidad <code>run-parts</code> y Directorios Periódicos<a class="headerlink" href="#62-la-utilidad-run-parts-y-directorios-periodicos" title="Permanent link">&para;</a></h3>
+<p>La orden <code>run-parts --report /ruta/directorio</code> ejecuta de manera secuencial todos los scripts ejecutables que contiene dicha carpeta:</p>
+<ul>
+<li><code>/etc/cron.hourly/</code>: Tareas horarias.</li>
+<li><code>/etc/cron.daily/</code>: Tareas diarias.</li>
+<li><code>/etc/cron.weekly/</code>: Tareas semanales.</li>
+<li><code>/etc/cron.monthly/</code>: Tareas mensuales.</li>
+<li><code>/etc/cron.d/</code>: Ficheros de tareas complementarios (formato <code>/etc/crontab</code>).</li>
+</ul>
+<blockquote>
+<p>[!CAUTION] Reglas Estrictas de <code>run-parts</code>
+Para que <code>run-parts</code> reconozca y ejecute un script:
+1. Debe tener <strong>permiso de ejecución</strong> (<code>chmod +x /etc/cron.daily/backup</code>).
+2. <strong>NO DEBE TENER EXTENSIÓN</strong>. Archivos llamados <code>backup.sh</code>, <code>script.py</code> o <code>tarea.bash</code> <strong>serán ignorados silenciosamente</strong>. El nombre solo puede contener caracteres alfanuméricos, guiones y barras bajas (<code>[a-zA-Z0-9_-]</code>).</p>
+</blockquote>
+<h3 id="63-caso-practico-empresarial-vanecar-sl">6.3 Caso Práctico Empresarial (Vanecar S.L.)<a class="headerlink" href="#63-caso-practico-empresarial-vanecar-sl" title="Permanent link">&para;</a></h3>
+<p>La empresa <em>Vanecar S.L.</em> necesita automatizar dos tareas clave en su servidor Debian:
+1. Registrar diariamente a medianoche la lista de usuarios con sesión abierta en <code>/var/log/vanecar_usuarios.log</code>.
+2. Realizar una copia de seguridad semanal de la base de datos de producción ubicada en <code>/srv/ventas/</code> comprimida en <code>/backup/</code>.</p>
+<h4 id="solucion-implementada">Solución Implementada:<a class="headerlink" href="#solucion-implementada" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># 1. Script para el registro diario:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/cron.daily/vanecar-usuarios<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="s">#!/bin/bash</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="s">echo "=== Acceso de usuarios: $(date) ===" &gt;&gt; /var/log/vanecar_usuarios.log</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="s">who &gt;&gt; /var/log/vanecar_usuarios.log</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="s">echo "" &gt;&gt; /var/log/vanecar_usuarios.log</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="s">EOF</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>sudo<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>/etc/cron.daily/vanecar-usuarios
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># 2. Tarea semanal en /etc/cron.d/vanecar-backup:</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/cron.d/vanecar-backup<span class="w"> </span><span class="s">&lt;&lt; 'EOF'</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="s"># Backup semanal todos los domingos a las 03:00 AM ejecutado como root</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="s">0 3 * * 0 root /usr/bin/tar -czf /backup/ventas-$(date +\%F).tar.gz /srv/ventas/ &gt;/dev/null 2&gt;&amp;1</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="s">EOF</span>
+</span></code></pre></div>
+<hr />
+<h2 id="7-equipos-discontinuos-anacron">7. Equipos Discontinuos: <code>anacron</code><a class="headerlink" href="#7-equipos-discontinuos-anacron" title="Permanent link">&para;</a></h2>
+<p>En servidores encendidos 24/7, <code>cron</code> es la solución ideal. Sin embargo, en ordenadores portátiles o estaciones de trabajo que se apagan por la noche o durante el fin de semana, <strong>las tareas de cron programadas en ese intervalo nunca llegarán a ejecutarse</strong>.</p>
+<p>Para resolver este problema existe <strong>Anacron</strong> (<em>Anachronistic Cron</em>).</p>
+<pre class="mermaid"><code>flowchart LR
+    A["Equipo apagado a la hora de cron"] --&gt;|Cron pierde la tarea| B["Tarea NO ejecutada"]
+    A --&gt;|Al encender el equipo| C["Anacron comprueba marcas de tiempo"]
+    C --&gt;|Detecta que no se ejecutó hoy/esta semana| D["Aplica retardo (Delay) y ejecuta la tarea"]</code></pre>
+<h3 id="71-diferencias-entre-cron-y-anacron">7.1 Diferencias entre <code>cron</code> y <code>anacron</code><a class="headerlink" href="#71-diferencias-entre-cron-y-anacron" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Característica</th>
+<th style="text-align: left;"><code>cron</code></th>
+<th style="text-align: left;"><code>anacron</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Naturaleza del proceso</strong></td>
+<td style="text-align: left;">Demonio permanente en memoria</td>
+<td style="text-align: left;">Proceso ejecutable que se inicia y se cierra</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Precisión temporal</strong></td>
+<td style="text-align: left;">Minutos, horas, días</td>
+<td style="text-align: left;">Exclusivamente <strong>días</strong> (mínimo: 1 día)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Comportamiento si se apaga</strong></td>
+<td style="text-align: left;">La tarea se pierde</td>
+<td style="text-align: left;">Se ejecuta al encender el equipo tras un retardo</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Usuarios</strong></td>
+<td style="text-align: left;">Cualquier usuario del sistema</td>
+<td style="text-align: left;">Típicamente solo el administrador (<code>root</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Relación</strong></td>
+<td style="text-align: left;">Complementario a anacron</td>
+<td style="text-align: left;">Complementario a cron</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-fichero-de-configuracion-etcanacrontab">7.2 Fichero de Configuración <code>/etc/anacrontab</code><a class="headerlink" href="#72-fichero-de-configuracion-etcanacrontab" title="Permanent link">&para;</a></h3>
+<p>Sintaxis de las entradas:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Periodo_días   Retraso_minutos   Identificador_tarea   Comando
+</span></code></pre></div></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Ejemplo estándar en /etc/anacrontab:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nv">SHELL</span><span class="o">=</span>/bin/sh
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nv">PATH</span><span class="o">=</span>/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="nv">HOME</span><span class="o">=</span>/root
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nv">LOGNAME</span><span class="o">=</span>root
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Periodo  Retraso  ID              Comando</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="m">1</span><span class="w">          </span><span class="m">5</span><span class="w">        </span>cron.daily<span class="w">      </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.daily
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="m">7</span><span class="w">          </span><span class="m">10</span><span class="w">       </span>cron.weekly<span class="w">     </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.weekly
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>@monthly<span class="w">   </span><span class="m">15</span><span class="w">       </span>cron.monthly<span class="w">    </span>run-parts<span class="w"> </span>--report<span class="w"> </span>/etc/cron.monthly
+</span></code></pre></div>
+<ul>
+<li><strong>Periodo (días)</strong>: Frecuencia de ejecución (<code>1</code> = cada día, <code>7</code> = semanal, <code>30</code> o <code>@monthly</code> = mensual).</li>
+<li><strong>Retraso (minutos)</strong>: Minutos que espera Anacron <strong>después de encender el ordenador</strong> antes de lanzar el comando. Evita que el arranque se vuelva lento por la saturación de I/O de disco.</li>
+<li><strong>Identificador de tarea</strong>: Nombre único asociado al trabajo; sirve para crear un fichero en <code>/var/spool/anacron/&lt;identificador&gt;</code> con la fecha (timestamp) de la última ejecución realizada con éxito.</li>
+<li><strong>Comando</strong>: Script u orden a ejecutar.</li>
+</ul>
+<h3 id="73-comandos-de-inspeccion-y-prueba">7.3 Comandos de Inspección y Prueba<a class="headerlink" href="#73-comandos-de-inspeccion-y-prueba" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Comprobar la sintaxis del archivo sin ejecutar nada:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>sudo<span class="w"> </span>anacron<span class="w"> </span>-T
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Forzar la ejecución de todas las tareas ignorando las fechas registradas:</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>sudo<span class="w"> </span>anacron<span class="w"> </span>-f
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Actualizar las marcas de tiempo sin llegar a ejecutar los scripts:</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>sudo<span class="w"> </span>anacron<span class="w"> </span>-u
+</span></code></pre></div>
+<hr />
+<h2 id="8-ejecucion-de-aplicaciones-graficas-desde-tareas-programadas">8. Ejecución de Aplicaciones Gráficas desde Tareas Programadas<a class="headerlink" href="#8-ejecucion-de-aplicaciones-graficas-desde-tareas-programadas" title="Permanent link">&para;</a></h2>
+<p>Uno de los problemas más frecuentes en la administración de sistemas consiste en lanzar una aplicación gráfica (como <code>zenity</code>, un navegador o un script con GUI) desde <code>cron</code>.</p>
+<h3 id="81-el-problema-ausencia-de-variables-de-sesion">8.1 El Problema: Ausencia de Variables de Sesión<a class="headerlink" href="#81-el-problema-ausencia-de-variables-de-sesion" title="Permanent link">&para;</a></h3>
+<p><code>cron</code> se ejecuta en un entorno aislado sin terminal (<code>pts</code>), sin servidor gráfico y sin las variables de entorno <code>DISPLAY</code> o <code>WAYLAND_DISPLAY</code>, ni credenciales del protocolo de autorización X11 (<code>XAUTHORITY</code>).</p>
+<h3 id="82-solucion-clasica-en-x11">8.2 Solución Clásica en X11<a class="headerlink" href="#82-solucion-clasica-en-x11" title="Permanent link">&para;</a></h3>
+<p>En sistemas que utilicen X11, se deben exportar manualmente las variables de pantalla del usuario con sesión activa:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Permitir que el usuario local interactúe con la pantalla (ejecutar en la sesión de usuario):</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>xhost<span class="w"> </span>+SI:localuser:usuario
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># En el crontab del usuario (no de root):</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="m">0</span><span class="w"> </span><span class="m">12</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span><span class="nv">DISPLAY</span><span class="o">=</span>:0<span class="w"> </span><span class="nv">XDG_RUNTIME_DIR</span><span class="o">=</span>/run/user/1000<span class="w"> </span>/usr/bin/zenity<span class="w"> </span>--info<span class="w"> </span>--text<span class="o">=</span><span class="s2">"Pausa activa de mediodía"</span><span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</span></code></pre></div>
+<hr />
+<h2 id="9-la-solucion-moderna-systemd-user-timers">9. La Solución Moderna: Systemd User Timers<a class="headerlink" href="#9-la-solucion-moderna-systemd-user-timers" title="Permanent link">&para;</a></h2>
+<p>En distribuciones modernas como <strong>Debian 12 / 13</strong>, la alternativa estándar y recomendada para programar tareas tanto de consola como gráficas (Wayland / X11) son los <strong>Temporizadores de usuario de systemd</strong> (<em>Systemd User Timers</em>).</p>
+<h3 id="91-ventajas-frente-a-cron">9.1 Ventajas frente a Cron<a class="headerlink" href="#91-ventajas-frente-a-cron" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Acceso nativo al entorno del usuario</strong>: Hereda automáticamente <code>DISPLAY</code>, <code>WAYLAND_DISPLAY</code> y el bus de sesión D-Bus.</li>
+<li><strong>Gestión centralizada de logs</strong>: Todos los eventos y salidas se registran en <code>journalctl --user</code>.</li>
+<li><strong>Soporte de persistencia</strong>: Con <code>Persistent=true</code>, se comporta como Anacron si el equipo estaba suspendido o apagado.</li>
+<li><strong>Control de dependencias</strong>: La tarea puede exigir que la red esté activa antes de arrancar.</li>
+</ul>
+<h3 id="92-implementacion-paso-a-paso">9.2 Implementación Paso a Paso<a class="headerlink" href="#92-implementacion-paso-a-paso" title="Permanent link">&para;</a></h3>
+<h4 id="paso-1-crear-el-directorio-de-servicios-del-usuario">Paso 1: Crear el Directorio de Servicios del Usuario<a class="headerlink" href="#paso-1-crear-el-directorio-de-servicios-del-usuario" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.config/systemd/user
+</span></code></pre></div>
+<h4 id="paso-2-crear-el-fichero-de-servicio-service">Paso 2: Crear el Fichero de Servicio (<code>.service</code>)<a class="headerlink" href="#paso-2-crear-el-fichero-de-servicio-service" title="Permanent link">&para;</a></h4>
+<p>Define <strong>qué</strong> debe ejecutarse:
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># ~/.config/systemd/user/aviso-mantenimiento.service</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">[Unit]</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="na">Description</span><span class="o">=</span><span class="s">Notificacion grafica de mantenimiento</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">[Service]</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="na">Type</span><span class="o">=</span><span class="s">oneshot</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="na">ExecStart=/usr/bin/zenity --info --title</span><span class="o">=</span><span class="s">"Mantenimiento"</span><span class="w"> </span><span class="na">--text</span><span class="o">=</span><span class="s">"Recordatorio: Reinicio programado a las 22:00"</span>
+</span></code></pre></div></p>
+<h4 id="paso-3-crear-el-fichero-del-temporizador-timer">Paso 3: Crear el Fichero del Temporizador (<code>.timer</code>)<a class="headerlink" href="#paso-3-crear-el-fichero-del-temporizador-timer" title="Permanent link">&para;</a></h4>
+<p>Define <strong>cuándo</strong> debe ejecutarse:
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># ~/.config/systemd/user/aviso-mantenimiento.timer</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">[Unit]</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="na">Description</span><span class="o">=</span><span class="s">Temporizador de aviso de mantenimiento</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">[Timer]</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="c1"># Ejecutar de lunes a viernes a las 14:00 horas</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="na">OnCalendar</span><span class="o">=</span><span class="s">Mon..Fri *-*-* 14:00:00</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="na">Persistent</span><span class="o">=</span><span class="s">true</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="k">[Install]</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="na">WantedBy</span><span class="o">=</span><span class="s">timers.target</span>
+</span></code></pre></div></p>
+<h4 id="paso-4-habilitar-y-monitorizar-el-temporizador">Paso 4: Habilitar y Monitorizar el Temporizador<a class="headerlink" href="#paso-4-habilitar-y-monitorizar-el-temporizador" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Recargar el daemon de usuario:</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>systemctl<span class="w"> </span>--user<span class="w"> </span>daemon-reload
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Habilitar e iniciar el timer:</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>systemctl<span class="w"> </span>--user<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>aviso-mantenimiento.timer
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Listar todos los temporizadores activos y su próxima ejecución:</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>systemctl<span class="w"> </span>--user<span class="w"> </span>list-timers
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># Ver el registro de ejecuciones:</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>journalctl<span class="w"> </span>--user<span class="w"> </span>-u<span class="w"> </span>aviso-mantenimiento.service
+</span></code></pre></div>
+<hr />
+<h2 id="10-herramientas-graficas-de-planificacion">10. Herramientas Gráficas de Planificación<a class="headerlink" href="#10-herramientas-graficas-de-planificacion" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>gnome-schedule</code></strong>: Histórica interfaz gráfica para gestionar cron y at en GNOME. <strong>Quedó obsoleta y fue eliminada</strong> de los repositorios oficiales de Debian 12/13.</li>
+<li><strong><code>kcm_cron</code></strong>: Módulo del centro de control de KDE Plasma para la configuración gráfica de tareas programadas (<code>kcmshell6 kcm_cron</code> en entornos KDE).</li>
+<li><strong>Entorno moderno</strong>: En escritorios corporativos actuales se recomienda el uso de scripts con Zenity combinados con <strong>Systemd Timers</strong> para proporcionar notificaciones programadas fiables y robustas.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>

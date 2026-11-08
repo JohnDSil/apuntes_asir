@@ -1,0 +1,3451 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Repositorio estructurado de apuntes, laboratorios prácticos y preparación de exámenes para el CFGS ASIR">
+      
+      
+        <meta name="author" content="Daniel Silva">
+      
+      
+      
+        <link rel="prev" href="../06-dml-transacciones/">
+      
+      
+        <link rel="next" href="../../iaw/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
+    
+    
+      
+        <title>7. Administración Oracle y PL/SQL - Apuntes ASIR</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6-administracion-de-oracle-database-y-programacion-plsql" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../../.." title="Apuntes ASIR" class="md-header__button md-logo" aria-label="Apuntes ASIR" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Apuntes ASIR
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7. Administración Oracle y PL/SQL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="light-blue"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/JohnDSil/apuntes_asir" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JohnDSil/apuntes_asir
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  📚 Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../1-curso/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📘 1º Curso
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sad/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🛡️ Seguridad (SAD)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../aso/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  💻 Sistemas (ASO)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🗄️ Bases de Datos (ASGBD)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../iaw/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  🌐 Aplicaciones Web (IAW)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../devops/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  ♾️ DevOps
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../sri/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  📂 Otros
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Apuntes ASIR" class="md-nav__button md-logo" aria-label="Apuntes ASIR" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m19 2-5 4.5v11l5-4.5zM6.5 5C4.55 5 2.45 5.4 1 6.5v14.66c0 .25.25.5.5.5.1 0 .15-.07.25-.07 1.35-.65 3.3-1.09 4.75-1.09 1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.31 4.75 1.06.1.05.15.03.25.03.25 0 .5-.25.5-.5V6.5c-.6-.45-1.25-.75-2-1V19c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V6.5C10.55 5.4 8.45 5 6.5 5"/></svg>
+
+    </a>
+    Apuntes ASIR
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/JohnDSil/apuntes_asir" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    JohnDSil/apuntes_asir
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 Inicio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../1-curso/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📘 1º Curso
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📘 1º Curso
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/iso/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implantación de SO (ISO)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/redes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redes (PAR)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/bbdd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bases de Datos (GBD)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/hardware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamentos de Hardware (FH)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../1-curso/marcas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lenguajes de Marcas (LMSGI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../sad/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛡️ Seguridad (SAD)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛡️ Seguridad (SAD)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/01-fundamentos-seguridad/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT1: Fundamentos de Seguridad
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/02-seguridad-fisica-sai-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT2: Seguridad Física, SAI y Backups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/03-control-acceso-criptografia/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT3: Control de Acceso y Criptografía
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/04-amenazas-vulnerabilidades-forense/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT4: Amenazas, Vulnerabilidades y Forense
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sad/05-marco-legal-rgpd-aepd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UT5: Marco Legal — RGPD y AEPD
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../aso/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    💻 Sistemas (ASO)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    💻 Sistemas (ASO)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aso/01-scripting-bash/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Scripting en Bash y CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aso/02-zenity-gui-scripting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Scripting Gráfico con Zenity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../aso/03-programacion-tareas-cron-systemd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación de Tareas (cron/systemd)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🗄️ Bases de Datos (ASGBD)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🗄️ Bases de Datos (ASGBD)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-docker-sgbd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Docker y Contenedores
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-diseno-fisico-ddl-oracle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. DDL y Restricciones (Oracle)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-consultas-avanzadas-joins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Consultas Multitabla (JOINs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-agrupamiento-funciones-grupo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Agrupamiento y Funciones Grupo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-subconsultas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Subconsultas en SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-dml-transacciones/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. DML y Transacciones ACID
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Administración Oracle y PL/SQL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Administración Oracle y PL/SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-conexion-y-gestion-de-usuarios-en-oracle-express-xe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Conexión y Gestión de Usuarios en Oracle Express (XE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Conexión y Gestión de Usuarios en Oracle Express (XE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocolo-de-creacion-y-configuracion-de-un-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protocolo de Creación y Configuración de un Usuario
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamentos-del-lenguaje-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamentos del Lenguaje PL/SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamentos del Lenguaje PL/SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-bloques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de Bloques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estructura-canonica-y-asignacion-de-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estructura Canónica y Asignación de Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-de-registro-con-rowtype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables de Registro con %ROWTYPE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-estructuras-de-control-de-flujo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Estructuras de Control de Flujo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Estructuras de Control de Flujo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bifurcacion-condicional-if-then-elsif-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bifurcación Condicional: IF-THEN-ELSIF-ELSE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-estructura-selectiva-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Estructura Selectiva: CASE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-bucles-repetitivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bucles Repetitivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-programacion-modular-procedimientos-vs-funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Programación Modular: Procedimientos vs. Funciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Programación Modular: Procedimientos vs. Funciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modos-de-parametros-en-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modos de Parámetros en PL/SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-de-estudio-practico-transformacion-de-cadenas-a-minusculas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso de Estudio Práctico: Transformación de Cadenas a Minúsculas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caso de Estudio Práctico: Transformación de Cadenas a Minúsculas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-procedimiento-con-parametro-in-impresion-interna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Procedimiento con Parámetro IN (Impresión Interna)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-procedimiento-con-parametro-in-out-modificacion-en-la-variable-de-entrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Procedimiento con Parámetro IN OUT (Modificación en la Variable de Entrada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-funcion-almacenada-function-con-return" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Función Almacenada (FUNCTION) con RETURN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-gestion-de-cursores-en-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Gestión de Cursores en PL/SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Gestión de Cursores en PL/SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de Cursores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atributos-de-un-cursor-explicito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atributos de un Cursor Explícito:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ciclo-clasico-de-un-cursor-explicito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ciclo Clásico de un Cursor Explícito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cursores-con-variable-de-registro-rowtype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursores con Variable de Registro (%ROWTYPE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bucle-for-de-cursor-enfoque-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucle FOR de Cursor (Enfoque Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tratamiento-exhaustivo-de-excepciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tratamiento Exhaustivo de Excepciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tratamiento Exhaustivo de Excepciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-excepciones-predefinidas-por-oracle-con-nombre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Excepciones Predefinidas por Oracle con Nombre
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-excepciones-predefinidas-por-oracle-sin-nombre-estandar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Excepciones Predefinidas por Oracle sin Nombre Estándar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Excepciones Predefinidas por Oracle sin Nombre Estándar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodo-a-directiva-pragma-exception_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método A: Directiva PRAGMA EXCEPTION_INIT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metodo-b-captura-en-when-others-con-sqlcode-y-sqlerrm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método B: Captura en WHEN OTHERS con SQLCODE y SQLERRM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-excepciones-definidas-por-el-usuario-con-nombre-raise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Excepciones Definidas por el Usuario con Nombre (RAISE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-emision-de-errores-con-raise_application_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Emisión de Errores con RAISE_APPLICATION_ERROR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-disparadores-de-base-de-datos-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Disparadores de Base de Datos (Triggers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-script-administrativo-limpieza-integral-del-esquema-drop-all-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Script Administrativo: Limpieza Integral del Esquema (Drop All Objects)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../iaw/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🌐 Aplicaciones Web (IAW)
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🌐 Aplicaciones Web (IAW)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/01-fundamentos-web-arquitectura-cliente-servidor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Fundamentos Web y Cliente-Servidor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/02-protocolo-http-formularios/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Protocolo HTTP y Formularios
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/03-programacion-servidor-php/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Programación Backend con PHP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iaw/04-despliegue-servidores-web-docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Despliegue Web y Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../devops/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ♾️ DevOps
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ♾️ DevOps
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud1-introduccion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD1: Introducción a DevOps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud2-git-markdown/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD2: Git, Markdown y GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../devops/ud3-monitorizacion/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UD3: Monitorización de Sistemas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📂 Otros
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📂 Otros
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sri/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Servicios de Red (SRI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ingles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inglés Profesional
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-conexion-y-gestion-de-usuarios-en-oracle-express-xe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Conexión y Gestión de Usuarios en Oracle Express (XE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Conexión y Gestión de Usuarios en Oracle Express (XE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#protocolo-de-creacion-y-configuracion-de-un-usuario" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protocolo de Creación y Configuración de un Usuario
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-fundamentos-del-lenguaje-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Fundamentos del Lenguaje PL/SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Fundamentos del Lenguaje PL/SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-bloques" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de Bloques
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estructura-canonica-y-asignacion-de-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estructura Canónica y Asignación de Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#variables-de-registro-con-rowtype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Variables de Registro con %ROWTYPE
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-estructuras-de-control-de-flujo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Estructuras de Control de Flujo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Estructuras de Control de Flujo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-bifurcacion-condicional-if-then-elsif-else" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bifurcación Condicional: IF-THEN-ELSIF-ELSE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-estructura-selectiva-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Estructura Selectiva: CASE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-bucles-repetitivos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Bucles Repetitivos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-programacion-modular-procedimientos-vs-funciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Programación Modular: Procedimientos vs. Funciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Programación Modular: Procedimientos vs. Funciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modos-de-parametros-en-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modos de Parámetros en PL/SQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caso-de-estudio-practico-transformacion-de-cadenas-a-minusculas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Caso de Estudio Práctico: Transformación de Cadenas a Minúsculas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Caso de Estudio Práctico: Transformación de Cadenas a Minúsculas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-procedimiento-con-parametro-in-impresion-interna" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. Procedimiento con Parámetro IN (Impresión Interna)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-procedimiento-con-parametro-in-out-modificacion-en-la-variable-de-entrada" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. Procedimiento con Parámetro IN OUT (Modificación en la Variable de Entrada)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-funcion-almacenada-function-con-return" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Función Almacenada (FUNCTION) con RETURN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-gestion-de-cursores-en-plsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Gestión de Cursores en PL/SQL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Gestión de Cursores en PL/SQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tipos-de-cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tipos de Cursores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atributos-de-un-cursor-explicito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atributos de un Cursor Explícito:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ciclo-clasico-de-un-cursor-explicito" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ciclo Clásico de un Cursor Explícito
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cursores-con-variable-de-registro-rowtype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursores con Variable de Registro (%ROWTYPE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bucle-for-de-cursor-enfoque-recomendado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bucle FOR de Cursor (Enfoque Recomendado)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tratamiento-exhaustivo-de-excepciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Tratamiento Exhaustivo de Excepciones
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Tratamiento Exhaustivo de Excepciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-excepciones-predefinidas-por-oracle-con-nombre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Excepciones Predefinidas por Oracle con Nombre
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-excepciones-predefinidas-por-oracle-sin-nombre-estandar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Excepciones Predefinidas por Oracle sin Nombre Estándar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Excepciones Predefinidas por Oracle sin Nombre Estándar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#metodo-a-directiva-pragma-exception_init" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método A: Directiva PRAGMA EXCEPTION_INIT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metodo-b-captura-en-when-others-con-sqlcode-y-sqlerrm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Método B: Captura en WHEN OTHERS con SQLCODE y SQLERRM
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-excepciones-definidas-por-el-usuario-con-nombre-raise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Excepciones Definidas por el Usuario con Nombre (RAISE)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-emision-de-errores-con-raise_application_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Emisión de Errores con RAISE_APPLICATION_ERROR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-disparadores-de-base-de-datos-triggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Disparadores de Base de Datos (Triggers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-script-administrativo-limpieza-integral-del-esquema-drop-all-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Script Administrativo: Limpieza Integral del Esquema (Drop All Objects)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegación" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    📚 Inicio
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    🗄️ Bases de Datos (ASGBD)
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="6-administracion-de-oracle-database-y-programacion-plsql">6. Administración de Oracle Database y Programación PL/SQL<a class="headerlink" href="#6-administracion-de-oracle-database-y-programacion-plsql" title="Permanent link">&para;</a></h1>
+<p>En entornos empresariales, <strong>Oracle Database</strong> es uno de los motores relacionales más robustos. En ASGBD se aborda tanto la administración de instancias y usuarios multitenant (CDB/PDB) como la programación de lógica de negocio en servidor mediante <strong>PL/SQL</strong>.</p>
+<hr />
+<h2 id="1-conexion-y-gestion-de-usuarios-en-oracle-express-xe">1. Conexión y Gestión de Usuarios en Oracle Express (XE)<a class="headerlink" href="#1-conexion-y-gestion-de-usuarios-en-oracle-express-xe" title="Permanent link">&para;</a></h2>
+<p>Desde Oracle 12c en adelante, el motor utiliza una arquitectura <strong>Multitenant</strong>:
+- <strong>CDB (<em>Container Database</em>):</strong> Base de datos contenedora raíz (<code>CDB$ROOT</code>).
+- <strong>PDB (<em>Pluggable Database</em>):</strong> Bases de datos conectables independientes donde residen las aplicaciones y esquemas de usuario (por defecto en Oracle XE se llama <strong><code>xepdb1</code></strong>).</p>
+<pre class="mermaid"><code>flowchart TD
+    CDB["CDB$ROOT (Base de Datos Contenedora)"] --&gt; PDB1["PDB: xepdb1 (Servicio Pluggable)"]
+    PDB1 --&gt; UserA["Esquema: daniel"]
+    PDB1 --&gt; UserB["Esquema: empresa_db"]</code></pre>
+<h3 id="protocolo-de-creacion-y-configuracion-de-un-usuario">Protocolo de Creación y Configuración de un Usuario<a class="headerlink" href="#protocolo-de-creacion-y-configuracion-de-un-usuario" title="Permanent link">&para;</a></h3>
+<p>Para que un usuario pueda conectarse y crear tablas en Oracle, deben ejecutarse los siguientes pasos desde el usuario administrativo <strong><code>system</code></strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">-- 1. Conexión al servicio pluggable xepdb1 con el usuario system</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1">-- sqlplus system/contraseña@//localhost:1521/xepdb1</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">-- 2. Creación del usuario con su contraseña</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">daniel</span><span class="w"> </span><span class="n">IDENTIFIED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">daniel</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1">-- 3. Concesión de roles básicos del sistema</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1">-- CONNECT: Permite iniciar sesión (CREATE SESSION)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1">-- RESOURCE: Permite crear objetos de esquema (tablas, secuencias, disparadores, procedimientos)</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="k">GRANT</span><span class="w"> </span><span class="k">connect</span><span class="p">,</span><span class="w"> </span><span class="n">resource</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">daniel</span><span class="p">;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="c1">-- 4. Asignación de cuota de almacenamiento ilimitada en el tablespace USERS</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">ALTER</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">daniel</span><span class="w"> </span><span class="n">QUOTA</span><span class="w"> </span><span class="n">UNLIMITED</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">USERS</span><span class="p">;</span>
+</span></code></pre></div>
+<blockquote>
+<p>[!IMPORTANT] <strong>El rol de la cuota en tablespaces (Quota on USERS)</strong>
+Aunque al usuario se le conceda el rol <code>RESOURCE</code>, <strong>por defecto no tiene cuota asignada en disco</strong>. Si no se ejecuta <code>ALTER USER ... QUOTA UNLIMITED ON USERS</code>, cualquier intento de <code>CREATE TABLE</code> o <code>INSERT</code> fallará con el error <code>ORA-01950: no privileges on tablespace 'USERS'</code>.</p>
+</blockquote>
+<hr />
+<h2 id="2-fundamentos-del-lenguaje-plsql">2. Fundamentos del Lenguaje PL/SQL<a class="headerlink" href="#2-fundamentos-del-lenguaje-plsql" title="Permanent link">&para;</a></h2>
+<p><strong>PL/SQL (<em>Procedural Language / SQL</em>)</strong> es la extensión procedural propietaria de Oracle que integra la capacidad declarativa de SQL con estructuras de control de flujo algorítmico (bucles, bifurcaciones condicionales, variables, registros y gestión de excepciones).</p>
+<h3 id="tipos-de-bloques">Tipos de Bloques<a class="headerlink" href="#tipos-de-bloques" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Bloques anónimos:</strong> No se almacenan en el diccionario de datos de la base de datos; se envían desde la aplicación cliente (SQL*Plus, DBeaver) y se compilan/ejecutan al vuelo.</li>
+<li><strong>Subprogramas con nombre (almacenados):</strong> Procedimientos, funciones, paquetes y triggers que residen compilados permanentemente en el servidor.</li>
+</ol>
+<pre class="mermaid"><code>graph TD
+    Bloque["Estructura de un Bloque PL/SQL"]
+    Bloque --&gt; Dec["DECLARE (Opcional)\nVariables, constantes, cursores y tipos"]
+    Bloque --&gt; Beg["BEGIN (Obligatorio)\nInstrucciones SQL y lógica algorítmica"]
+    Bloque --&gt; Exc["EXCEPTION (Opcional)\nManejadores de error en ejecución"]
+    Bloque --&gt; Fin["END; (Obligatorio)\nFin del bloque (cerrado con '/')"]</code></pre>
+<h3 id="estructura-canonica-y-asignacion-de-variables">Estructura Canónica y Asignación de Variables<a class="headerlink" href="#estructura-canonica-y-asignacion-de-variables" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">SET</span><span class="w"> </span><span class="n">SERVEROUTPUT</span><span class="w"> </span><span class="k">ON</span><span class="p">;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">DECLARE</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="c1">-- Variables escalares simples</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">v_nombre</span><span class="w">    </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">'Juan Pérez'</span><span class="p">;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">v_edad</span><span class="w">      </span><span class="nb">NUMBER</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="w">    </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">25</span><span class="p">;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="n">c_pi</span><span class="w">        </span><span class="n">CONSTANT</span><span class="w"> </span><span class="nb">NUMBER</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">.</span><span class="mi">141592</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">-- Anclaje de tipos con %TYPE (Garantiza compatibilidad con el esquema)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">v_salario</span><span class="w">   </span><span class="n">emp</span><span class="p">.</span><span class="n">sal</span><span class="o">%</span><span class="k">TYPE</span><span class="p">;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">v_apellido</span><span class="w">  </span><span class="n">emp</span><span class="p">.</span><span class="n">ename</span><span class="o">%</span><span class="k">TYPE</span><span class="p">;</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">BEGIN</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="c1">-- Asignación por operador :=</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="n">v_salario</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">1500</span><span class="p">;</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="c1">-- Asignación mediante sentencia SELECT ... INTO (Debe retornar exactamente 1 fila)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ename</span><span class="p">,</span><span class="w"> </span><span class="n">sal</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="k">INTO</span><span class="w"> </span><span class="n">v_apellido</span><span class="p">,</span><span class="w"> </span><span class="n">v_salario</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">empno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7839</span><span class="p">;</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Empleado: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_apellido</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' | Sueldo: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_salario</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' €'</span><span class="p">);</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="k">EXCEPTION</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">NO_DATA_FOUND</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'No se ha encontrado el registro solicitado.'</span><span class="p">);</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">OTHERS</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Error imprevisto: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">SQLERRM</span><span class="p">);</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="o">/</span>
+</span></code></pre></div>
+<blockquote>
+<p>[!NOTE] <strong>Activación de salida por consola</strong>
+En clientes como SQL*Plus o SQL Developer, el búfer de salida de <code>DBMS_OUTPUT.PUT_LINE</code> está inactivo por defecto. Se debe ejecutar <strong><code>SET SERVEROUTPUT ON;</code></strong> antes de lanzar cualquier bloque.</p>
+</blockquote>
+<h3 id="variables-de-registro-con-rowtype">Variables de Registro con <code>%ROWTYPE</code><a class="headerlink" href="#variables-de-registro-con-rowtype" title="Permanent link">&para;</a></h3>
+<p>Permite declarar una variable estructurada que adopta automáticamente todas las columnas y tipos de una fila completa de una tabla o de un cursor:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">reg_emp</span><span class="w"> </span><span class="n">emp</span><span class="o">%</span><span class="n">ROWTYPE</span><span class="p">;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">BEGIN</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">reg_emp</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">empno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7839</span><span class="p">;</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Nombre: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg_emp</span><span class="p">.</span><span class="n">ename</span><span class="p">);</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Puesto: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg_emp</span><span class="p">.</span><span class="n">job</span><span class="p">);</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Fecha de Alta: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg_emp</span><span class="p">.</span><span class="n">hiredate</span><span class="p">);</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h2 id="3-estructuras-de-control-de-flujo">3. Estructuras de Control de Flujo<a class="headerlink" href="#3-estructuras-de-control-de-flujo" title="Permanent link">&para;</a></h2>
+<h3 id="1-bifurcacion-condicional-if-then-elsif-else">1. Bifurcación Condicional: <code>IF-THEN-ELSIF-ELSE</code><a class="headerlink" href="#1-bifurcacion-condicional-if-then-elsif-else" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">v_salario</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">sal</span><span class="o">%</span><span class="k">TYPE</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">2200</span><span class="p">;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">v_categoria</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">BEGIN</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="n">v_salario</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1200</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="n">v_categoria</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">'Bajo'</span><span class="p">;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">ELSIF</span><span class="w"> </span><span class="n">v_salario</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">1200</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">2500</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">        </span><span class="n">v_categoria</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">'Medio'</span><span class="p">;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">ELSE</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">        </span><span class="n">v_categoria</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">'Directivo'</span><span class="p">;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Categoría asignada: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_categoria</span><span class="p">);</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="o">/</span>
+</span></code></pre></div>
+<h3 id="2-estructura-selectiva-case">2. Estructura Selectiva: <code>CASE</code><a class="headerlink" href="#2-estructura-selectiva-case" title="Permanent link">&para;</a></h3>
+<p>PL/SQL admite tanto el <code>CASE</code> simple como el <code>CASE</code> con condiciones de búsqueda evaluadas:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">v_deptno</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">deptno</span><span class="o">%</span><span class="k">TYPE</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">v_sede</span><span class="w">   </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">BEGIN</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">v_sede</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="k">CASE</span><span class="w"> </span><span class="n">v_deptno</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'ACCOUNTING - Nueva York'</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">20</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'RESEARCH - Dallas'</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'SALES - Chicago'</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="k">WHEN</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="s1">'OPERATIONS - Boston'</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="k">ELSE</span><span class="w"> </span><span class="s1">'Sede Desconocida'</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Sede: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_sede</span><span class="p">);</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="o">/</span>
+</span></code></pre></div>
+<h3 id="3-bucles-repetitivos">3. Bucles Repetitivos<a class="headerlink" href="#3-bucles-repetitivos" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>```sql
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>-- 1. Bucle Simple (LOOP ... EXIT WHEN)
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>DECLARE
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    v_contador NUMBER := 1;
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>BEGIN
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    LOOP
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        DBMS_OUTPUT.PUT_LINE('Iteración: ' || v_contador);
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        v_contador := v_contador + 1;
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        EXIT WHEN v_contador &gt; 5;
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    END LOOP;
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>END;
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>/
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>```
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>&lt;!-- slide --&gt;
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>```sql
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>-- 2. Bucle Mientras (WHILE ... LOOP)
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>DECLARE
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    v_i NUMBER := 1;
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>BEGIN
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    WHILE v_i &lt;= 5 LOOP
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>        DBMS_OUTPUT.PUT_LINE('Valor WHILE: ' || v_i);
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>        v_i := v_i + 1;
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    END LOOP;
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>END;
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>/
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a>```
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>&lt;!-- slide --&gt;
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>```sql
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>-- 3. Bucle Contador (FOR ... IN)
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>BEGIN
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>    -- Nota: 'i' se declara implícitamente como entero
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>    FOR i IN 1..5 LOOP
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>        DBMS_OUTPUT.PUT_LINE('Paso ascendente: ' || i);
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>    END LOOP;
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>    -- Con modificador REVERSE (cuenta decreciente)
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a>    FOR i IN REVERSE 1..5 LOOP
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>        DBMS_OUTPUT.PUT_LINE('Paso inverso: ' || i);
+</span><span id="__span-5-39"><a id="__codelineno-5-39" name="__codelineno-5-39" href="#__codelineno-5-39"></a>    END LOOP;
+</span><span id="__span-5-40"><a id="__codelineno-5-40" name="__codelineno-5-40" href="#__codelineno-5-40"></a>END;
+</span><span id="__span-5-41"><a id="__codelineno-5-41" name="__codelineno-5-41" href="#__codelineno-5-41"></a>/
+</span><span id="__span-5-42"><a id="__codelineno-5-42" name="__codelineno-5-42" href="#__codelineno-5-42"></a>```
+</span></code></pre></div>
+<hr />
+<h2 id="4-programacion-modular-procedimientos-vs-funciones">4. Programación Modular: Procedimientos vs. Funciones<a class="headerlink" href="#4-programacion-modular-procedimientos-vs-funciones" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Procedimiento (<code>PROCEDURE</code>)</th>
+<th>Función (<code>FUNCTION</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Propósito Principal</strong></td>
+<td>Ejecutar una acción operativa (<em>"Hacer algo"</em>).</td>
+<td>Calcular y retornar un único valor (<em>"Obtener algo"</em>).</td>
+</tr>
+<tr>
+<td><strong>Retorno Directo</strong></td>
+<td><strong>No</strong> devuelve un valor directamente en cabecera.</td>
+<td><strong>Sí</strong>, obligatorio mediante la cláusula <code>RETURN</code>.</td>
+</tr>
+<tr>
+<td><strong>Cómo devuelve datos</strong></td>
+<td>Mediante parámetros de salida: <code>OUT</code> o <code>IN OUT</code>.</td>
+<td>Mediante la sentencia explícita <code>RETURN valor;</code>.</td>
+</tr>
+<tr>
+<td><strong>Forma de llamada</strong></td>
+<td>Como sentencia independiente: <code>mi_proc(10);</code> o <code>EXEC mi_proc;</code>.</td>
+<td>Dentro de expresiones: <code>v_res := mi_func(10);</code>.</td>
+</tr>
+<tr>
+<td><strong>Integración en SQL</strong></td>
+<td>❌ <strong>No</strong> se puede invocar dentro de una <code>SELECT</code>.</td>
+<td>✅ <strong>Sí</strong> se puede usar en sentencias <code>SELECT</code>, <code>WHERE</code>, etc.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="modos-de-parametros-en-plsql">Modos de Parámetros en PL/SQL<a class="headerlink" href="#modos-de-parametros-en-plsql" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><code>IN</code> (Por defecto):</strong> El valor entra desde el entorno que llama al subprograma. Es de <strong>solo lectura</strong> dentro del cuerpo.</li>
+<li><strong><code>OUT</code>:</strong> El valor se genera dentro del procedimiento y se devuelve a la variable que se pasó al llamarlo.</li>
+<li><strong><code>IN OUT</code>:</strong> La variable entra con un valor inicial, el subprograma lo lee, lo modifica y lo devuelve alterado al finalizar.</li>
+</ul>
+<h3 id="caso-de-estudio-practico-transformacion-de-cadenas-a-minusculas">Caso de Estudio Práctico: Transformación de Cadenas a Minúsculas<a class="headerlink" href="#caso-de-estudio-practico-transformacion-de-cadenas-a-minusculas" title="Permanent link">&para;</a></h3>
+<h4 id="a-procedimiento-con-parametro-in-impresion-interna">A. Procedimiento con Parámetro <code>IN</code> (Impresión Interna)<a class="headerlink" href="#a-procedimiento-con-parametro-in-impresion-interna" title="Permanent link">&para;</a></h4>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">minu</span><span class="w"> </span><span class="p">(</span><span class="n">v_cad</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">AS</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">v_cad_minu</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">BEGIN</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">v_cad_minu</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">v_cad</span><span class="p">);</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="n">v_cad_minu</span><span class="p">);</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">END</span><span class="w"> </span><span class="n">minu</span><span class="p">;</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="o">/</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1">-- Invocación:</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">EXEC</span><span class="w"> </span><span class="n">minu</span><span class="p">(</span><span class="s1">'HOLA MUNDO'</span><span class="p">);</span>
+</span></code></pre></div>
+<h4 id="b-procedimiento-con-parametro-in-out-modificacion-en-la-variable-de-entrada">B. Procedimiento con Parámetro <code>IN OUT</code> (Modificación en la Variable de Entrada)<a class="headerlink" href="#b-procedimiento-con-parametro-in-out-modificacion-en-la-variable-de-entrada" title="Permanent link">&para;</a></h4>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">minu</span><span class="w"> </span><span class="p">(</span><span class="n">v_cad</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">OUT</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">AS</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">BEGIN</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">v_cad</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">v_cad</span><span class="p">);</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">END</span><span class="w"> </span><span class="n">minu</span><span class="p">;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="o">/</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1">-- Invocación mediante bloque anónimo:</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="k">DECLARE</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="n">v_texto</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="s1">'CURSO DE ASGBD'</span><span class="p">;</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="k">BEGIN</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="n">minu</span><span class="p">(</span><span class="n">v_texto</span><span class="p">);</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Texto transformado: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_texto</span><span class="p">);</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="o">/</span>
+</span></code></pre></div>
+<h4 id="c-funcion-almacenada-function-con-return">C. Función Almacenada (<code>FUNCTION</code>) con <code>RETURN</code><a class="headerlink" href="#c-funcion-almacenada-function-con-return" title="Permanent link">&para;</a></h4>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">f_minu</span><span class="w"> </span><span class="p">(</span><span class="n">v_cad</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">VARCHAR2</span><span class="p">)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">RETURN</span><span class="w"> </span><span class="n">VARCHAR2</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">AS</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">BEGIN</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="k">LOWER</span><span class="p">(</span><span class="n">v_cad</span><span class="p">);</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">END</span><span class="w"> </span><span class="n">f_minu</span><span class="p">;</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="o">/</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1">-- Invocación en SQL directo:</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">ename</span><span class="p">,</span><span class="w"> </span><span class="n">f_minu</span><span class="p">(</span><span class="n">ename</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="ss">"Nombre Minúsculas"</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span><span class="p">;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="5-gestion-de-cursores-en-plsql">5. Gestión de Cursores en PL/SQL<a class="headerlink" href="#5-gestion-de-cursores-en-plsql" title="Permanent link">&para;</a></h2>
+<p>Un <strong>cursor</strong> es un puntero hacia un área privada de memoria de trabajo (<em>Private SQL Area</em>) reservada por el motor Oracle para almacenar y procesar el conjunto de resultados generado por una consulta SQL.</p>
+<pre class="mermaid"><code>flowchart TD
+    Decl["1. DECLARE (Declaración)\nCURSOR c_emp IS SELECT..."] --&gt; Open["2. OPEN (Apertura)\nSe evalúa y ejecuta la consulta SQL en la BD"]
+    Open --&gt; Fetch["3. FETCH (Recuperación)\nLee fila a fila hacia variables de memoria"]
+    Fetch --&gt; Check{"¿Hay más filas?\n(c_emp%FOUND)"}
+    Check --&gt;|"SÍ"| Fetch
+    Check --&gt;|"NO"| Close["4. CLOSE (Cierre)\nLibera la memoria del servidor"]</code></pre>
+<h3 id="tipos-de-cursores">Tipos de Cursores<a class="headerlink" href="#tipos-de-cursores" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Cursores Implícitos:</strong> Generados de forma automática por Oracle para cada orden <code>DML</code> (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) o <code>SELECT ... INTO</code> de fila única.</li>
+<li>Atributos accesibles mediante el prefijo <code>SQL</code>: <code>SQL%FOUND</code>, <code>SQL%NOTFOUND</code>, <code>SQL%ROWCOUNT</code>.</li>
+<li><strong>Cursores Explícitos:</strong> Declarados expresamente por el desarrollador para procesar consultas que devuelven <strong>múltiples filas</strong>.</li>
+</ol>
+<h3 id="atributos-de-un-cursor-explicito">Atributos de un Cursor Explícito:<a class="headerlink" href="#atributos-de-un-cursor-explicito" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Atributo</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>%ISOPEN</code></strong></td>
+<td>Booleano</td>
+<td><code>TRUE</code> si el cursor está abierto y listo para procesar.</td>
+</tr>
+<tr>
+<td><strong><code>%FOUND</code></strong></td>
+<td>Booleano</td>
+<td><code>TRUE</code> si el último <code>FETCH</code> recuperó con éxito una fila.</td>
+</tr>
+<tr>
+<td><strong><code>%NOTFOUND</code></strong></td>
+<td>Booleano</td>
+<td><code>TRUE</code> si el último <code>FETCH</code> llegó al final del conjunto (no devolvió fila).</td>
+</tr>
+<tr>
+<td><strong><code>%ROWCOUNT</code></strong></td>
+<td>Numérico</td>
+<td>Número total de filas recuperadas hasta el momento.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ciclo-clasico-de-un-cursor-explicito">Ciclo Clásico de un Cursor Explícito<a class="headerlink" href="#ciclo-clasico-de-un-cursor-explicito" title="Permanent link">&para;</a></h3>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c1">-- 1. Declaración del cursor (sin cláusula INTO)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">CURSOR</span><span class="w"> </span><span class="n">c_empleados</span><span class="w"> </span><span class="k">IS</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">empno</span><span class="p">,</span><span class="w"> </span><span class="n">ename</span><span class="p">,</span><span class="w"> </span><span class="n">sal</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">v_empno</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">empno</span><span class="o">%</span><span class="k">TYPE</span><span class="p">;</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="n">v_ename</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">ename</span><span class="o">%</span><span class="k">TYPE</span><span class="p">;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="n">v_sal</span><span class="w">   </span><span class="n">emp</span><span class="p">.</span><span class="n">sal</span><span class="o">%</span><span class="k">TYPE</span><span class="p">;</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="k">BEGIN</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="c1">-- 2. Apertura segura comprobando %ISOPEN</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="n">c_empleados</span><span class="o">%</span><span class="n">ISOPEN</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">        </span><span class="k">OPEN</span><span class="w"> </span><span class="n">c_empleados</span><span class="p">;</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="c1">-- 3. Primera recuperación (Fetch)</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="k">FETCH</span><span class="w"> </span><span class="n">c_empleados</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">v_empno</span><span class="p">,</span><span class="w"> </span><span class="n">v_ename</span><span class="p">,</span><span class="w"> </span><span class="n">v_sal</span><span class="p">;</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">    </span><span class="c1">-- Procesar mientras existan registros</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">    </span><span class="n">WHILE</span><span class="w"> </span><span class="n">c_empleados</span><span class="o">%</span><span class="k">FOUND</span><span class="w"> </span><span class="n">LOOP</span>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Nº: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_empno</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' - '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_ename</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' - Salario: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_sal</span><span class="p">);</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">        </span><span class="c1">-- Siguiente recuperación</span>
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">        </span><span class="k">FETCH</span><span class="w"> </span><span class="n">c_empleados</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">v_empno</span><span class="p">,</span><span class="w"> </span><span class="n">v_ename</span><span class="p">,</span><span class="w"> </span><span class="n">v_sal</span><span class="p">;</span>
+</span><span id="__span-9-26"><a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span>
+</span><span id="__span-9-27"><a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>
+</span><span id="__span-9-28"><a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Total procesados: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c_empleados</span><span class="o">%</span><span class="n">ROWCOUNT</span><span class="p">);</span>
+</span><span id="__span-9-29"><a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
+</span><span id="__span-9-30"><a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">    </span><span class="c1">-- 4. Cierre obligatorio para liberar recursos</span>
+</span><span id="__span-9-31"><a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">    </span><span class="k">CLOSE</span><span class="w"> </span><span class="n">c_empleados</span><span class="p">;</span>
+</span><span id="__span-9-32"><a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-9-33"><a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="o">/</span>
+</span></code></pre></div>
+<h3 id="cursores-con-variable-de-registro-rowtype">Cursores con Variable de Registro (<code>%ROWTYPE</code>)<a class="headerlink" href="#cursores-con-variable-de-registro-rowtype" title="Permanent link">&para;</a></h3>
+<p>En lugar de listar múltiples variables en el <code>FETCH</code>, se usa una única variable estructurada asociada al cursor:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">CURSOR</span><span class="w"> </span><span class="n">c_dept10</span><span class="w"> </span><span class="k">IS</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ename</span><span class="p">,</span><span class="w"> </span><span class="n">sal</span><span class="p">,</span><span class="w"> </span><span class="n">hiredate</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="n">reg_c</span><span class="w"> </span><span class="n">c_dept10</span><span class="o">%</span><span class="n">ROWTYPE</span><span class="p">;</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">BEGIN</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="k">OPEN</span><span class="w"> </span><span class="n">c_dept10</span><span class="p">;</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="k">FETCH</span><span class="w"> </span><span class="n">c_dept10</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">reg_c</span><span class="p">;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="n">WHILE</span><span class="w"> </span><span class="n">c_dept10</span><span class="o">%</span><span class="k">FOUND</span><span class="w"> </span><span class="n">LOOP</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="n">reg_c</span><span class="p">.</span><span class="n">ename</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' gana '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg_c</span><span class="p">.</span><span class="n">sal</span><span class="p">);</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">        </span><span class="k">FETCH</span><span class="w"> </span><span class="n">c_dept10</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">reg_c</span><span class="p">;</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="k">CLOSE</span><span class="w"> </span><span class="n">c_dept10</span><span class="p">;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="o">/</span>
+</span></code></pre></div>
+<h3 id="bucle-for-de-cursor-enfoque-recomendado">Bucle <code>FOR</code> de Cursor (Enfoque Recomendado)<a class="headerlink" href="#bucle-for-de-cursor-enfoque-recomendado" title="Permanent link">&para;</a></h3>
+<p>El bucle <code>FOR</code> simplifica y hace más robusto el código: <strong>Oracle realiza automáticamente el <code>OPEN</code>, la declaración de la variable registro, el <code>FETCH</code> en cada iteración y el <code>CLOSE</code> final</strong>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="k">CURSOR</span><span class="w"> </span><span class="n">c_emp</span><span class="w"> </span><span class="k">IS</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ename</span><span class="p">,</span><span class="w"> </span><span class="n">sal</span><span class="p">,</span><span class="w"> </span><span class="n">TRUNC</span><span class="p">((</span><span class="n">SYSDATE</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">hiredate</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">365</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">antiguedad</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">BEGIN</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="c1">-- La variable 'reg' se declara, abre, lee y cierra implícitamente</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="k">FOR</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">c_emp</span><span class="w"> </span><span class="n">LOOP</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Empleado: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg</span><span class="p">.</span><span class="n">ename</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' | Salario: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg</span><span class="p">.</span><span class="n">sal</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' | Años: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">reg</span><span class="p">.</span><span class="n">antiguedad</span><span class="p">);</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h2 id="6-tratamiento-exhaustivo-de-excepciones">6. Tratamiento Exhaustivo de Excepciones<a class="headerlink" href="#6-tratamiento-exhaustivo-de-excepciones" title="Permanent link">&para;</a></h2>
+<p>Una <strong>excepción</strong> es una condición de error o advertencia anómala que surge durante la ejecución de un bloque PL/SQL, alterando el flujo normal del programa.</p>
+<pre class="mermaid"><code>graph TD
+    TiposExc["Tipos de Excepciones en PL/SQL"]
+    TiposExc --&gt; Pred["1. Predefinidas por Oracle"]
+    TiposExc --&gt; DefUser["2. Definidas por el Usuario"]
+    Pred --&gt; PredNom["Con Nombre Estándar\n(NO_DATA_FOUND, TOO_MANY_ROWS, etc.)"]
+    Pred --&gt; PredSinNom["Sin Nombre Estándar\n(Asociadas con PRAGMA EXCEPTION_INIT)"]
+    DefUser --&gt; DefNom["Con Nombre Propio\n(Disparadas con RAISE)"]
+    DefUser --&gt; DefSinNom["Sin Nombre (Mensajes Personalizados)\n(RAISE_APPLICATION_ERROR)"]</code></pre>
+<hr />
+<h3 id="1-excepciones-predefinidas-por-oracle-con-nombre">1. Excepciones Predefinidas por Oracle con Nombre<a class="headerlink" href="#1-excepciones-predefinidas-por-oracle-con-nombre" title="Permanent link">&para;</a></h3>
+<p>Oracle asigna identificadores directos a los errores de tiempo de ejecución más comunes:</p>
+<table>
+<thead>
+<tr>
+<th>Nombre de la Excepción</th>
+<th>Código de Error</th>
+<th>Causa habitual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>NO_DATA_FOUND</code></strong></td>
+<td><code>ORA-01403</code></td>
+<td>Una sentencia <code>SELECT ... INTO</code> no devuelve ninguna fila.</td>
+</tr>
+<tr>
+<td><strong><code>TOO_MANY_ROWS</code></strong></td>
+<td><code>ORA-01422</code></td>
+<td>Una sentencia <code>SELECT ... INTO</code> devuelve más de una fila.</td>
+</tr>
+<tr>
+<td><strong><code>ZERO_DIVIDE</code></strong></td>
+<td><code>ORA-01476</code></td>
+<td>Intento de dividir un número por cero.</td>
+</tr>
+<tr>
+<td><strong><code>DUP_VAL_ON_INDEX</code></strong></td>
+<td><code>ORA-00001</code></td>
+<td>Intento de insertar una clave primaria o valor <code>UNIQUE</code> duplicado.</td>
+</tr>
+<tr>
+<td><strong><code>INVALID_CURSOR</code></strong></td>
+<td><code>ORA-01001</code></td>
+<td>Operación ilegal sobre un cursor (por ejemplo, hacer <code>FETCH</code> o <code>CLOSE</code> de un cursor ya cerrado).</td>
+</tr>
+<tr>
+<td><strong><code>VALUE_ERROR</code></strong></td>
+<td><code>ORA-06502</code></td>
+<td>Error aritmético, de conversión, truncamiento de cadena o desbordamiento.</td>
+</tr>
+</tbody>
+</table>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">v_nombre</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">ename</span><span class="o">%</span><span class="k">TYPE</span><span class="p">;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">BEGIN</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">ename</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">v_nombre</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">emp</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Devuelve varias filas</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Nombre: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_nombre</span><span class="p">);</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="k">EXCEPTION</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">TOO_MANY_ROWS</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Error: La consulta ha retornado múltiples filas para un escalar.'</span><span class="p">);</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">NO_DATA_FOUND</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Error: No se ha encontrado ningún empleado con ese criterio.'</span><span class="p">);</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h3 id="2-excepciones-predefinidas-por-oracle-sin-nombre-estandar">2. Excepciones Predefinidas por Oracle sin Nombre Estándar<a class="headerlink" href="#2-excepciones-predefinidas-por-oracle-sin-nombre-estandar" title="Permanent link">&para;</a></h3>
+<p>Muchos errores de Oracle (como la violación de claves foráneas) no tienen un nombre de excepción predeterminado. Para capturarlas existen dos mecanismos:</p>
+<h4 id="metodo-a-directiva-pragma-exception_init">Método A: Directiva <code>PRAGMA EXCEPTION_INIT</code><a class="headerlink" href="#metodo-a-directiva-pragma-exception_init" title="Permanent link">&para;</a></h4>
+<p>Asocia un identificador definido por el desarrollador con el código numérico oficial de Oracle en la sección declarativa:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="c1">-- 1. Declarar identificador de excepción</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="n">e_violacion_fk</span><span class="w"> </span><span class="k">EXCEPTION</span><span class="p">;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="c1">-- 2. Asociar el identificador con el código ORA-02292 (Integrity constraint violated - child record found)</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="n">PRAGMA</span><span class="w"> </span><span class="n">EXCEPTION_INIT</span><span class="p">(</span><span class="n">e_violacion_fk</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">2292</span><span class="p">);</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="n">v_deptno</span><span class="w"> </span><span class="n">dept</span><span class="p">.</span><span class="n">deptno</span><span class="o">%</span><span class="k">TYPE</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">BEGIN</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="c1">-- Si el departamento 10 tiene empleados asociados, la orden fallará:</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v_deptno</span><span class="p">;</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="k">COMMIT</span><span class="p">;</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="k">EXCEPTION</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">e_violacion_fk</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'No se puede eliminar el departamento '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_deptno</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">': tiene empleados asignados.'</span><span class="p">);</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="o">/</span>
+</span></code></pre></div>
+<h4 id="metodo-b-captura-en-when-others-con-sqlcode-y-sqlerrm">Método B: Captura en <code>WHEN OTHERS</code> con <code>SQLCODE</code> y <code>SQLERRM</code><a class="headerlink" href="#metodo-b-captura-en-when-others-con-sqlcode-y-sqlerrm" title="Permanent link">&para;</a></h4>
+<p>Las pseudofunciones <code>SQLCODE</code> (código numérico negativo) y <code>SQLERRM</code> (mensaje descriptivo) permiten inspeccionar cualquier error imprevisto:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">BEGIN</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">dept</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">deptno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">EXCEPTION</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">OTHERS</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">        </span><span class="k">IF</span><span class="w"> </span><span class="k">SQLCODE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">2292</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">            </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Error de integridad referencial detectado por SQLCODE (-2292)'</span><span class="p">);</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">        </span><span class="k">ELSE</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">            </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Error inesperado código ['</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="k">SQLCODE</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">']: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">SQLERRM</span><span class="p">);</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">        </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h3 id="3-excepciones-definidas-por-el-usuario-con-nombre-raise">3. Excepciones Definidas por el Usuario con Nombre (<code>RAISE</code>)<a class="headerlink" href="#3-excepciones-definidas-por-el-usuario-con-nombre-raise" title="Permanent link">&para;</a></h3>
+<p>Permiten modelar reglas de negocio que no constituyen un error técnico para el motor SQL pero sí una anomalía funcional para la aplicación:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">DECLARE</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="n">e_saldo_insuficiente</span><span class="w"> </span><span class="k">EXCEPTION</span><span class="p">;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="n">v_saldo</span><span class="w"> </span><span class="nb">NUMBER</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="n">v_cargo</span><span class="w"> </span><span class="nb">NUMBER</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="mi">350</span><span class="p">;</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">BEGIN</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="n">v_cargo</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">v_saldo</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">        </span><span class="c1">-- Provocación explícita de la excepción</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">        </span><span class="n">RAISE</span><span class="w"> </span><span class="n">e_saldo_insuficiente</span><span class="p">;</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">    </span><span class="n">v_saldo</span><span class="w"> </span><span class="p">:</span><span class="o">=</span><span class="w"> </span><span class="n">v_saldo</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">v_cargo</span><span class="p">;</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">    </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Operación autorizada. Saldo restante: '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">v_saldo</span><span class="p">);</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="k">EXCEPTION</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">    </span><span class="k">WHEN</span><span class="w"> </span><span class="n">e_saldo_insuficiente</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">        </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'Operación rechazada: Saldo insuficiente para realizar el pago.'</span><span class="p">);</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h3 id="4-emision-de-errores-con-raise_application_error">4. Emisión de Errores con <code>RAISE_APPLICATION_ERROR</code><a class="headerlink" href="#4-emision-de-errores-con-raise_application_error" title="Permanent link">&para;</a></h3>
+<p>Es un procedimiento del sistema que permite <strong>devolver mensajes de error personalizados y abortar la transacción</strong> hacia la aplicación cliente (por ejemplo Java, Python, PHP o SQL Developer).</p>
+<ul>
+<li><strong>Rango de códigos permitidos:</strong> Entre <strong><code>-20000</code></strong> y <strong><code>-20999</code></strong>.</li>
+<li>Solo puede invocarse desde subprogramas almacenados o bloques ejecutables.</li>
+</ul>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">actualizar_salario</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="n">p_empno</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">empno</span><span class="o">%</span><span class="k">TYPE</span><span class="p">,</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="n">p_nuevo_sal</span><span class="w"> </span><span class="n">emp</span><span class="p">.</span><span class="n">sal</span><span class="o">%</span><span class="k">TYPE</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="p">)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">IS</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="k">BEGIN</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="n">p_nuevo_sal</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">        </span><span class="c1">-- Emisión de código y mensaje controlado hacia el cliente</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">        </span><span class="n">RAISE_APPLICATION_ERROR</span><span class="p">(</span><span class="o">-</span><span class="mi">20001</span><span class="p">,</span><span class="w"> </span><span class="s1">'El salario debe ser un valor positivo estrictamente mayor que cero.'</span><span class="p">);</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="k">UPDATE</span><span class="w"> </span><span class="n">emp</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="k">SET</span><span class="w"> </span><span class="n">sal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_nuevo_sal</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="w">    </span><span class="k">WHERE</span><span class="w"> </span><span class="n">empno</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p_empno</span><span class="p">;</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="k">SQL</span><span class="o">%</span><span class="n">NOTFOUND</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="w">        </span><span class="n">RAISE_APPLICATION_ERROR</span><span class="p">(</span><span class="o">-</span><span class="mi">20002</span><span class="p">,</span><span class="w"> </span><span class="s1">'El código de empleado indicado no existe en la base de datos.'</span><span class="p">);</span>
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="k">END</span><span class="w"> </span><span class="n">actualizar_salario</span><span class="p">;</span>
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h2 id="7-disparadores-de-base-de-datos-triggers">7. Disparadores de Base de Datos (Triggers)<a class="headerlink" href="#7-disparadores-de-base-de-datos-triggers" title="Permanent link">&para;</a></h2>
+<p>Un <strong>trigger</strong> es un bloque de código PL/SQL asociado a una tabla o vista que se activa automáticamente al producirse un evento <code>DML</code> (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>).</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1">-- Trigger para auditar y bloquear bajadas salariales indebidas</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">TRIGGER</span><span class="w"> </span><span class="n">trg_auditoria_salario</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">BEFORE</span><span class="w"> </span><span class="k">UPDATE</span><span class="w"> </span><span class="k">OF</span><span class="w"> </span><span class="n">sal</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">emp</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="k">FOR</span><span class="w"> </span><span class="k">EACH</span><span class="w"> </span><span class="k">ROW</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">BEGIN</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="c1">-- :OLD contiene el valor del registro antes de la actualización</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="c1">-- :NEW contiene el nuevo valor que se pretende persistir</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">    </span><span class="k">IF</span><span class="w"> </span><span class="p">:</span><span class="k">NEW</span><span class="p">.</span><span class="n">sal</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">:</span><span class="k">OLD</span><span class="p">.</span><span class="n">sal</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">        </span><span class="n">RAISE_APPLICATION_ERROR</span><span class="p">(</span><span class="o">-</span><span class="mi">20003</span><span class="p">,</span><span class="w"> </span><span class="s1">'Infracción laboral: No se permite rebajar el salario a un trabajador.'</span><span class="p">);</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a><span class="o">/</span>
+</span></code></pre></div>
+<hr />
+<h2 id="8-script-administrativo-limpieza-integral-del-esquema-drop-all-objects">8. Script Administrativo: Limpieza Integral del Esquema (<em>Drop All Objects</em>)<a class="headerlink" href="#8-script-administrativo-limpieza-integral-del-esquema-drop-all-objects" title="Permanent link">&para;</a></h2>
+<p>En laboratorios prácticos de ASGBD y entornos de desarrollo, a menudo es necesario <strong>reiniciar por completo el esquema de trabajo</strong> eliminando todas las tablas, vistas, secuencias, procedimientos, funciones, paquetes y sinónimos creados, sin necesidad de destruir el usuario ni requerir privilegios de <code>SYSDBA</code>:</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">BEGIN</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="c1">-- 1. Bucle cursor sobre todos los objetos del esquema actual</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="k">FOR</span><span class="w"> </span><span class="n">cur_rec</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">object_name</span><span class="p">,</span><span class="w"> </span><span class="n">object_type</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">user_objects</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">object_type</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">            </span><span class="s1">'TABLE'</span><span class="p">,</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">            </span><span class="s1">'VIEW'</span><span class="p">,</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w">            </span><span class="s1">'MATERIALIZED VIEW'</span><span class="p">,</span>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">            </span><span class="s1">'PACKAGE'</span><span class="p">,</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">            </span><span class="s1">'PROCEDURE'</span><span class="p">,</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">            </span><span class="s1">'FUNCTION'</span><span class="p">,</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">            </span><span class="s1">'SEQUENCE'</span><span class="p">,</span>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">            </span><span class="s1">'SYNONYM'</span><span class="p">,</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="w">            </span><span class="s1">'PACKAGE BODY'</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="w">        </span><span class="p">)</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="w">    </span><span class="n">LOOP</span>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">        </span><span class="k">BEGIN</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a><span class="w">            </span><span class="c1">-- Si es una tabla, se eliminan forzadamente sus restricciones de integridad (FK)</span>
+</span><span id="__span-18-21"><a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">            </span><span class="k">IF</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'TABLE'</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-18-22"><a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="w">                </span><span class="k">EXECUTE</span><span class="w"> </span><span class="k">IMMEDIATE</span><span class="w"> </span><span class="s1">'DROP '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_type</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' "'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'" CASCADE CONSTRAINTS'</span><span class="p">;</span>
+</span><span id="__span-18-23"><a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a><span class="w">            </span><span class="k">ELSE</span>
+</span><span id="__span-18-24"><a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a><span class="w">                </span><span class="k">EXECUTE</span><span class="w"> </span><span class="k">IMMEDIATE</span><span class="w"> </span><span class="s1">'DROP '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_type</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' "'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'"'</span><span class="p">;</span>
+</span><span id="__span-18-25"><a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="w">            </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+</span><span id="__span-18-26"><a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a><span class="w">        </span><span class="k">EXCEPTION</span>
+</span><span id="__span-18-27"><a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="w">            </span><span class="k">WHEN</span><span class="w"> </span><span class="n">OTHERS</span><span class="w"> </span><span class="k">THEN</span>
+</span><span id="__span-18-28"><a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a><span class="w">                </span><span class="n">DBMS_OUTPUT</span><span class="p">.</span><span class="n">PUT_LINE</span><span class="p">(</span><span class="s1">'FAILED: DROP '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_type</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">' "'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">object_name</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'"'</span><span class="p">);</span>
+</span><span id="__span-18-29"><a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a><span class="w">        </span><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-18-30"><a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span>
+</span><span id="__span-18-31"><a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a>
+</span><span id="__span-18-32"><a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a><span class="w">    </span><span class="c1">-- 2. Limpieza de sinónimos públicos creados por el usuario conectado</span>
+</span><span id="__span-18-33"><a id="__codelineno-18-33" name="__codelineno-18-33" href="#__codelineno-18-33"></a><span class="w">    </span><span class="k">FOR</span><span class="w"> </span><span class="n">cur_rec</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-18-34"><a id="__codelineno-18-34" name="__codelineno-18-34" href="#__codelineno-18-34"></a><span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+</span><span id="__span-18-35"><a id="__codelineno-18-35" name="__codelineno-18-35" href="#__codelineno-18-35"></a><span class="w">        </span><span class="k">FROM</span><span class="w"> </span><span class="n">all_synonyms</span>
+</span><span id="__span-18-36"><a id="__codelineno-18-36" name="__codelineno-18-36" href="#__codelineno-18-36"></a><span class="w">        </span><span class="k">WHERE</span><span class="w"> </span><span class="n">table_owner</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">dual</span><span class="p">)</span>
+</span><span id="__span-18-37"><a id="__codelineno-18-37" name="__codelineno-18-37" href="#__codelineno-18-37"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-18-38"><a id="__codelineno-18-38" name="__codelineno-18-38" href="#__codelineno-18-38"></a><span class="w">    </span><span class="n">LOOP</span>
+</span><span id="__span-18-39"><a id="__codelineno-18-39" name="__codelineno-18-39" href="#__codelineno-18-39"></a><span class="w">        </span><span class="k">BEGIN</span>
+</span><span id="__span-18-40"><a id="__codelineno-18-40" name="__codelineno-18-40" href="#__codelineno-18-40"></a><span class="w">            </span><span class="k">EXECUTE</span><span class="w"> </span><span class="k">IMMEDIATE</span><span class="w"> </span><span class="s1">'DROP PUBLIC SYNONYM '</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">cur_rec</span><span class="p">.</span><span class="n">synonym_name</span><span class="p">;</span>
+</span><span id="__span-18-41"><a id="__codelineno-18-41" name="__codelineno-18-41" href="#__codelineno-18-41"></a><span class="w">        </span><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-18-42"><a id="__codelineno-18-42" name="__codelineno-18-42" href="#__codelineno-18-42"></a><span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span>
+</span><span id="__span-18-43"><a id="__codelineno-18-43" name="__codelineno-18-43" href="#__codelineno-18-43"></a><span class="k">END</span><span class="p">;</span>
+</span><span id="__span-18-44"><a id="__codelineno-18-44" name="__codelineno-18-44" href="#__codelineno-18-44"></a><span class="o">/</span>
+</span></code></pre></div>
+<blockquote>
+<p>[!TIP] <strong>Ventajas del script con SQL dinámico (<code>EXECUTE IMMEDIATE</code>)</strong>
+- <strong>Independencia del orden de dependencia:</strong> Al incluir <code>CASCADE CONSTRAINTS</code>, no importa en qué orden aparezcan las tablas maestras e hijas en el catálogo.
+- <strong>Tolerancia a fallos:</strong> El subbloque interno <code>BEGIN ... EXCEPTION WHEN OTHERS</code> garantiza que si un objeto falla al borrarse, la ejecución no se aborta y continúa limpiando los objetos restantes.</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.path", "navigation.indexes", "toc.follow", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
+      
+    
+  </body>
+</html>
