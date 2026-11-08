@@ -58,7 +58,7 @@ flowchart TD
 | **02** | [Seguridad Física, SAI y Copias de Seguridad](02-seguridad-fisica-sai-backup.md) | CPD, tipos de SAI (offline/interactivo/online), cálculo de VA/autonomía, copias completa/incremental/diferencial, regla 3-2-1 y RAID. |
 | **03** | [Control de Acceso, Criptografía y PKI](03-control-acceso-criptografia.md) | Control de acceso por capas, contraseñas robustas, biometría (FAR/FRR), ACL, cifrado simétrico (AES) y asimétrico (RSA), hash SHA-256, firma digital, PKI, TLS/HTTPS, SSH y VPN. |
 | **04** | [Amenazas, Vulnerabilidades y Análisis Forense](04-amenazas-vulnerabilidades-forense.md) | Ingeniería social (phishing, vishing, baiting…), rootkits, CVE/CWE/CVSS, gestión de vulnerabilidades, protección perimetral (firewall/IDS/IPS/DMZ/VLAN) y análisis forense con cadena de custodia. |
-| **05** | [Marco Legal: RGPD, LOPD y AEPD](05-marco-legal-rgpd-aepd.md) | RGPD (UE 2016/679), LOPDGDD (LO 3/2018), principios del tratamiento, derechos ARCO+POL, obligaciones del responsable, Evaluaciones de Impacto (EIPD) y sanciones de la AEPD. |
+| **05** | [Marco Legal: RGPD, LOPD y AEPD](05-marco-legal-rgpd-aepd.md) | RGPD (UE 2016/679), LOPDGDD (LO 3/2018), principios y bases jurídicas, derechos ARCO+POL, EIPD, sanciones AEPD, relaciones laborales (videovigilancia, geolocalización, whistleblowing) e IA agéntica (orientaciones AEPD Feb 2026). |
 
 ---
 
