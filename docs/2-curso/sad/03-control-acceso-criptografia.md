@@ -1,262 +1,261 @@
 # UT3: Control de Acceso, Criptografía y PKI
 
-El control de acceso y la criptografía son los pilares técnicos de tres objetivos del modelo CIDAN: **Confidencialidad**, **Integridad** y **No Repudio**. Esta unidad los estudia de lo más concreto (contraseñas y biometría) a lo más abstracto (firma digital y PKI).
+<span class="badge badge-key">Criptografía Fundamental</span>
+<span class="badge badge-exam">Preguntas Típicas de Examen</span>
+
+El control de acceso y la criptografía son los motores técnicos de tres pilares del modelo CIDAN: **Confidencialidad**, **Integridad** y **No Repudio**. Esta unidad te enseña desde los métodos de autenticación cotidiana (contraseñas, MFA y biometría) hasta la infraestructura de clave pública (PKI, TLS, firmas digitales y cifrado de discos).
 
 ---
 
-## 1. Control de Acceso Lógico por Capas (Defensa en Profundidad)
+## 🎯 Objetivos de Estudio de la Unidad
 
-El control de acceso lógico no es una única barrera, sino una **serie de capas concéntricas** que un atacante debe superar consecutivamente:
+Al finalizar el estudio de esta unidad deberás ser capaz de:
+
+- [x] Explicar el principio de **Defensa en Profundidad** y ordenar sus capas de seguridad lógica.
+- [x] Configurar directivas de contraseñas robustas en Linux (`pwquality`, `pam_faillock`) y Windows (`secpol.msc`).
+- [x] Clasificar los factores de autenticación (**MFA**) según su categoría (sabes, tienes, eres, haces).
+- [x] Entender las tasas de error biométricas (**FAR** y **FRR**) y su impacto en la seguridad vs usabilidad.
+- [x] Diferenciar sin dudar entre **Cifrado Simétrico (AES)**, **Asimétrico (RSA/ECC)** y **Funciones Hash (SHA-256)**.
+- [x] Describir el funcionamiento de una **Firma Digital** y una jerarquía de certificación **PKI**.
+- [x] Aplicar cifrado en **reposo** (LUKS, BitLocker) y en **tránsito** (TLS, SSH, VPN).
+
+---
+
+## 1. Defensa en Profundidad (Control por Capas)
+
+El control de acceso lógico no consiste en una única puerta blindada, sino en una **sucesión de anillos concéntricos**. Si un atacante supera una barrera, la siguiente capa debe frenar su avance:
 
 ```mermaid
 flowchart TD
-    Net["5. Red y Comunicaciones\n(Cortafuegos, ACL, VLAN, DMZ)"]
-    OS["3. Sistema Operativo\n(Permisos sobre ficheros; autenticación del SO)"]
-    App["4. Aplicación\n(Roles y perfiles dentro del programa)"]
-    Boot["2. Arranque: BIOS/UEFI\n(Contraseña firmware, Secure Boot, deshabilitar USB)"]
-    User["1. Usuario\n(Contraseña + MFA + Biometría)"]
-    Admin["6. Administración\n(Privilegios de administradores, logs de auditoría)"]
+    Cap1["1. Perímetro de Red\n(Firewall UFW, DMZ, VLANs, VPN)"]
+    Cap2["2. Acceso al Sistema Operativo\n(Usuarios, Contraseñas robustas, PAM, MFA)"]
+    Cap3["3. Permisos de Ficheros\n(Propietarios, chmod, chown, ACLs)"]
+    Cap4["4. Cifrado de Almacenamiento\n(Cifrado en reposo LUKS / BitLocker)"]
+    Cap5["5. Auditoría y Monitorización\n(Logs centralizados, alertas SIEM, rkhunter)"]
 
-    Net --> OS --> App --> Boot --> User
-    Admin -.->|"Supervisión"| Net
+    Cap1 --> Cap2 --> Cap3 --> Cap4 --> Cap5
 ```
-
-> [!NOTE] La defensa en profundidad
-> Quien supera un nivel todavía tiene más capas por delante. Esto contiene el movimiento lateral de un atacante que consigue comprometer un punto del sistema.
 
 ---
 
-## 2. Autenticación: Contraseñas y Factores
+## 2. Autenticación y Factores (MFA)
 
-### 2.1 Ataques contra Contraseñas
+### 2.1 Tipos de Ataques contra Contraseñas
 
-| Tipo de Ataque | Cómo Funciona | Defensa |
+| Tipo de Ataque | Mecánica | Contramedida Técnica Principal |
 | :--- | :--- | :--- |
-| **Fuerza bruta** | Probar sistemáticamente todas las combinaciones posibles. | Bloqueo de cuenta tras N intentos; contraseñas largas |
-| **Diccionario** | Probar palabras reales y variaciones habituales (`Madrid2024`). | Exigir complejidad; prohibir palabras del diccionario |
-| **Phishing de credenciales** | Engañar al usuario para que las escriba en un sitio falso. | MFA; verificar URL antes de introducir credenciales |
-
-### 2.2 Características de una Contraseña Robusta
-
-- **Longitud suficiente**: mínimo 12 caracteres (preferiblemente 16+). Cada carácter añadido multiplica exponencialmente el tiempo de fuerza bruta.
-- **Combinación de caracteres**: mayúsculas, minúsculas, dígitos y símbolos (`!@#$%^&*`).
-- **Sin secuencias ni palabras de diccionario**: evitar `qwerty`, `123456`, nombres propios o fechas.
-- **Única por servicio**: nunca reutilizar contraseñas entre cuentas.
-- **Caducidad periódica**: establecida por política, forzada por el sistema.
-
-```bash
-# Linux: Configurar complejidad de contraseñas con PAM
-# Archivo: /etc/security/pwquality.conf
-minlen = 12          # Longitud mínima
-minclass = 3         # Al menos 3 tipos de caracteres (may, min, dig, sym)
-maxrepeat = 2        # No más de 2 caracteres repetidos consecutivos
-
-# Configurar caducidad con chage
-sudo chage -M 90 usuario    # La contraseña caduca en 90 días
-sudo chage -l usuario       # Ver configuración de expiración
-
-# Bloqueo por intentos fallidos (pam_faillock)
-# /etc/security/faillock.conf
-deny = 5          # Bloquear tras 5 intentos fallidos
-unlock_time = 300 # Desbloquear automáticamente tras 300 segundos (5 min)
-```
-
-```powershell
-# Windows: Política de contraseñas via Directivas de Seguridad Local
-# secpol.msc → Directivas de cuenta → Directiva de contraseñas
-# Longitud mínima: 12 caracteres
-# Vigencia máxima: 90 días
-# Bloqueo de cuenta: 5 intentos → bloqueo durante 30 minutos
-
-# Comprobar intentos fallidos en el Visor de Eventos:
-# Evento 4625 = Inicio de sesión fallido
-# Evento 4624 = Inicio de sesión correcto
-Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4625} | Select-Object -First 10
-```
-
-### 2.3 Autenticación Multifactor (MFA / 2FA)
-
-Combinar **factores de categorías distintas** para que el robo de uno no sea suficiente:
-
-| Factor | Categoría | Ejemplos |
-| :--- | :--- | :--- |
-| **Algo que sabes** | Conocimiento | Contraseña, PIN, pregunta de seguridad |
-| **Algo que tienes** | Posesión | Token OTP (Google Authenticator), tarjeta inteligente, llave de seguridad FIDO2 |
-| **Algo que eres** | Inherencia (biometría) | Huella dactilar, reconocimiento facial, iris |
-| **Algo que haces** | Comportamiento | Patrón de escritura, firma manuscrita, dinámica de tecleo |
-
-> [!TIP] Por qué MFA es la medida más efectiva por esfuerzo invertido
-> Si un atacante roba la contraseña (algo que sabes), seguirá bloqueado si la cuenta exige también el teléfono del usuario (algo que tienes). Las credenciales filtradas en bases de datos de *breachers* son inútiles si el sistema usa MFA.
+| **Fuerza Bruta** | Prueba matemática de todas las combinaciones posibles ($A-Z, a-z, 0-9, \text{símbolos}$). | Bloqueo temporal tras $N$ intentos fallidos (`pam_faillock`) y longitud $\ge 12$ caracteres. |
+| **Diccionario** | Prueba listas de palabras comunes, contraseñas filtradas y variaciones (`Password123!`). | Prohibir términos comunes (`pwquality.conf`) y verificar diccionarios de brechas. |
+| **Phishing** | Suplantación visual de portales para robar credenciales. | **Autenticación Multifactor (MFA)**: tener la contraseña ya no basta para entrar. |
 
 ---
 
-## 3. Sistemas Biométricos
+### 2.2 Los 4 Factores de Autenticación (MFA / 2FA)
 
-### 3.1 Tipos de Biometría
+<span class="badge badge-exam">Clasificación Muy Preguntada</span>
 
-- **Biometría fisiológica** (*lo que eres*): huella dactilar, geometría facial, iris, geometría de la mano, voz.
-- **Biometría conductual** (*cómo haces algo*): firma manuscrita, dinámica de tecleo, patrón de marcha.
-
-### 3.2 Métricas de Evaluación: FAR y FRR
+Para que un sistema sea **MFA legítimo**, debe combinar factores de **al menos dos categorías distintas**:
 
 ```mermaid
-xychart-beta
-  title "Relación entre FAR y FRR según el umbral"
-  x-axis ["Umbral 1 (Estricto)", "Umbral 2", "Umbral 3", "Umbral 4 (Flexible)"]
-  y-axis "Tasa de Error (%)" 0 --> 20
-  line [1, 3, 7, 15]
-  line [15, 7, 3, 1]
+flowchart TD
+    subgraph MFA ["Categorías de Factores de Autenticación"]
+        F1["1. Algo que SABES\n(Conocimiento)\nEj: Contraseña, PIN, pregunta secreta"]
+        F2["2. Algo que TIENES\n(Posesión)\nEj: Token TOTP en móvil, Tarjeta inteligente, Llave FIDO2/YubiKey"]
+        F3["3. Algo que ERES\n(Biometría Fisiológica)\nEj: Huella dactilar, Reconocimiento facial, Iris"]
+        F4["4. Algo que HACES\n(Biometría Conductual)\nEj: Dinámica de tecleo, patrón de firma, modo de caminar"]
+    end
 ```
 
-| Métrica | Nombre Completo | Qué Mide | Consecuencia de ser Alta |
+> [!WARNING] Pregunta Trampa de Examen sobre 2FA
+> Si un sistema te pide **una contraseña** y luego **un PIN numérico**, ¿es doble factor (2FA)?
+> **NO**. Ambos pertenecen a la misma categoría (*algo que sabes*). Para ser 2FA real debe exigir, por ejemplo, contraseña (*algo que sabes*) + código generado en el móvil (*algo que tienes*).
+
+---
+
+### 2.3 Implementación Práctica: Configuración en Linux y Windows
+
+=== "🐧 Linux (PAM y Chage)"
+    ```bash
+    # 1. Configurar complejidad obligatoria de contraseñas
+    # Editar /etc/security/pwquality.conf:
+    minlen = 12          # Longitud mínima de 12 caracteres
+    minclass = 3         # Exigir al menos 3 clases (mayúsculas, minúsculas, dígitos, símbolos)
+    maxrepeat = 2        # Máximo 2 caracteres idénticos seguidos
+
+    # 2. Configurar bloqueo por intentos fallidos
+    # En /etc/security/faillock.conf:
+    deny = 5             # Bloquear al 5º fallo consecutivo
+    unlock_time = 600    # Bloqueo durante 10 minutos (600 segundos)
+
+    # 3. Forzar caducidad y cambio periódico con chage:
+    sudo chage -M 90 -W 7 usuario  # Caduca a los 90 días, avisa 7 días antes
+    sudo chage -d 0 usuario        # Obliga a cambiarla en el próximo inicio de sesión
+    ```
+
+=== "🪟 Windows Server (GPO y PowerShell)"
+    ```powershell
+    # Configuración mediante secpol.msc (Directiva de Seguridad Local):
+    # Directivas de cuenta -> Directiva de contraseñas:
+    # - Longitud mínima: 12 caracteres
+    # - La contraseña debe cumplir requisitos de complejidad: Habilitada
+    # - Vigencia máxima: 90 días
+
+    # Directivas de bloqueo de cuenta:
+    # - Umbral de bloqueo: 5 intentos incorrectos
+    # - Duración del bloqueo: 15 minutos
+
+    # Auditar intentos de acceso fallidos mediante Visor de Eventos / PowerShell:
+    Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4625} | Select-Object TimeCreated, Message -First 5
+    ```
+
+---
+
+## 3. Biometría: Tasas de Error FAR y FRR
+
+Los sistemas biométricos no son binarios (sí/no exacto), sino que calculan un porcentaje de similitud estadística:
+
+| Métrica | Nombre | Definición | Impacto si es alta |
 | :--- | :--- | :--- | :--- |
-| **FAR** | *False Acceptance Rate* | Frecuencia con que el sistema acepta a un **impostor** | Brecha de seguridad |
-| **FRR** | *False Rejection Rate* | Frecuencia con que el sistema rechaza a un **usuario legítimo** | Frustración y pérdida de productividad |
+| **FAR** | *False Acceptance Rate* (Tasa de Falsa Aceptación) | Porcentaje de veces que el sistema deja pasar a un **impostor**. | 🔴 **Fallo Crítico de Seguridad** (acceso no autorizado). |
+| **FRR** | *False Rejection Rate* (Tasa de Falso Rechazo) | Porcentaje de veces que el sistema bloquea a un **usuario legítimo**. | 🟡 **Problema de Usabilidad** (molestias al usuario). |
 
-> [!CAUTION] Las biométricas no son la panacea
-> - **No son revocables**: si te roban una contraseña, la cambias; tu huella dactilar es permanente. Una filtración biométrica es para siempre.
-> - **Son vulnerables a suplantación (*spoofing*)**: fotografías, moldes de silicona, voz sintética con IA.
-> - **RGPD (Art. 9)**: Los datos biométricos usados para identificar a una persona son **datos especialmente protegidos**. Su tratamiento está prohibido en general, salvo excepciones como el consentimiento explícito.
+> [!TIP] Punto de Cruce (EER - Equal Error Rate)
+> El punto donde la curva de FAR y la curva de FRR se cruzan se denomina **EER**. Cuanto más bajo sea el EER de un dispositivo biométrico, **mayor es su calidad y precisión global**.
 
 ---
 
-## 4. Listas de Control de Acceso (ACL)
+## 4. Criptografía: Simétrica vs Asimétrica vs Hash
 
-Una **ACL** (*Access Control List*) es una lista de reglas que define qué **sujetos** pueden realizar qué **acciones** sobre qué **recursos**:
+<span class="badge badge-exam">Tabla Comparativa Clave</span>
+
+```mermaid
+flowchart TD
+    subgraph CRIPTO ["Las 3 Ramas de la Criptografía"]
+        SIM["Cifrado Simétrico\n(1 Clave Secreta Compartida)\nUso: Cifrar grandes volúmenes de datos"]
+        ASI["Cifrado Asimétrico\n(Par: Clave Pública + Clave Privada)\nUso: Firma digital y acuerdo de claves"]
+        HAS["Funciones Hash\n(Huella unidireccional de longitud fija)\nUso: Verificar integridad de archivos y claves"]
+    end
+```
+
+| Criterio | Cifrado Simétrico | Cifrado Asimétrico | Funciones Hash |
+| :--- | :--- | :--- | :--- |
+| **Número de claves** | **1 sola clave** (secreta para cifrar y descifrar). | **2 claves vinculadas** (Pública para todos, Privada solo tuya). | **0 claves** (cálculo matemático matemático determinista). |
+| **Velocidad** | 🚀 **Muy rápido**. | 🐢 **Muy lento y pesado**. | 🚀 Extremadamente rápido. |
+| **Algoritmos típicos** | **AES** (128/256 bits), ChaCha20, 3DES (obsoleto). | **RSA** (2048/4096 bits), ECC (Curvas Elípticas). | **SHA-256**, SHA-3, MD5/SHA-1 (rotos/inseguros). |
+| **Objetivo CIDAN** | **Confidencialidad** masiva (discos, túneles VPN). | **No repudio**, autenticación y cifrado de claves. | **Integridad** (detección de cambios). |
+
+---
+
+## 5. El Mecanismo de la Firma Digital y PKI
+
+### 5.1 ¿Cómo se genera y cómo se comprueba una Firma Digital?
+
+La firma digital resuelve a la vez la **Integridad**, la **Autenticación** y el **No Repudio**:
 
 ```
-SUJETO (usuario/grupo/IP)  +  RECURSO (fichero/puerto/BD)  +  ACCIÓN (leer/escribir/ejecutar)
-```
+PASO 1: GENERACIÓN DE LA FIRMA (Por el emisor con su CLAVE PRIVADA)
+Documento Original ──► [Algoritmo SHA-256] ──► Hash H1
+Hash H1 + CLAVE PRIVADA DEL EMISOR ──► [Cifrado Asimétrico] ──► FIRMA DIGITAL
 
-```bash
-# ACL en Linux (Sistema de Ficheros)
-# Ver ACL de un directorio:
-getfacl /srv/proyectos
+PASO 2: VERIFICACIÓN DE LA FIRMA (Por el receptor con la CLAVE PÚBLICA del emisor)
+Firma Digital + CLAVE PÚBLICA DEL EMISOR ──► [Descifrado] ──► Hash Obtenido H1
+Documento Recibido ──► [Algoritmo SHA-256] ──► Hash Calculado H2
 
-# Dar permiso de lectura al grupo "auditores" sin cambiar los permisos estándar UNIX:
-setfacl -m g:auditores:r /srv/proyectos/confidencial
-
-# Regla de red en UFW (cortafuegos):
-sudo ufw allow from 192.168.1.0/24 to any port 22 proto tcp   # SSH solo desde LAN interna
-sudo ufw deny from any to any port 23 proto tcp                # Bloquear Telnet a todos
+¿H1 == H2?
+├── SÍ: El documento es auténtico y NO ha sido alterado ✅
+└── NO: El documento fue modificado en el camino o la firma no es legítima ❌
 ```
 
 ---
 
-## 5. Criptografía Aplicada
+### 5.2 Jerarquía de Certificados Digitales (PKI)
 
-La criptografía es la base técnica de tres objetivos del CIDAN: **Confidencialidad** (cifrado), **Integridad** (hash) y **No Repudio** (firma digital).
+¿Cómo sabe el receptor que la clave pública de Ana pertenece realmente a Ana y no a un atacante intermediario (*MITM*)?
 
-### 5.1 Cifrado Simétrico
+Para resolverlo interviene una **Autoridad de Certificación (CA)** de confianza reconocida (como FNMT, DigiCert o Let's Encrypt):
 
-Emisor y receptor comparten la **misma clave secreta** para cifrar y descifrar:
+```mermaid
+flowchart TD
+    CA["Autoridad de Certificación (CA Raíz)\n(Entidad de confianza preinstalada en el navegador/SO)"]
+    CERT["Certificado Digital X.509\n(Contiene: Nombre del servidor/titular + Su Clave Pública + Firma de la CA)"]
+    CLIENTE["Cliente Web / Navegador\nVerifica la firma del certificado usando la clave pública de la CA"]
 
+    CA -->|"Emite y firma digitalmente"| CERT
+    CERT -->|"Se presenta durante el handshake TLS"| CLIENTE
+    CLIENTE -->|"Firma válida = Conexión segura"| HTTPS["🔒 Conexión Cifrada Verificada"]
 ```
-Texto claro ──[Cifrar con CLAVE K]──► Texto cifrado ──[Descifrar con CLAVE K]──► Texto claro
-```
 
-- **Algoritmo de referencia**: AES (Advanced Encryption Standard) — estándar del NIST, ampliamente usado.
-- **Ventaja**: Muy rápido; ideal para grandes volúmenes de datos.
-- **Problema crítico**: ¿Cómo intercambiar la clave K por un canal seguro sin que nadie la intercepte?
+---
 
-### 5.2 Cifrado Asimétrico (Clave Pública / Clave Privada)
-
-Resuelve el problema del intercambio de clave. Cada usuario tiene **un par de claves matemáticamente vinculadas**:
+## 6. Cifrado en Reposo y en Tránsito: Laboratorio
 
 ```mermaid
 flowchart LR
-    subgraph Confidencialidad ["Para Confidencialidad"]
-        A1["Ana cifra con la CLAVE PÚBLICA de Beto"] -->|Canal inseguro| B1["Solo Beto descifra\ncon su CLAVE PRIVADA"]
-    end
-    subgraph FirmaDigital ["Para Firma Digital / No Repudio"]
-        A2["Ana firma con su propia CLAVE PRIVADA\n(cifra el hash del mensaje)"] -->|Canal inseguro| B2["Cualquiera verifica\ncon la CLAVE PÚBLICA de Ana\n→ Demuestra autoría e integridad"]
-    end
+    A["DATOS EN REPOSO\n(En disco duro, USB, BD)\nDefensa: LUKS, BitLocker"] 
+    B["DATOS EN TRÁNSITO\n(Viajando por cables/WiFi/Internet)\nDefensa: TLS, HTTPS, SSH, VPN"]
 ```
 
-- **Algoritmos de referencia**: RSA, ECC (Elliptic Curve Cryptography).
-- **Desventaja**: Lento; no se usa para cifrar archivos grandes directamente.
+### Laboratorio Práctico con Comandos
 
-### 5.3 Esquema Híbrido (Lo Que Usa TLS en la Práctica)
+=== "🔒 Cifrado de Discos con LUKS (Linux)"
+    ```bash
+    # 1. Instalar herramientas
+    sudo apt install cryptsetup -y
 
-TLS (el protocolo detrás de HTTPS) combina lo mejor de los dos mundos:
+    # 2. Formatear la partición con el formato cifrado estándar LUKS
+    sudo cryptsetup luksFormat /dev/sdb1
 
-1. **Fase de apretón de manos (asimétrico)**: El cliente y el servidor usan criptografía asimétrica para acordar de forma segura una clave de sesión aleatoria (K).
-2. **Fase de datos (simétrico)**: Con la clave de sesión K acordada, toda la comunicación posterior se cifra simétricamente con AES, que es mucho más rápido.
+    # 3. Abrir la partición cifrada (solicitará la contraseña maestra)
+    sudo cryptsetup open /dev/sdb1 datos_seguros
 
-### 5.4 Funciones Hash e Integridad
+    # 4. Crear sistema de archivos ext4 sobre el dispositivo descifrado virtual
+    sudo mkfs.ext4 /dev/mapper/datos_seguros
 
-Una función *hash* (o función resumen) transforma datos de cualquier tamaño en una **huella de longitud fija e irreversible**:
+    # 5. Montar en un directorio para trabajar normalmente
+    sudo mkdir -p /mnt/privado
+    sudo mount /dev/mapper/datos_seguros /mnt/privado
 
-| Propiedad | Descripción |
-| :--- | :--- |
-| **Determinismo** | El mismo dato produce siempre el mismo hash. |
-| **Efecto avalancha** | Cambiar un solo bit del dato produce un hash completamente diferente. |
-| **No reversibilidad** | No se puede reconstruir el dato original a partir del hash. |
-| **Libre de colisiones** | (Ideal) Dos datos distintos no producen el mismo hash. |
+    # 6. Al terminar: desmontar y cerrar el contenedor seguro
+    sudo umount /mnt/privado
+    sudo cryptsetup close datos_seguros
+    ```
 
-```bash
-# Verificar la integridad de una descarga ISO con SHA-256
-sha256sum debian-12.9.0-amd64-netinst.iso
-# Comparar con el hash publicado en la web oficial de Debian
+=== "🌐 Comprobación de Integridad y Claves SSH"
+    ```bash
+    # Calcular hash SHA-256 para verificar que una ISO no está corrupta ni infectada
+    sha256sum debian-12.9.0-amd64-netinst.iso
 
-# Linux: verificar integridad de archivos del sistema
-rkhunter --propupd    # Crear base de huellas con el sistema limpio (¡hacer tras instalación!)
-rkhunter --check      # Analizar; comparar con la base de referencia
+    # Generar par de claves asimétricas robustas para SSH (Ed25519)
+    ssh-keygen -t ed25519 -C "admin@empresa.com"
+    # id_ed25519     -> Tu CLAVE PRIVADA (NUNCA se comparte)
+    # id_ed25519.pub -> Tu CLAVE PÚBLICA (se sube al servidor)
 
-# Windows: Verificar archivos del sistema
-sfc /scannow          # System File Checker
-```
-
-### 5.5 Firma Digital, Certificados y PKI
-
-La **firma digital** combina el hash y el cifrado asimétrico para proporcionar a la vez:
-- ✅ **Integridad**: Si el documento cambia, el hash no coincide al verificar.
-- ✅ **Autenticación**: Solo el firmante tiene su clave privada.
-- ✅ **No repudio**: No puede negar que firmó.
-
-```
-1. Se calcula: Hash(documento) = H
-2. Se firma:   Firma = Cifrar(H, Clave_Privada_Firmante)
-3. Para verificar: Descifrar(Firma, Clave_Pública_Firmante) debe coincidir con Hash(documento_recibido)
-```
-
-#### Infraestructura de Clave Pública (PKI) y Certificados Digitales
-
-**El problema de confianza**: ¿Cómo sé que la clave pública que he recibido es realmente de quien dice ser y no de un atacante en un *Man-in-the-Middle*?
-
-```mermaid
-flowchart TD
-    CA["Autoridad de Certificación (CA)\n(Entidad de confianza: DigiCert, Let's Encrypt, FNMT)\nFirma digitalmente los certificados"]
-    Cert["Certificado Digital X.509\n(Vincula: Nombre + Clave Pública + Firma de la CA)"]
-    Browser["Navegador Web\nTiene una lista de CAs de confianza preinstalada\nVerifica la firma del certificado de la web"]
-
-    CA -->|"Emite y firma"| Cert
-    Cert -->|"El servidor lo presenta"| Browser
-    Browser -->|"Verifica contra su lista de CAs"| OK["🔒 Conexión HTTPS verificada\n(Candado verde)"]
-```
+    # Copiar la clave pública al servidor remoto para login sin contraseña
+    ssh-copy-id -i ~/.ssh/id_ed25519.pub usuario@192.168.1.50
+    ```
 
 ---
 
-## 6. Cifrado en Reposo y en Tránsito
+## 📝 Chuleta Rápida de Examen
 
-| Escenario | Herramientas Principales | Protege contra |
-| :--- | :--- | :--- |
-| **Reposo (datos guardados)** | BitLocker (Windows), LUKS/dm-crypt (Linux), eCryptfs, GnuPG | Robo del disco o del servidor físico |
-| **Tránsito (datos en movimiento)** | TLS/HTTPS, SSH, VPN (OpenVPN, WireGuard, IPSec) | Interceptación (*sniffing*), alteración (*MITM*) |
+| Concepto | Regla mnemotécnica / Resumen |
+| :--- | :--- |
+| **¿Para qué sirve el Cifrado Simétrico?** | Para cifrar datos rápidamente con una sola clave compartida (ej: AES-256 en LUKS o BitLocker). |
+| **¿Para qué sirve el Cifrado Asimétrico?** | Para firmar documentos y acordar claves seguras entre desconocidos (ej: RSA, TLS). |
+| **¿Con qué clave se FIRMA digitalmente?** | Con la **CLAVE PRIVADA del emisor** (solo él puede hacerlo). |
+| **¿Con qué clave se VERIFICA una firma?** | Con la **CLAVE PÚBLICA del emisor** (cualquiera puede comprobarlo). |
+| **¿Con qué clave se CIFRA para enviar un secreto?** | Con la **CLAVE PÚBLICA del destinatario** (para que solo su privada pueda descifrar). |
+| **¿Qué es el FAR?** | Tasa que deja entrar a un impostor (el fallo más peligroso en biometría). |
 
-```bash
-# Linux: Cifrar un disco/partición completo con LUKS
-cryptsetup luksFormat /dev/sdb              # Formatear como contenedor LUKS
-cryptsetup open /dev/sdb disco_cifrado      # Abrir y mapear como dispositivo
-mkfs.ext4 /dev/mapper/disco_cifrado         # Crear sistema de ficheros encima
-mount /dev/mapper/disco_cifrado /mnt/datos  # Montar
+---
 
-# Generar par de claves RSA para SSH (autenticación sin contraseña)
-ssh-keygen -t ed25519 -C "admin@empresa.local"
-ssh-copy-id usuario@servidor.empresa.local  # Instalar clave pública en el servidor
-```
+## ❓ Test de Autoevaluación
 
-> [!IMPORTANT] Reposo y tránsito son dos problemas distintos
-> - Cifrar el disco no protege los datos mientras viajan por la red.
-> - Cifrar el canal (TLS/VPN) no protege lo que queda guardado en el servidor si alguien accede localmente.
-> - Un sistema bien protegido aplica **ambos** sin excepción.
+??? question "Si Ana quiere enviar un mensaje confidencial a Beto usando criptografía asimétrica, ¿con qué clave debe cifrarlo Ana y con qué clave lo descifrará Beto?"
+    **Respuesta**: Ana debe cifrar el mensaje con la **CLAVE PÚBLICA de Beto**. De este modo, únicamente Beto (poseedor exclusivo de su correspondiente **CLAVE PRIVADA**) será matemáticamente capaz de descifrarlo.
+
+??? question "¿Por qué una función Hash como SHA-256 no sirve para enviar mensajes secretos?"
+    **Respuesta**: Porque una función hash es **unidireccional e irreversible**: destruye la información original generando un resumen matemático de longitud fija. A partir del hash resultante es matemáticamente imposible recuperar el texto o archivo original. Su propósito exclusivo es garantizar la **Integridad**, no la confidencialidad.
+
+??? question "En un control de acceso de alta seguridad de una base militar, ¿se configurará el sensor biométrico con un umbral que priorice un FAR muy bajo o un FRR muy bajo?"
+    **Respuesta**: Se priorizará un **FAR (False Acceptance Rate) extremadamente bajo**, prácticamente cero. En una instalación crítica es preferible que el sistema rechace por error en primera instancia a un usuario legítimo (FRR alto, subsanable reintentando) antes que permitir la entrada a un impostor (FAR).

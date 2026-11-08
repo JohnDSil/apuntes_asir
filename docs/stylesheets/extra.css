@@ -1,159 +1,237 @@
 /* ==========================================================================
-   Estilos personalizados para Apuntes ASIR - Material for MkDocs
-   Optimizados para legibilidad, estudio y diseño visual moderno
+   Plataforma de Aprendizaje ASIR - Diseño LMS Educativo
    ========================================================================== */
 
-/* Variables de personalización */
 :root {
-  --md-primary-fg-color:        #2563eb; /* Azul corporativo moderno */
+  --md-primary-fg-color:        #1e40af; /* Azul institucional académico */
   --md-primary-fg-color--light:  #3b82f6;
-  --md-primary-fg-color--dark:   #1d4ed8;
-  --md-accent-fg-color:         #0ea5e9; /* Cyan tecnológico */
+  --md-primary-fg-color--dark:   #172554;
+  --md-accent-fg-color:         #0284c7;
   
-  /* Fuentes optimizadas */
   --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --md-code-font: "JetBrains Mono", "Fira Code", monospace;
 }
 
-/* Modo oscuro con tonos slate más suaves y confortables */
 [data-md-color-scheme="slate"] {
   --md-primary-fg-color:        #3b82f6;
   --md-primary-fg-color--light:  #60a5fa;
-  --md-primary-fg-color--dark:   #2563eb;
+  --md-primary-fg-color--dark:   #1d4ed8;
   --md-accent-fg-color:         #38bdf8;
-  --md-default-bg-color:        #0f172a;
+  --md-default-bg-color:        #0b1120;
   --md-default-bg-color--light:  #1e293b;
   --md-default-bg-color--lighter: #334155;
 }
 
-/* Tarjetas interactivas (Grid cards) */
-.grid.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0;
-}
-
-.grid.cards > ul {
-  display: contents;
-}
-
-.grid.cards > ul > li,
-.card-item {
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 12px;
-  padding: 1.25rem 1.25rem 1rem;
-  background: var(--md-default-bg-color);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+/* Banner de bienvenida LMS */
+.lms-hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 2.2rem 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.25);
   position: relative;
   overflow: hidden;
-  list-style: none;
 }
 
-.grid.cards > ul > li:hover,
-.card-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -4px rgba(37, 99, 235, 0.1);
+.lms-hero h1 {
+  color: #ffffff !important;
+  margin-top: 0 !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+.lms-hero p {
+  color: #e0f2fe;
+  font-size: 1.05rem;
+  max-width: 720px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Tarjetas de Asignatura (Course Cards) */
+.course-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 14px;
+  padding: 1.4rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none !important;
+  position: relative;
+}
+
+.course-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px -10px rgba(37, 99, 235, 0.2);
   border-color: var(--md-primary-fg-color--light);
 }
 
-/* Badges / Etiquetas de examen y tipos */
+.course-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+
+.course-icon {
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--md-primary-fg-color);
+}
+
+.course-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+  margin: 0;
+}
+
+.course-code {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--md-primary-fg-color);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.course-desc {
+  font-size: 0.9rem;
+  color: var(--md-default-fg-color--light);
+  line-height: 1.5;
+  margin: 0.5rem 0 1rem;
+}
+
+.course-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.course-stats {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--lighter);
+}
+
+.course-btn {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--md-primary-fg-color);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Badges de Estado y Categoría */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.2rem 0.6rem;
+  padding: 0.22rem 0.65rem;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
   border-radius: 9999px;
-  letter-spacing: 0.04em;
-  vertical-align: middle;
-}
-
-.badge-exam {
-  background-color: rgba(239, 68, 68, 0.15);
-  color: #dc2626;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-[data-md-color-scheme="slate"] .badge-exam {
-  background-color: rgba(239, 68, 68, 0.25);
-  color: #f87171;
-  border-color: rgba(239, 68, 68, 0.4);
-}
-
-.badge-practice {
-  background-color: rgba(16, 185, 129, 0.15);
-  color: #059669;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-[data-md-color-scheme="slate"] .badge-practice {
-  background-color: rgba(16, 185, 129, 0.25);
-  color: #34d399;
-  border-color: rgba(16, 185, 129, 0.4);
-}
-
-.badge-theory {
-  background-color: rgba(59, 130, 246, 0.15);
-  color: #2563eb;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-}
-
-[data-md-color-scheme="slate"] .badge-theory {
-  background-color: rgba(59, 130, 246, 0.25);
-  color: #60a5fa;
-  border-color: rgba(59, 130, 246, 0.4);
-}
-
-.badge-key {
-  background-color: rgba(245, 158, 11, 0.15);
-  color: #d97706;
-  border: 1px solid rgba(245, 158, 11, 0.3);
-}
-
-[data-md-color-scheme="slate"] .badge-key {
-  background-color: rgba(245, 158, 11, 0.25);
-  color: #fbbf24;
-  border-color: rgba(245, 158, 11, 0.4);
-}
-
-/* Tablas mejoradas para estudio */
-.md-typeset table:not([class]) {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  margin: 1.2rem 0;
-  display: table;
-  width: 100%;
-}
-
-.md-typeset table:not([class]) th {
-  background-color: rgba(37, 99, 235, 0.08);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.78rem;
   letter-spacing: 0.03em;
 }
 
-[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
-  background-color: rgba(59, 130, 246, 0.15);
+.badge-exam {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
-/* Admonitions estilizadas para estudio */
-.md-typeset .admonition {
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+.badge-practice {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
-/* Diagramas Mermaid centrados y elegantes */
-.md-typeset .mermaid {
+.badge-theory {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+/* Pasos numerados estilo Learning Path */
+.learning-path {
   display: flex;
-  justify-content: center;
-  background-color: var(--md-default-bg-color--lighter);
-  padding: 1.2rem;
-  border-radius: 10px;
+  flex-direction: column;
+  gap: 1.2rem;
   margin: 1.5rem 0;
+}
+
+.path-step {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  padding: 1.1rem;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 12px;
+  transition: border-color 0.2s ease;
+}
+
+.path-step:hover {
+  border-color: var(--md-primary-fg-color--light);
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--md-primary-fg-color);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.step-content {
+  flex-grow: 1;
+}
+
+.step-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 0.3rem;
+  color: var(--md-default-fg-color);
+}
+
+.step-desc {
+  font-size: 0.88rem;
+  color: var(--md-default-fg-color--light);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Rutas de Estudio y Guía para Principiantes */
+.beginner-box {
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  margin: 1.5rem 0;
+}
+
+.beginner-box h4 {
+  margin: 0 0 0.4rem;
+  color: #0284c7;
+  font-weight: 700;
 }
