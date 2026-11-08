@@ -1,5 +1,5 @@
-site_name: Apuntes ASIR
-site_description: Repositorio central de apuntes, prácticas de laboratorio y preparación de exámenes para el CFGS ASIR
+site_name: Apuntes ASIR | Campus de Aprendizaje
+site_description: Aprende Administración de Sistemas Informáticos en Red desde cero. Apuntes, prácticas, comandos y exámenes resueltos.
 site_author: Daniel Silva
 repo_name: JohnDSil/apuntes_asir
 repo_url: https://github.com/JohnDSil/apuntes_asir
@@ -12,25 +12,23 @@ theme:
     text: Inter
     code: JetBrains Mono
   icon:
-    logo: material/school
+    logo: material/console
     repo: fontawesome/brands/github
   palette:
-    # Esquema modo claro
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: cyan
-      toggle:
-        icon: material/weather-night
-        name: Cambiar a modo oscuro
-    # Esquema modo oscuro
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: indigo
+    # Tema oscuro MoureDev por defecto
+    - scheme: slate
+      primary: black
       accent: light blue
       toggle:
         icon: material/weather-sunny
         name: Cambiar a modo claro
+    # Modo claro alternativo
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Cambiar a modo oscuro
   features:
     - navigation.tabs
     - navigation.tabs.sticky
@@ -82,45 +80,45 @@ markdown_extensions:
       permalink: true
 
 nav:
-  - '🎓 Inicio': index.md
-  - '📘 1º Curso':
+  - 'Inicio': index.md
+  - 'Seguridad (SAD)':
+      - 'Visión General': 2-curso/sad/index.md
+      - 'UT1: Fundamentos de Seguridad': 2-curso/sad/01-fundamentos-seguridad.md
+      - 'UT2: Seguridad Física, SAI y Backups': 2-curso/sad/02-seguridad-fisica-sai-backup.md
+      - 'UT3: Control de Acceso y Criptografía': 2-curso/sad/03-control-acceso-criptografia.md
+      - 'UT4: Amenazas, Vulnerabilidades y Forense': 2-curso/sad/04-amenazas-vulnerabilidades-forense.md
+      - 'UT5: Marco Legal — RGPD y AEPD': 2-curso/sad/05-marco-legal-rgpd-aepd.md
+  - 'Sistemas (ASO)':
+      - 'Visión General': 2-curso/aso/index.md
+      - '1. Scripting en Bash y CLI': 2-curso/aso/01-scripting-bash.md
+      - '2. Scripting Gráfico con Zenity': 2-curso/aso/02-zenity-gui-scripting.md
+      - '3. Programación de Tareas (cron/systemd)': 2-curso/aso/03-programacion-tareas-cron-systemd.md
+  - 'Bases de Datos (ASGBD)':
+      - 'Visión General': 2-curso/asgbd/index.md
+      - '1. Docker y Contenedores': 2-curso/asgbd/01-docker-sgbd.md
+      - '2. DDL y Restricciones (Oracle)': 2-curso/asgbd/02-diseno-fisico-ddl-oracle.md
+      - '3. Consultas Multitabla (JOINs)': 2-curso/asgbd/03-consultas-avanzadas-joins.md
+      - '4. Agrupamiento y Funciones Grupo': 2-curso/asgbd/04-agrupamiento-funciones-grupo.md
+      - '5. Subconsultas en SQL': 2-curso/asgbd/05-subconsultas.md
+      - '6. DML y Transacciones ACID': 2-curso/asgbd/06-dml-transacciones.md
+      - '7. Administración Oracle y PL/SQL': 2-curso/asgbd/07-administracion-oracle-plsql.md
+  - 'Web (IAW)':
+      - 'Visión General': 2-curso/iaw/index.md
+      - '1. Fundamentos Web y Cliente-Servidor': 2-curso/iaw/01-fundamentos-web-arquitectura-cliente-servidor.md
+      - '2. Protocolo HTTP y Formularios': 2-curso/iaw/02-protocolo-http-formularios.md
+      - '3. Programación Backend con PHP': 2-curso/iaw/03-programacion-servidor-php.md
+      - '4. Despliegue Web y Docker': 2-curso/iaw/04-despliegue-servidores-web-docker.md
+  - 'DevOps':
+      - 'Visión General': 2-curso/devops/index.md
+      - 'UD1: Introducción a DevOps': 2-curso/devops/ud1-introduccion.md
+      - 'UD2: Git, Markdown y GitHub': 2-curso/devops/ud2-git-markdown.md
+      - 'UD3: Monitorización de Sistemas': 2-curso/devops/ud3-monitorizacion.md
+  - '1º Curso':
       - 'Implantación de SO (ISO)': 1-curso/iso.md
       - 'Redes (PAR)': 1-curso/redes.md
       - 'Bases de Datos (GBD)': 1-curso/bbdd.md
       - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
       - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
-  - '🚀 2º Curso':
-      - 'Administración de SO (ASO)':
-          - 'Visión General': 2-curso/aso/index.md
-          - '1. Scripting en Bash y CLI': 2-curso/aso/01-scripting-bash.md
-          - '2. Scripting Gráfico con Zenity': 2-curso/aso/02-zenity-gui-scripting.md
-          - '3. Programación de Tareas (cron/systemd)': 2-curso/aso/03-programacion-tareas-cron-systemd.md
+  - 'Otros':
       - 'Servicios de Red (SRI)': 2-curso/sri.md
-      - 'Aplicaciones Web (IAW)':
-          - 'Visión General': 2-curso/iaw/index.md
-          - '1. Fundamentos Web y Cliente-Servidor': 2-curso/iaw/01-fundamentos-web-arquitectura-cliente-servidor.md
-          - '2. Protocolo HTTP y Formularios': 2-curso/iaw/02-protocolo-http-formularios.md
-          - '3. Programación Backend con PHP': 2-curso/iaw/03-programacion-servidor-php.md
-          - '4. Despliegue Web y Docker': 2-curso/iaw/04-despliegue-servidores-web-docker.md
-      - 'Seguridad y Alta Disp. (SAD)':
-          - 'Visión General': 2-curso/sad/index.md
-          - 'UT1: Fundamentos de Seguridad': 2-curso/sad/01-fundamentos-seguridad.md
-          - 'UT2: Seguridad Física, SAI y Backups': 2-curso/sad/02-seguridad-fisica-sai-backup.md
-          - 'UT3: Control de Acceso y Criptografía': 2-curso/sad/03-control-acceso-criptografia.md
-          - 'UT4: Amenazas, Vulnerabilidades y Forense': 2-curso/sad/04-amenazas-vulnerabilidades-forense.md
-          - 'UT5: Marco Legal — RGPD y AEPD': 2-curso/sad/05-marco-legal-rgpd-aepd.md
-      - 'Adm. Sistemas Gestores BBDD (ASGBD)':
-          - 'Visión General': 2-curso/asgbd/index.md
-          - '1. Docker y Contenedores': 2-curso/asgbd/01-docker-sgbd.md
-          - '2. DDL y Restricciones (Oracle)': 2-curso/asgbd/02-diseno-fisico-ddl-oracle.md
-          - '3. Consultas Multitabla (JOINs)': 2-curso/asgbd/03-consultas-avanzadas-joins.md
-          - '4. Agrupamiento y Funciones Grupo': 2-curso/asgbd/04-agrupamiento-funciones-grupo.md
-          - '5. Subconsultas en SQL': 2-curso/asgbd/05-subconsultas.md
-          - '6. DML y Transacciones ACID': 2-curso/asgbd/06-dml-transacciones.md
-          - '7. Administración Oracle y PL/SQL': 2-curso/asgbd/07-administracion-oracle-plsql.md
       - 'Inglés Profesional': 2-curso/ingles.md
-      - 'Herramientas DevOps':
-          - 'Visión General': 2-curso/devops/index.md
-          - 'UD1: Introducción a DevOps': 2-curso/devops/ud1-introduccion.md
-          - 'UD2: Git, Markdown y GitHub': 2-curso/devops/ud2-git-markdown.md
-          - 'UD3: Monitorización de Sistemas': 2-curso/devops/ud3-monitorizacion.md

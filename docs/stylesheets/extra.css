@@ -1,237 +1,263 @@
 /* ==========================================================================
-   Plataforma de Aprendizaje ASIR - Diseño LMS Educativo
+   Tema Inspirado en MoureDev (moure.dev)
+   Minimalismo oscuro, botones con relieve neobrutalista/moderno,
+   tipografía bold, acentos vibrantes (#3EB0F9, #FFA61E, #00C853)
    ========================================================================== */
 
 :root {
-  --md-primary-fg-color:        #1e40af; /* Azul institucional académico */
-  --md-primary-fg-color--light:  #3b82f6;
-  --md-primary-fg-color--dark:   #172554;
-  --md-accent-fg-color:         #0284c7;
+  --md-primary-fg-color:        #0d1117;
+  --md-primary-fg-color--light:  #161b22;
+  --md-primary-fg-color--dark:   #010409;
+  --md-accent-fg-color:         #3eb0f9; /* Azul cian de MoureDev */
   
-  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --md-code-font: "JetBrains Mono", "Fira Code", monospace;
+  --moure-blue:    #3eb0f9;
+  --moure-orange:  #ffa61e;
+  --moure-green:   #10b981;
+  --moure-purple:  #a855f7;
+  --moure-bg-dark: #0e1217;
+  --moure-card-bg: #151b23;
+  --moure-border:  #30363d;
+  
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --md-code-font: "JetBrains Mono", monospace;
 }
 
-[data-md-color-scheme="slate"] {
-  --md-primary-fg-color:        #3b82f6;
-  --md-primary-fg-color--light:  #60a5fa;
-  --md-primary-fg-color--dark:   #1d4ed8;
-  --md-accent-fg-color:         #38bdf8;
-  --md-default-bg-color:        #0b1120;
-  --md-default-bg-color--light:  #1e293b;
-  --md-default-bg-color--lighter: #334155;
+/* Forzamos el esquema oscuro por defecto estilo MoureDev */
+[data-md-color-scheme="slate"],
+[data-md-color-scheme="default"] {
+  --md-default-bg-color:        #0e1217;
+  --md-default-bg-color--light:  #161b22;
+  --md-default-bg-color--lighter: #21262d;
+  --md-default-fg-color:        #f0f6fc;
+  --md-default-fg-color--light:  #8b949e;
+  --md-default-fg-color--lighter: #484f58;
 }
 
-/* Banner de bienvenida LMS */
-.lms-hero {
-  background: linear-gradient(135deg, #1e3a8a 0%, #0369a1 100%);
-  color: #ffffff;
-  padding: 2.2rem 2rem;
-  border-radius: 16px;
-  margin-bottom: 2rem;
-  box-shadow: 0 10px 25px -5px rgba(30, 58, 138, 0.25);
-  position: relative;
-  overflow: hidden;
-}
-
-.lms-hero h1 {
-  color: #ffffff !important;
-  margin-top: 0 !important;
-  font-size: 2rem !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em;
-}
-
-.lms-hero p {
-  color: #e0f2fe;
-  font-size: 1.05rem;
-  max-width: 720px;
-  line-height: 1.6;
-  margin-bottom: 0;
-}
-
-/* Tarjetas de Asignatura (Course Cards) */
-.course-card {
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 14px;
-  padding: 1.4rem;
-  background: var(--md-default-bg-color);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+/* ==========================================================================
+   Header Perfil Estilo MoureDev
+   ========================================================================== */
+.moure-header {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  text-decoration: none !important;
-  position: relative;
-}
-
-.course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px -10px rgba(37, 99, 235, 0.2);
-  border-color: var(--md-primary-fg-color--light);
-}
-
-.course-header {
-  display: flex;
   align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 0.8rem;
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+  max-width: 680px;
+  margin: 0 auto;
 }
 
-.course-icon {
-  font-size: 1.8rem;
+.moure-avatar {
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  border: 3px solid var(--moure-blue);
+  box-shadow: 0 0 25px rgba(62, 176, 249, 0.35);
+  margin-bottom: 1.2rem;
+  background: #161b22;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: rgba(37, 99, 235, 0.1);
-  color: var(--md-primary-fg-color);
+  font-size: 3rem;
 }
 
-.course-title {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--md-default-fg-color);
-  margin: 0;
+.moure-name {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  margin: 0 0 0.2rem !important;
+  letter-spacing: -0.02em;
 }
 
-.course-code {
-  font-size: 0.75rem;
+.moure-tag {
+  color: var(--moure-blue) !important;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--md-primary-fg-color);
+  margin: 0 0 1rem !important;
+}
+
+.moure-bio {
+  font-size: 1.05rem;
+  color: #c9d1d9;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Métricas destacadas (Stats bar) */
+.moure-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  padding: 1rem 0;
+  border-top: 1px solid var(--moure-border);
+  border-bottom: 1px solid var(--moure-border);
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-num {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--moure-blue);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #8b949e;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
-.course-desc {
-  font-size: 0.9rem;
-  color: var(--md-default-fg-color--light);
-  line-height: 1.5;
-  margin: 0.5rem 0 1rem;
-}
-
-.course-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--md-default-fg-color--lightest);
-}
-
-.course-stats {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--md-default-fg-color--lighter);
-}
-
-.course-btn {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--md-primary-fg-color);
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-/* Badges de Estado y Categoría */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.22rem 0.65rem;
-  font-size: 0.72rem;
-  font-weight: 700;
+/* ==========================================================================
+   Botones de Enlace Estilo MoureDev (Neobrutalismo táctil)
+   ========================================================================== */
+.moure-section-title {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
   text-transform: uppercase;
-  border-radius: 9999px;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  margin: 2.5rem 0 1rem !important;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.badge-exam {
-  background-color: rgba(239, 68, 68, 0.12);
-  color: #dc2626;
-  border: 1px solid rgba(239, 68, 68, 0.25);
+.moure-section-title::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--moure-border);
+  margin-left: 0.5rem;
 }
 
-.badge-practice {
-  background-color: rgba(16, 185, 129, 0.12);
-  color: #059669;
-  border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-.badge-theory {
-  background-color: rgba(59, 130, 246, 0.12);
-  color: #2563eb;
-  border: 1px solid rgba(59, 130, 246, 0.25);
-}
-
-/* Pasos numerados estilo Learning Path */
-.learning-path {
+.moure-btn-list {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  margin: 1.5rem 0;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
 }
 
-.path-step {
+.moure-btn {
   display: flex;
-  gap: 1.2rem;
-  align-items: flex-start;
-  padding: 1.1rem;
-  background: var(--md-default-bg-color);
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 12px;
-  transition: border-color 0.2s ease;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid #30363d;
+  background-color: var(--moure-card-bg);
+  color: #ffffff !important;
+  text-decoration: none !important;
+  box-shadow: 4px 4px 0px 0px rgba(255, 255, 255, 0.08);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.15s ease, background-color 0.15s ease;
+  position: relative;
 }
 
-.path-step:hover {
-  border-color: var(--md-primary-fg-color--light);
+.moure-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px rgba(62, 176, 249, 0.4);
+  border-color: var(--moure-blue);
+  background-color: #1c2128;
 }
 
-.step-number {
-  flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--md-primary-fg-color);
-  color: #ffffff;
+/* Variantes de color en los botones destacados */
+.moure-btn.btn-featured {
+  border-color: var(--moure-orange);
+  box-shadow: 4px 4px 0px 0px var(--moure-orange);
+}
+
+.moure-btn.btn-featured:hover {
+  box-shadow: 2px 2px 0px 0px var(--moure-orange);
+}
+
+.moure-btn-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
+  margin-right: 1.1rem;
+  flex-shrink: 0;
+  color: var(--moure-blue);
 }
 
-.step-content {
+.moure-btn-body {
   flex-grow: 1;
+  text-align: left;
 }
 
-.step-title {
+.moure-btn-title {
   font-size: 1.05rem;
   font-weight: 700;
-  margin: 0 0 0.3rem;
-  color: var(--md-default-fg-color);
-}
-
-.step-desc {
-  font-size: 0.88rem;
-  color: var(--md-default-fg-color--light);
   margin: 0;
-  line-height: 1.5;
+  color: #ffffff;
 }
 
-/* Rutas de Estudio y Guía para Principiantes */
-.beginner-box {
-  background: rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(14, 165, 233, 0.25);
-  border-radius: 12px;
-  padding: 1.2rem 1.4rem;
-  margin: 1.5rem 0;
+.moure-btn-subtitle {
+  font-size: 0.85rem;
+  color: #8b949e;
+  margin: 0.2rem 0 0;
+  line-height: 1.4;
 }
 
-.beginner-box h4 {
-  margin: 0 0 0.4rem;
-  color: #0284c7;
+.moure-btn-badge {
+  font-size: 0.72rem;
   font-weight: 700;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(62, 176, 249, 0.15);
+  color: var(--moure-blue);
+  border: 1px solid rgba(62, 176, 249, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-left: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Badges de estado */
+.badge-orange {
+  background: rgba(255, 166, 30, 0.15);
+  color: var(--moure-orange);
+  border-color: rgba(255, 166, 30, 0.3);
+}
+
+.badge-green {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--moure-green);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* ==========================================================================
+   Estilo de Lectura de Temas (Educativo y Limpio)
+   ========================================================================== */
+.md-content {
+  max-width: 900px;
+}
+
+.md-typeset h1 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--moure-border);
+  border-radius: 8px;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: #161b22;
+  color: #ffffff;
+}
+
+.md-typeset .admonition {
+  border-radius: 8px;
+  border-left-width: 4px;
 }
