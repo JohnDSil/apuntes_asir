@@ -1,25 +1,61 @@
-# Herramientas y Técnicas DevOps
+<div class="hero-box">
+  <h1>♾️ Herramientas y Técnicas DevOps</h1>
+  <p>El módulo de <strong>DevOps</strong> aborda las metodologías y herramientas que unen el desarrollo de software y la administración de sistemas: control de versiones con Git y GitHub, documentación técnica con Markdown, integración continua (CI/CD) y monitorización en tiempo real con Prometheus y Grafana.</p>
+</div>
 
-Bienvenido al módulo de **Herramientas y Técnicas DevOps** del 2º curso de Administración de Sistemas Informáticos en Red (ASIR).
+## 🗺️ Mapa de Contenidos
 
-Este módulo aborda la cultura, metodologías y herramientas que unen el desarrollo de software y la administración de sistemas, automatizando el ciclo de vida del software desde la codificación hasta la monitorización en producción.
+El temario de DevOps se organiza en 3 unidades didácticas:
+
+```mermaid
+flowchart LR
+    U1["UD1: Cultura DevOps\n(Ciclo Infinito, CI/CD, Jenkins)"] --> U2["UD2: Git y Documentación\n(VCS, Markdown, GitHub)"]
+    U2 --> U3["UD3: Monitorización\n(Métricas Linux, Prometheus, Grafana)"]
+```
 
 ---
 
-## 📚 Unidades Didácticas
+## 📚 Unidades Didácticas de DevOps
 
-| Unidad | Título | Temas clave |
-|---|---|---|
-| **[UD1: Introducción a DevOps](ud1-introduccion.md)** | Cultura DevOps, CI/CD y Automatización | Roles (Sysadmin vs Dev vs Analista), ciclo infinito DevOps, CI/CD, Pipelines (Jenkins) y beneficios de la automatización. |
-| **[UD2: Git, Markdown y GitHub](ud2-git-markdown.md)** | Control de Versiones y Documentación | VCS locales, centralizados y distribuidos, sintaxis Markdown, extensiones VS Code, flujo de 3 áreas de Git y GitHub. |
-| **[UD3: Monitorización de Sistemas](ud3-monitorizacion.md)** | Métricas, Diagnóstico y Sistemas | Comandos de Linux (`top`, `htop`, `ss`, `iostat`, `tcpdump`), escaneo con `nmap`, y plataformas como Zabbix, Prometheus y Grafana. |
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Unidad</th>
+      <th>Título del Tema</th>
+      <th>Conceptos y Prácticas Principales</th>
+      <th>Tipo de Contenido</th>
+      <th>Enlace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>UD1</strong></td>
+      <td><strong>Introducción a la Cultura DevOps</strong></td>
+      <td>Ruptura de silos tradicionales (Sysadmin vs Developer), el ciclo infinito DevOps (Plan, Build, Test, Deploy, Monitor), pipelines de integración y entrega continua (CI/CD) y automatización con Jenkins.</td>
+      <td><span class="tag tag-blue">Cultura + CI/CD</span></td>
+      <td><a class="module-link" href="ud1-introduccion.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UD2</strong></td>
+      <td><strong>Git, Markdown y GitHub</strong></td>
+      <td>Sistemas de control de versiones locales vs distribuidos, sintaxis completa Markdown, flujo de trabajo en las 3 áreas de Git (Directorio de trabajo, Staging, Repositorio) y colaboración con ramas y Pull Requests en GitHub.</td>
+      <td><span class="tag tag-green">Git + GitHub</span></td>
+      <td><a class="module-link" href="ud2-git-markdown.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UD3</strong></td>
+      <td><strong>Monitorización y Diagnóstico de Sistemas</strong></td>
+      <td>Diagnóstico de rendimiento en Linux (<code>top</code>, <code>htop</code>, <code>ss</code>, <code>iostat</code>, <code>tcpdump</code>), auditoría de red con <code>nmap</code>, y arquitectura de monitorización con agentes, Zabbix, Prometheus y paneles Grafana.</td>
+      <td><span class="tag tag-purple">Monitorización</span></td>
+      <td><a class="module-link" href="ud3-monitorizacion.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-## 🎯 Objetivos de Aprendizaje
+## 🛠️ Herramientas de Trabajo
 
-1. **Comprender la filosofía DevOps:** Eliminar los silos tradicionales entre desarrollo y operaciones mediante la integración continua y la entrega de valor sin riesgos.
-2. **Dominar el control de versiones distribuido con Git:** Gestionar repositorios, ramas, solicitudes de extracción (*pull requests*) y entornos de staging.
-3. **Estandarizar la documentación técnica:** Redactar documentación estructurada y legible mediante Markdown y herramientas integradas como VS Code.
-4. **Implementar canalizaciones de integración y entrega continua (CI/CD):** Comprender el funcionamiento de pipelines automáticos de compilación, testeo y despliegue.
-5. **Supervisar sistemas e infraestructuras:** Diagnosticar problemas de rendimiento a nivel de kernel/SO y configurar sistemas de monitorización centralizada y paneles interactivos.
+- **Control de Versiones**: Git CLI y GitHub.
+- **Editor**: Visual Studio Code con extensiones Markdown y GitLens.
+- **Monitorización**: Utilidades de Linux (`sysstat`, `htop`, `nmap`) y plataformas Prometheus / Grafana.

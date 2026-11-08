@@ -1,71 +1,62 @@
-# Administración de Sistemas Operativos (ASO)
+<div class="hero-box">
+  <h1>💻 Administración de Sistemas Operativos (ASO)</h1>
+  <p>El módulo de <strong>ASO</strong> profundiza en la gestión avanzada de servidores y puestos de trabajo Linux, automatización de tareas con scripts en Bash, creación de interfaces de usuario y programación de servicios con Cron y Systemd.</p>
+</div>
 
-Bienvenido a la sección de apuntes y documentación práctica del módulo **Administración de Sistemas Operativos (ASO)** del 2º curso del Ciclo Formativo de Grado Superior en **Administración de Sistemas Informáticos en Red (ASIR)**.
+## 🗺️ Mapa de Contenidos
 
----
-
-## 🎯 Objetivos y Competencias del Módulo
-
-El objetivo principal de ASO es dotar al administrador de sistemas de las capacidades necesarias para configurar, administrar, asegurar y automatizar servidores y estaciones de trabajo en entornos Linux y heterogéneos:
-
-1. **Automatización mediante Scripting**: Desarrollar scripts profesionales en Bash para la gestión automatizada de tareas de administración, validación de parámetros, interacción CLI, interfaces textuales (`dialog`) y gráficas (`zenity`).
-2. **Programación de Tareas**: Planificar ejecuciones puntuales (`at`) y periódicas (`cron`, `/etc/crontab`, `run-parts`), gestionar equipos con encendido no continuo (`anacron`), y configurar servicios/temporizadores modernos mediante **Systemd User Timers**.
-3. **Gestión de Servicios y Procesos**: Supervisar el rendimiento, arranque del sistema, demonios del sistema operativo, gestión de logs y diagnósticos de incidentes.
-4. **Seguridad y Control de Acceso**: Controlar la delegación de privilegios, listas de control de acceso a utilidades de programación de tareas (`at.allow`, `at.deny`, permisos en `crontab`).
-
----
-
-## 🗺️ Mapa Conceptual de ASO
+El temario se organiza en 3 unidades didácticas progresivas:
 
 ```mermaid
-flowchart TD
-    ASO["Administración de Sistemas Operativos (ASO)"]
-
-    ASO --> M1["1. Scripting Avanzado en Bash"]
-    ASO --> M2["2. Interfaces Gráficas con Zenity"]
-    ASO --> M3["3. Planificación de Tareas del Sistema"]
-
-    M1 --> M1_1["Shebang, permisos y depuración (-x, -v, -n)"]
-    M1 --> M1_2["Variables, entornos y expansiones"]
-    M1 --> M1_3["Estructuras de control (if, case, for, while, until)"]
-    M1 --> M1_4["Funciones, menús select e interfaces TUI (dialog)"]
-
-    M2 --> M2_1["Diálogos de texto, alerta y preguntas"]
-    M2 --> M2_2["Formularios, selección de ficheros y calendarios"]
-    M2 --> M2_3["Barras de progreso, listas y notificaciones"]
-
-    M3 --> M3_1["Tareas puntuales diferidas: at / atd / atq / atrm"]
-    M3 --> M3_2["Tareas periódicas: cron / crontab / run-parts"]
-    M3 --> M3_3["Equipos discontinuos: anacron / /etc/anacrontab"]
-    M3 --> M3_4["Sesiones gráficas y Systemd User Timers"]
+flowchart LR
+    U1["UT1: Scripting en Bash\n(Variables, Control, Funciones)"] --> U2["UT2: Interfaces con Zenity\n(Diálogos GTK, Formularios)"]
+    U2 --> U3["UT3: Programación de Tareas\n(at, cron, anacron, systemd timers)"]
 ```
 
 ---
 
-## 📚 Unidades del Módulo
+## 📚 Unidades Didácticas de ASO
 
-A continuación puedes acceder a las guías detalladas organizadas por temas:
-
-| Unidad | Título | Temas Clave |
-| :--- | :--- | :--- |
-| **01** | [Scripting en Bash y Automatización CLI](01-scripting-bash.md) | Sintaxis Bash, depuración (`-n`, `-v`, `-x`, `PS4`), comillas, aritmética (`let`, `$(( ))`, `bc`), condicionales (`if`, `test`), `case`, bucles (`for`, `while`, `until`), `select`, funciones y diálogos `dialog`. |
-| **02** | [Scripting Gráfico con Zenity](02-zenity-gui-scripting.md) | Diálogos GTK en scripts: `--entry`, `--text-info`, mensajes informativos y de error, formularios `--forms`, selector de ficheros, listas, barras de progreso y notificaciones. |
-| **03** | [Programación de Tareas (at, cron, anacron, systemd)](03-programacion-tareas-cron-systemd.md) | Ejecución diferida única con `at`, demonio `cron`, tablas `crontab`, `/etc/crontab` y utilidades `run-parts`, gestión de apagados con `anacron`, entorno gráfico y **Timers de systemd**. |
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Unidad</th>
+      <th>Título del Tema</th>
+      <th>Conceptos y Prácticas Principales</th>
+      <th>Tipo de Contenido</th>
+      <th>Enlace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>UT1</strong></td>
+      <td><strong>Scripting en Bash y Automatización CLI</strong></td>
+      <td>Shebang, permisos, depuración de scripts (<code>-x</code>, <code>-v</code>), variables de entorno, operaciones aritméticas, estructuras condicionales (<code>if</code>, <code>case</code>), bucles (<code>for</code>, <code>while</code>, <code>until</code>), menús <code>select</code>, funciones y cajas de diálogo TUI con <code>dialog</code>.</td>
+      <td><span class="tag tag-blue">Bash Scripting</span></td>
+      <td><a class="module-link" href="01-scripting-bash.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UT2</strong></td>
+      <td><strong>Scripting Gráfico con Zenity</strong></td>
+      <td>Creación de interfaces gráficas GTK para scripts: diálogos de entrada, cajas de texto informativas, avisos de advertencia/error, formularios con <code>--forms</code>, selección de archivos, calendarios, barras de progreso y notificaciones de escritorio.</td>
+      <td><span class="tag tag-purple">GUI Scripting</span></td>
+      <td><a class="module-link" href="02-zenity-gui-scripting.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UT3</strong></td>
+      <td><strong>Programación de Tareas (Cron, Anacron, Systemd)</strong></td>
+      <td>Planificación de ejecuciones únicas con <code>at</code>/<code>atd</code>, tareas periódicas con el demonio <code>cron</code> y tablas <code>crontab</code>, sincronización de equipos discontinuos con <code>anacron</code>, y servicios y temporizadores modernos mediante <strong>Systemd User Timers</strong>.</td>
+      <td><span class="tag tag-green">Automatización</span></td>
+      <td><a class="module-link" href="03-programacion-tareas-cron-systemd.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
 ## 🛠️ Entorno de Laboratorio Recomendado
 
-Para realizar las prácticas de este módulo se recomienda:
-
-- **Sistema Operativo**: Distribución basada en Debian (Debian 12/13 GNU/Linux o Ubuntu LTS).
-- **Intérprete**: GNU Bash 5.x (`/bin/bash`).
-- **Paquetes clave**:
-  ```bash
-  sudo apt update
-  sudo apt install -y at cron anacron dialog zenity bc curl tree
-  ```
-- **Control de servicios**:
-  ```bash
-  sudo systemctl enable --now atd cron
-  ```
+- **Sistema Base**: Debian 12 / Ubuntu 22.04 / 24.04 LTS.
+- **Intérprete**: GNU Bash (`/bin/bash`).
+- **Paquetes clave**: `cron`, `at`, `anacron`, `zenity`, `dialog`, `bc`, `tree`.
+- **Servicios activos**: `atd.service` y `cron.service`.

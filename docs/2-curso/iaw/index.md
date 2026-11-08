@@ -1,73 +1,70 @@
-# Implantación de Aplicaciones Web (IAW)
+<div class="hero-box">
+  <h1>🌐 Implantación de Aplicaciones Web (IAW)</h1>
+  <p>El módulo de <strong>IAW</strong> capacita al administrador de sistemas para diseñar, configurar, desplegar y mantener servicios web dinámicos, arquitecturas cliente-servidor (LAMP/LEMP) y contenedores Docker en producción.</p>
+</div>
 
-Bienvenido a la sección de apuntes y documentación práctica del módulo **Implantación de Aplicaciones Web (IAW)** del 2º curso del Ciclo Formativo de Grado Superior en **Administración de Sistemas Informáticos en Red (ASIR)**.
+## 🗺️ Mapa de Contenidos
 
----
-
-## 🎯 Objetivos y Competencias del Módulo
-
-El objetivo principal de IAW es dotar al futuro administrador de sistemas de las destrezas necesarias para instalar, configurar, asegurar, monitorizar y gestionar aplicaciones web y gestores de contenidos en servidores físicos, máquinas virtuales y entornos de contenedores:
-
-1. **Comprender los Fundamentos de la Web y la Arquitectura Cliente-Servidor**: Protocolos de red subyacentes (HTTP/HTTPS, TCP/IP, DNS), separación de capas (presentación, lógica y datos), y el funcionamiento de peticiones estáticas vs dinámicas.
-2. **Dominar el Protocolo HTTP y la Interacción con Formularios**: Análisis del ciclo de petición-respuesta, cabeceras HTTP, métodos de transporte (`GET` vs `POST`), codificación de parámetros y subida de archivos.
-3. **Programación y Procesamiento en el Servidor (PHP)**: Sintaxis básica de PHP, manipulación de tipos y arrays, manejo de variables superglobales (`$_GET`, `$_POST`, `$_SERVER`), control de sesiones y sanitización de datos contra ataques como Cross-Site Scripting (XSS).
-4. **Despliegue y Administración de Servicios Web (LAMP / Contenedores)**: Configuración de servidores web (Apache, Nginx), módulos de ejecución PHP (`mod_php` vs `php-fpm`), bases de datos asociadas (MariaDB/MySQL) y orquestación con Docker Compose.
-
----
-
-## 🗺️ Mapa Conceptual de IAW
+El temario oficial se estructura en 4 unidades didácticas progresivas:
 
 ```mermaid
-flowchart TD
-    subgraph Cliente ["1. Lado del Cliente (Frontend / Navegador)"]
-        Browser["Navegador Web\n(HTML5, CSS3, JS)"]
-        Form["Formularios Web (<form>)\n(Métodos GET / POST)"]
-    end
-
-    subgraph Red ["2. Capa de Transporte y Red"]
-        DNS["Servidor DNS\n(Traducción Dominio -> IP)"]
-        HTTP["Protocolo HTTP / HTTPS\n(Línea de petición, Cabeceras, Cuerpo)"]
-    end
-
-    subgraph Servidor ["3. Lado del Servidor (Backend / LAMP)"]
-        WebServer["Servidor Web (Apache / Nginx)\n(Enrutamiento y recursos estáticos)"]
-        PHP["Intérprete PHP\n($_GET, $_POST, lógica de negocio)"]
-        DB[(Base de Datos\nMariaDB / MySQL)]
-    end
-
-    Browser -->|Consulta IP| DNS
-    Browser -->|Petición HTTP Request| WebServer
-    Form -->|Envío de datos| HTTP
-    HTTP --> WebServer
-    WebServer -->|Pasa script dinámico| PHP
-    PHP <-->|Consultas SQL| DB
-    PHP -->|Genera HTML dinámico| WebServer
-    WebServer -->|Respuesta HTTP Response| Browser
+flowchart LR
+    U1["UT1: Fundamentos Web\n(Cliente-Servidor, DNS)"] --> U2["UT2: Protocolo HTTP\n(Cabeceras, Formularios, GET/POST)"]
+    U2 --> U3["UT3: Backend en PHP\n(Sintaxis, Superglobales, Seguridad)"]
+    U3 --> U4["UT4: Despliegue y Docker\n(Apache, Nginx, Docker Compose)"]
 ```
 
 ---
 
-## 📚 Unidades del Módulo
+## 📚 Unidades Didácticas de IAW
 
-A continuación puedes consultar los temas desarrollados con explicaciones teóricas, diagramas técnicos y ejemplos prácticos:
-
-| Unidad | Título | Temas Clave |
-| :--- | :--- | :--- |
-| **01** | [Fundamentos de la Web y Arquitectura Cliente-Servidor](01-fundamentos-web-arquitectura-cliente-servidor.md) | Cómo funciona la Web (MDN), escenario mínimo, anatomía de una URL, DNS, ciclo de petición-respuesta HTTP, separación estructura/estilo (HTML/CSS), sitios estáticos vs dinámicos. |
-| **02** | [Protocolo HTTP y Formularios Web](02-protocolo-http-formularios.md) | Anatomía del mensaje HTTP (Línea de petición, Cabeceras, Cuerpo), etiqueta `<form>`, atributos sagrados (`action`, `method`, `name`), comparativa detallada `GET` vs `POST`. |
-| **03** | [Programación del Lado del Servidor con PHP](03-programacion-servidor-php.md) | Introducción a PHP (W3Schools & PHP.net), sintaxis, tipos, arrays indexados y asociativos, superglobales `$_GET`, `$_POST`, `$_SERVER`, validación y sanitización anti-XSS (`htmlspecialchars`). |
-| **04** | [Despliegue de Servidores Web y Contenedores Docker](04-despliegue-servidores-web-docker.md) | Arquitecturas LAMP/LEMP, Apache con `mod_php` vs `php-fpm`, despliegue automatizado con Docker Compose (WordPress + MariaDB) y persistencia de volúmenes. |
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Unidad</th>
+      <th>Título del Tema</th>
+      <th>Conceptos y Prácticas Principales</th>
+      <th>Tipo de Contenido</th>
+      <th>Enlace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>UT1</strong></td>
+      <td><strong>Fundamentos Web y Arquitectura Cliente-Servidor</strong></td>
+      <td>Cómo funciona la Web, ciclo de petición-respuesta, resolución DNS, estructura de una URL, separación estructura/estilo (HTML5/CSS3) y diferencias entre páginas estáticas y dinámicas.</td>
+      <td><span class="tag tag-blue">Teoría Base</span></td>
+      <td><a class="module-link" href="01-fundamentos-web-arquitectura-cliente-servidor.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UT2</strong></td>
+      <td><strong>Protocolo HTTP y Formularios Web</strong></td>
+      <td>Estructura interna del mensaje HTTP (línea de petición, cabeceras, códigos de estado 2xx/3xx/4xx/5xx), formularios HTML5, atributos <code>action</code>, <code>method</code> y comparativa exhaustiva entre <code>GET</code> y <code>POST</code>.</td>
+      <td><span class="tag tag-purple">Protocolo + Práctica</span></td>
+      <td><a class="module-link" href="02-protocolo-http-formularios.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UT3</strong></td>
+      <td><strong>Programación Backend con PHP</strong></td>
+      <td>Fundamentos del lenguaje PHP, arrays indexados y asociativos, variables superglobales (<code>$_GET</code>, <code>$_POST</code>, <code>$_SERVER</code>), control de sesiones y sanitización de datos contra vulnerabilidades XSS (<code>htmlspecialchars</code>).</td>
+      <td><span class="tag tag-green">Backend PHP</span></td>
+      <td><a class="module-link" href="03-programacion-servidor-php.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>UT4</strong></td>
+      <td><strong>Despliegue Web y Contenedores Docker</strong></td>
+      <td>Arquitecturas LAMP y LEMP, Apache con <code>mod_php</code> frente a <code>php-fpm</code>, orquestación automatizada de servicios multicontenedor con Docker Compose (WordPress + MariaDB) y volúmenes persistentes.</td>
+      <td><span class="tag tag-green">Docker + Despliegue</span></td>
+      <td><a class="module-link" href="04-despliegue-servidores-web-docker.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-## 🛠️ Requisitos de Laboratorio
+## 🛠️ Entorno de Laboratorio Recomendado
 
-Para seguir las prácticas y ejercicios propuestos en este módulo se recomienda disponer de:
-
-- **Sistema Base**: Debian 12/13 o Ubuntu 22.04/24.04 LTS.
-- **Pila LAMP local**:
-  ```bash
-  sudo apt update
-  sudo apt install -y apache2 php libapache2-mod-php mariadb-server php-mysql
-  ```
-- **Entorno de Contenedores**: Docker Engine y Docker Compose plugin (`docker compose`).
+- **Sistema Operativo**: Debian 12 / Ubuntu 22.04 / 24.04 LTS.
+- **Servidor Web**: Apache2 y PHP 8.x (`libapache2-mod-php` y `php-fpm`).
+- **Base de Datos**: MariaDB Server / MySQL.
+- **Virtualización Ligera**: Docker Engine y Docker Compose plugin (`docker compose`).

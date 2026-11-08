@@ -1,29 +1,93 @@
-# Administración de Sistemas Gestores de Bases de Datos (ASGBD)
+<div class="hero-box">
+  <h1>🗄️ Adm. de Sistemas Gestores de BBDD (ASGBD)</h1>
+  <p>El módulo de <strong>ASGBD</strong> profundiza en la administración de bases de datos corporativas (Oracle Database, MariaDB), despliegue en contenedores Docker, optimización de consultas SQL complejas (JOINs, Subconsultas, Agrupamientos), transacciones ACID y programación de lógica de servidor con PL/SQL.</p>
+</div>
 
-Bienvenido a la sección de **Administración de Sistemas Gestores de Bases de Datos (ASGBD)** del 2º curso de ASIR.
+## 🗺️ Mapa de Contenidos
 
-Este módulo abarca desde la infraestructura y despliegue de motores de bases de datos mediante contenedores (**Docker**), hasta el diseño de consultas complejas (**JOINs, Subconsultas, Agrupamientos**), manipulación de datos con control de transacciones (**ACID**), y la administración avanzada y programación de lógica de servidor en **Oracle Database (PL/SQL)** y **MySQL/MariaDB**.
+El temario de ASGBD se organiza en 7 bloques temáticos estructurados:
+
+```mermaid
+flowchart LR
+    B1["1. Docker SGBD\n(MariaDB / Oracle XE)"] --> B2["2. DDL y Restricciones\n(PK, FK, CHECK, Alter)"]
+    B2 --> B3["3. Consultas JOINs\n(Equijoins, Outer, Sets)"]
+    B3 --> B4["4. Agrupamiento\n(GROUP BY, HAVING, NVL)"]
+    B4 --> B5["5. Subconsultas\n(Correlacionadas, Tuplas)"]
+    B5 --> B6["6. DML y Transacciones\n(ACID, COMMIT, ROLLBACK)"]
+    B6 --> B7["7. Admin Oracle y PL/SQL\n(Procedimientos, Cursores)"]
+```
 
 ---
 
-## 📚 Bloques Temáticos
+## 📚 Bloques Temáticos de ASGBD
 
-| Bloque | Contenido principal | Fuentes y Enfoque |
-|---|---|---|
-| **[1. Docker y Contenedores para SGBD](01-docker-sgbd.md)** | Instalación en Ubuntu, ciclo de vida de contenedores, volúmenes de persistencia, redes, Compose y despliegue de **MariaDB** y **Oracle XE**. | Curso oficial de Docker (*pekechis*) y Guías de instalación |
-| **[2. DDL, Diseño Físico y Restricciones](02-diseno-fisico-ddl-oracle.md)** | Esquemas, tipos, restricciones con nomenclatura oficial Oracle (`PK`, `FK`, `NN`, `UK`, `CK`), acciones referenciales (`RESTRICT`, `CASCADE`), motores de almacenamiento (`InnoDB`, `MyISAM`), `ALTER`, `DROP`, `TRUNCATE` y sinónimos. | Raúl Ruiz Padilla & IES María Moliner |
-| **[3. Consultas Multitabla y Combinaciones (JOINs)](03-consultas-avanzadas-joins.md)** | Producto cartesiano (regla $N-1$), Equijoins, Outer joins (trampa `COUNT(*)` vs `COUNT(col)`), Self joins, anidaciones y **operadores de conjuntos (`UNION`, `INTERSECT`, `MINUS`)**. | Oracle University & Raúl Ruiz Padilla |
-| **[4. Funciones de Grupo y Agrupamiento](04-agrupamiento-funciones-grupo.md)** | `AVG`, `SUM`, `COUNT(*)`, `COUNT(expr)`, `MIN`, `MAX`, tratamiento de nulos (`NVL`), orden de evaluación formal (`WHERE` $\rightarrow$ `GROUP BY` $\rightarrow$ `HAVING` $\rightarrow$ `ORDER BY`) y subconsultas en `HAVING`. | Oracle University & Raúl Ruiz Padilla |
-| **[5. Subconsultas en SQL](05-subconsultas.md)** | Principios de arquitectura, mono-registro, multi-registro (`IN`), multi-columna (tuplas), cuantificadas (`ANY`/`ALL`), correlacionadas, diagnóstico de errores (`ORA-01427`) y ejercicios prácticos de catálogo. | Oracle Official & Raúl Ruiz Padilla |
-| **[6. Manipulación de Datos (DML) y Transacciones ACID](06-dml-transacciones.md)** | `INSERT INTO` (datos anexados `INSERT ... SELECT`), `UPDATE`, `DELETE`, régimen de transacciones en Oracle (`AUTOCOMMIT OFF`, órdenes de `COMMIT` implícito) y caso práctico integral universitario. | Raúl Ruiz Padilla & Antonio Fdez. Japón |
-| **[7. Administración de Oracle y Lógica PL/SQL](07-administracion-oracle-plsql.md)** | PDB (`xepdb1`), variables `%TYPE`/`%ROWTYPE`, control de flujo, procedimientos vs funciones (`IN`, `OUT`, `IN OUT`), ciclo de cursores, excepciones y script administrativo de limpieza total (*Drop All Objects*). | Raúl Ruiz Padilla & Guías Técnicas |
+<table class="syllabus-table">
+  <thead>
+    <tr>
+      <th>Bloque</th>
+      <th>Título del Tema</th>
+      <th>Conceptos y Prácticas Principales</th>
+      <th>Tipo de Contenido</th>
+      <th>Enlace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>01</strong></td>
+      <td><strong>Docker y Contenedores para SGBD</strong></td>
+      <td>Ciclo de vida de contenedores, volúmenes de persistencia, redes internas bridge, Docker Compose y despliegue automatizado de <strong>MariaDB</strong> y <strong>Oracle Express Edition (XE)</strong>.</td>
+      <td><span class="tag tag-green">Docker + SGBD</span></td>
+      <td><a class="module-link" href="01-docker-sgbd.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>02</strong></td>
+      <td><strong>DDL, Diseño Físico y Restricciones (Oracle)</strong></td>
+      <td>Esquemas de usuario, tipos de datos, restricciones con nomenclatura formal (<code>PK</code>, <code>FK</code>, <code>NN</code>, <code>UK</code>, <code>CK</code>), acciones referenciales (<code>ON DELETE CASCADE</code>), motores de almacenamiento (<code>InnoDB</code>, <code>MyISAM</code>) y órdenes <code>ALTER</code>/<code>TRUNCATE</code>.</td>
+      <td><span class="tag tag-blue">DDL + Diseño</span></td>
+      <td><a class="module-link" href="02-diseno-fisico-ddl-oracle.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>03</strong></td>
+      <td><strong>Consultas Multitabla y Combinaciones (JOINs)</strong></td>
+      <td>Prevención de productos cartesianos (regla $N-1$), Equijoins sintaxis ANSI vs tradicional, Outer joins (trampa de <code>COUNT(*)</code> vs <code>COUNT(col)</code>), Self joins y <strong>operadores de conjuntos (<code>UNION</code>, <code>INTERSECT</code>, <code>MINUS</code>)</strong>.</td>
+      <td><span class="tag tag-purple">Consultas SQL</span></td>
+      <td><a class="module-link" href="03-consultas-avanzadas-joins.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>04</strong></td>
+      <td><strong>Funciones de Grupo y Agrupamiento</strong></td>
+      <td>Funciones agregadas (<code>AVG</code>, <code>SUM</code>, <code>COUNT</code>, <code>MIN</code>, <code>MAX</code>), tratamiento de nulos con <code>NVL</code>, orden estricto de evaluación (<code>WHERE</code> $\rightarrow$ <code>GROUP BY</code> $\rightarrow$ <code>HAVING</code> $\rightarrow$ <code>ORDER BY</code>) y subconsultas en cláusula <code>HAVING</code>.</td>
+      <td><span class="tag tag-purple">Agrupamiento</span></td>
+      <td><a class="module-link" href="04-agrupamiento-funciones-grupo.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>05</strong></td>
+      <td><strong>Subconsultas en SQL</strong></td>
+      <td>Arquitectura de subconsultas, mono-registro vs multi-registro (<code>IN</code>, <code>ANY</code>, <code>ALL</code>), subconsultas multi-columna de tuplas, subconsultas correlacionadas y diagnóstico de errores típicos (<code>ORA-01427</code>).</td>
+      <td><span class="tag tag-purple">Subconsultas</span></td>
+      <td><a class="module-link" href="05-subconsultas.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>06</strong></td>
+      <td><strong>Manipulación de Datos (DML) y Transacciones ACID</strong></td>
+      <td>Órdenes <code>INSERT INTO</code> (inserciones masivas con <code>SELECT</code>), <code>UPDATE</code>, <code>DELETE</code>, propiedades ACID, régimen transaccional en Oracle (<code>AUTOCOMMIT OFF</code>, órdenes de <code>COMMIT</code> implícito) y caso práctico integral.</td>
+      <td><span class="tag tag-blue">DML + Transacciones</span></td>
+      <td><a class="module-link" href="06-dml-transacciones.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+    <tr>
+      <td><strong>07</strong></td>
+      <td><strong>Administración Oracle y Lógica PL/SQL</strong></td>
+      <td>Conexión a Pluggable Databases (<code>xepdb1</code>), variables <code>%TYPE</code>/<code>%ROWTYPE</code>, control de flujo condicional y bucles, procedimientos vs funciones (parámetros <code>IN</code>, <code>OUT</code>, <code>IN OUT</code>), ciclo de vida de cursores y gestión de excepciones.</td>
+      <td><span class="tag tag-green">Oracle PL/SQL</span></td>
+      <td><a class="module-link" href="07-administracion-oracle-plsql.md">Abrir tema :octicons-arrow-right-16:</a></td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
-## 🎯 Objetivos y Competencias del Módulo
+## 🛠️ Tecnologías y Entorno de Prácticas
 
-1. **Despliegue y Aislamiento:** Levantar y administrar instancias aisladas de MariaDB, MySQL y Oracle Database mediante contenedores Docker con persistencia fiable y redes personalizadas.
-2. **Consultas Complejas:** Diseñar consultas analíticas eficientes combinando múltiples fuentes relacionales sin incurrir en productos cartesianos no deseados.
-3. **Agregación de Información:** Elaborar informes y resúmenes estadísticos aplicando funciones de grupo sobre conjuntos de datos segmentados.
-4. **Integridad Transaccional:** Garantizar la consistencia y atomicidad de las operaciones de negocio aplicando transacciones ACID en motores relacionales.
-5. **Administración y Programación en Servidor:** Gestionar la seguridad, usuarios y tablespaces en Oracle Database y desarrollar lógica de negocio mediante PL/SQL.
+- **Motores SGBD**: Oracle Database 21c/18c Express Edition y MariaDB 10.x / MySQL 8.x.
+- **Entorno de Despliegue**: Docker Engine y Docker Compose.
+- **Clientes SQL**: DBeaver Community, Oracle SQL Developer y cliente CLI `sqlplus`.
