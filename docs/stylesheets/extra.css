@@ -1,0 +1,159 @@
+/* ==========================================================================
+   Estilos personalizados para Apuntes ASIR - Material for MkDocs
+   Optimizados para legibilidad, estudio y diseño visual moderno
+   ========================================================================== */
+
+/* Variables de personalización */
+:root {
+  --md-primary-fg-color:        #2563eb; /* Azul corporativo moderno */
+  --md-primary-fg-color--light:  #3b82f6;
+  --md-primary-fg-color--dark:   #1d4ed8;
+  --md-accent-fg-color:         #0ea5e9; /* Cyan tecnológico */
+  
+  /* Fuentes optimizadas */
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --md-code-font: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* Modo oscuro con tonos slate más suaves y confortables */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #3b82f6;
+  --md-primary-fg-color--light:  #60a5fa;
+  --md-primary-fg-color--dark:   #2563eb;
+  --md-accent-fg-color:         #38bdf8;
+  --md-default-bg-color:        #0f172a;
+  --md-default-bg-color--light:  #1e293b;
+  --md-default-bg-color--lighter: #334155;
+}
+
+/* Tarjetas interactivas (Grid cards) */
+.grid.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.grid.cards > ul {
+  display: contents;
+}
+
+.grid.cards > ul > li,
+.card-item {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+}
+
+.grid.cards > ul > li:hover,
+.card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1), 0 4px 6px -4px rgba(37, 99, 235, 0.1);
+  border-color: var(--md-primary-fg-color--light);
+}
+
+/* Badges / Etiquetas de examen y tipos */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+.badge-exam {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+[data-md-color-scheme="slate"] .badge-exam {
+  background-color: rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.badge-practice {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+[data-md-color-scheme="slate"] .badge-practice {
+  background-color: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.badge-theory {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+[data-md-color-scheme="slate"] .badge-theory {
+  background-color: rgba(59, 130, 246, 0.25);
+  color: #60a5fa;
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.badge-key {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-md-color-scheme="slate"] .badge-key {
+  background-color: rgba(245, 158, 11, 0.25);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* Tablas mejoradas para estudio */
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin: 1.2rem 0;
+  display: table;
+  width: 100%;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: rgba(37, 99, 235, 0.08);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.03em;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background-color: rgba(59, 130, 246, 0.15);
+}
+
+/* Admonitions estilizadas para estudio */
+.md-typeset .admonition {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+/* Diagramas Mermaid centrados y elegantes */
+.md-typeset .mermaid {
+  display: flex;
+  justify-content: center;
+  background-color: var(--md-default-bg-color--lighter);
+  padding: 1.2rem;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+}

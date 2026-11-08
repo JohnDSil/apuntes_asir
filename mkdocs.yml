@@ -1,18 +1,25 @@
 site_name: Apuntes ASIR
-site_description: Repositorio central de apuntes, prácticas y comandos de ASIR
+site_description: Repositorio central de apuntes, prácticas de laboratorio y preparación de exámenes para el CFGS ASIR
 site_author: Daniel Silva
-repo_name: apuntes-asir
+repo_name: JohnDSil/apuntes_asir
+repo_url: https://github.com/JohnDSil/apuntes_asir
 edit_uri: ""
 
 theme:
   name: material
   language: es
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    logo: material/school
+    repo: fontawesome/brands/github
   palette:
     # Esquema modo claro
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: indigo
-      accent: indigo
+      accent: cyan
       toggle:
         icon: material/weather-night
         name: Cambiar a modo oscuro
@@ -20,7 +27,7 @@ theme:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: indigo
-      accent: indigo
+      accent: light blue
       toggle:
         icon: material/weather-sunny
         name: Cambiar a modo claro
@@ -30,15 +37,27 @@ theme:
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.path
+    - navigation.indexes
+    - toc.follow
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
+
+extra_css:
+  - stylesheets/extra.css
 
 markdown_extensions:
   - admonition
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
@@ -47,6 +66,15 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
   - tables
   - attr_list
   - md_in_html
@@ -54,14 +82,14 @@ markdown_extensions:
       permalink: true
 
 nav:
-  - Inicio: index.md
-  - 1º Curso:
+  - '🎓 Inicio': index.md
+  - '📘 1º Curso':
       - 'Implantación de SO (ISO)': 1-curso/iso.md
       - 'Redes (PAR)': 1-curso/redes.md
       - 'Bases de Datos (GBD)': 1-curso/bbdd.md
       - 'Fundamentos de Hardware (FH)': 1-curso/hardware.md
       - 'Lenguajes de Marcas (LMSGI)': 1-curso/marcas.md
-  - 2º Curso:
+  - '🚀 2º Curso':
       - 'Administración de SO (ASO)':
           - 'Visión General': 2-curso/aso/index.md
           - '1. Scripting en Bash y CLI': 2-curso/aso/01-scripting-bash.md
